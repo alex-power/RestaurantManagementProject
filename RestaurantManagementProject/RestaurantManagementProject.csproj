@@ -144,6 +144,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="DataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DataModel.edmx</DependentUpon>
@@ -171,6 +172,10 @@
     <Content Include="Scripts\cldr\event.js" />
     <Content Include="Scripts\cldr\supplemental.js" />
     <Content Include="Scripts\cldr\unresolved.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-2.2.3.intellisense.js" />
     <Content Include="Scripts\dx.viz.debug.js" />
     <Content Include="Scripts\dx.viz.js" />
@@ -184,6 +189,7 @@
     <Content Include="Scripts\globalize\unit.js" />
     <Content Include="Scripts\jquery-2.2.3.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\vectormap-data\africa.js" />
     <Content Include="Scripts\vectormap-data\canada.js" />
     <Content Include="Scripts\vectormap-data\eurasia.js" />
@@ -275,6 +281,17 @@
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery-2.2.3.min.map" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Customers\Home.cshtml" />
+    <Content Include="Views\Account\EmployeeLogin.cshtml" />
+    <Content Include="Views\Customers\About.cshtml" />
+    <Content Include="Views\Customers\ContactRestaurant.cshtml" />
+    <Content Include="Views\Food Order\Menu.cshtml" />
+    <Content Include="Views\Food Order\InputOrder.cshtml" />
+    <Content Include="Views\Customers\CreateReservation.cshtml" />
+    <Content Include="Views\Customers\LeaveReview.cshtml" />
+    <Content Include="Views\Employees\TableStatus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -285,7 +302,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
