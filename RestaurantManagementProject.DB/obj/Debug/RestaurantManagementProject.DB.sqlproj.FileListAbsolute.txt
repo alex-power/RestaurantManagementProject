@@ -7,3 +7,12 @@ C:\Users\Kelton\Documents\Visual Studio 2015\Projects\RestaurantManagementProjec
 C:\Users\Kelton\Documents\Visual Studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\predeploy.sql
 C:\Users\Kelton\Documents\Visual Studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.dll
 C:\Users\Kelton\Documents\Visual Studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.dacpac
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.dll
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.pdb
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\Model.xml
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\refactor.xml
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\postdeploy.sql
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\predeploy.sql
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.dll
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb
