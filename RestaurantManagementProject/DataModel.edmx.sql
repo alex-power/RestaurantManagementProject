@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/09/2017 10:45:46
+-- Date Created: 04/09/2017 13:37:25
 -- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
@@ -17,6 +17,24 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_FoodItemOrder_FoodItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FoodItemOrders] DROP CONSTRAINT [FK_FoodItemOrder_FoodItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FoodItemOrder_Order]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FoodItemOrders] DROP CONSTRAINT [FK_FoodItemOrder_Order];
+GO
+IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReservationCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ReservationCustomer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReviewCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_ReviewCustomer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ServerTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tables] DROP CONSTRAINT [FK_ServerTable];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Customer_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Customer] DROP CONSTRAINT [FK_Customer_inherits_User];
 GO
@@ -26,40 +44,22 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EmployeeWorkSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkSchedules] DROP CONSTRAINT [FK_EmployeeWorkSchedule];
 GO
-IF OBJECT_ID(N'[dbo].[FK_FoodItemOrder_FoodItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FoodItemOrder] DROP CONSTRAINT [FK_FoodItemOrder_FoodItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_FoodItemOrder_Order]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FoodItemOrder] DROP CONSTRAINT [FK_FoodItemOrder_Order];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Kitchen_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Kitchen] DROP CONSTRAINT [FK_Kitchen_inherits_Employee];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Manager_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Manager] DROP CONSTRAINT [FK_Manager_inherits_Employee];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ReservationCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ReservationCustomer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ReviewCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_ReviewCustomer];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Server_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Server] DROP CONSTRAINT [FK_Server_inherits_Employee];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ServerTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Tables] DROP CONSTRAINT [FK_ServerTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
 GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FoodItemOrder]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[FoodItemOrder];
+IF OBJECT_ID(N'[dbo].[FoodItemOrders]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FoodItemOrders];
 GO
 IF OBJECT_ID(N'[dbo].[FoodItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[FoodItems];
@@ -227,6 +227,15 @@ CREATE TABLE [dbo].[WorkSchedules] (
 );
 GO
 
+-- Creating table 'Timesheets'
+CREATE TABLE [dbo].[Timesheets] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TimeIn] datetime  NOT NULL,
+    [TimeOut] datetime  NULL,
+    [Users_Employee_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -312,6 +321,12 @@ GO
 -- Creating primary key on [Id] in table 'WorkSchedules'
 ALTER TABLE [dbo].[WorkSchedules]
 ADD CONSTRAINT [PK_WorkSchedules]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Timesheets'
+ALTER TABLE [dbo].[Timesheets]
+ADD CONSTRAINT [PK_Timesheets]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -461,6 +476,21 @@ ADD CONSTRAINT [FK_Server_inherits_Employee]
     REFERENCES [dbo].[Users_Employee]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Users_Employee_Id] in table 'Timesheets'
+ALTER TABLE [dbo].[Timesheets]
+ADD CONSTRAINT [FK_TimesheetUsers_Employee]
+    FOREIGN KEY ([Users_Employee_Id])
+    REFERENCES [dbo].[Users_Employee]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TimesheetUsers_Employee'
+CREATE INDEX [IX_FK_TimesheetUsers_Employee]
+ON [dbo].[Timesheets]
+    ([Users_Employee_Id]);
 GO
 
 -- --------------------------------------------------
