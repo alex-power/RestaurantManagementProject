@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>restaurant</title>
+    <!-- ADD LOGO-->
+    <link rel="shortcut icon" href="" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- BOOTSTRAP CDN -->
+    <!--
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.css">
+    <script src="bootstrap/jquery.js"></script>
+    <script src="bootstrap/bootstrap.js"></script>
+
+    <!--
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- CHARTS CDN -->
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
+    -->
+    <script src="charts/bundle.js"></script>
+    <script src="charts/bundle.min.js"></script>
+    <script src="charts/chart.js"></script>
+    <script src="charts/bundle.min.js"></script>
+
+</head>
+
+<style>
+    p.thick {
+        font-weight: bold;
+    }
+
+    footer {
+        background-color: #f2f2f2;
+        padding: 15px;
+        font-size: 10px;
+    }
+</style>
+
+<body>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">restaurant</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="Home.html">Home</a></li>
+                <li><a href="menu.html">View Menu</a></li>
+                <li><a href="reservation.html">Make Reservation</a></li>
+                <li><a href="review.html">Leave Review</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="employee.html">Employee Page</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        Address: 12154 brown ave<br>
+        Phone number: (222) 222 - 2222
+    </div>
+    <div id="googleMap" style="height:400px;width:100%;"></div>
+
+</body>
+
+<script>
+
+	function myMap() {
+	var mapProp= {
+		center:new google.maps.LatLng(51.508742,-0.120850),
+		zoom:5,
+	};
+	var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNiH-Jr9fLBqmVRgXyLp_LKCkoHsELK2c&callback=myMap"></script>
+
+
+
+</html>
