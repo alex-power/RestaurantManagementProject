@@ -20,6 +20,7 @@
     <EntitySet Name="Users_Manager" EntityType="RestaurantManagement.DBModel.Store.Users_Manager" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Server" EntityType="RestaurantManagement.DBModel.Store.Users_Server" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="WorkSchedules" EntityType="RestaurantManagement.DBModel.Store.WorkSchedules" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Timesheets" EntityType="RestaurantManagement.DBModel.Store.Timesheets" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_FoodItemOrder_FoodItem" Association="RestaurantManagement.DBModel.Store.FK_FoodItemOrder_FoodItem">
       <End Role="FoodItems" EntitySet="FoodItems" />
       <End Role="FoodItemOrder" EntitySet="FoodItemOrders" />
@@ -67,6 +68,10 @@
     <AssociationSet Name="FK_Server_inherits_Employee" Association="RestaurantManagement.DBModel.Store.FK_Server_inherits_Employee">
       <End Role="Users_Employee" EntitySet="Users_Employee" />
       <End Role="Users_Server" EntitySet="Users_Server" />
+    </AssociationSet>
+    <AssociationSet Name="TimesheetUsers_Employee" Association="RestaurantManagement.DBModel.Store.TimesheetUsers_Employee">
+      <End Role="Timesheet" EntitySet="Timesheets" />
+      <End Role="Users_Employee" EntitySet="Users_Employee" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="FoodItemOrders">
@@ -190,6 +195,15 @@
     <Property Name="Start" Type="datetime" Nullable="false" />
     <Property Name="End" Type="datetime" Nullable="false" />
     <Property Name="Hours" Type="int" Nullable="false" />
+    <Property Name="Users_Employee_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Timesheets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimeIn" Type="datetime" Nullable="false" />
+    <Property Name="TimeOut" Type="datetime" Nullable="true" />
     <Property Name="Users_Employee_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_FoodItemOrder_FoodItem">
@@ -346,6 +360,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="TimesheetUsers_Employee">
+    <End Role="Timesheet" Type="RestaurantManagement.DBModel.Store.Timesheets" Multiplicity="*" />
+    <End Role="Users_Employee" Type="RestaurantManagement.DBModel.Store.Users_Employee" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Users_Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Timesheet">
+        <PropertyRef Name="Users_Employee_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -457,6 +483,7 @@
           <NavigationProperty Name="Users_Kitchen" Relationship="Self.FK_Kitchen_inherits_Employee" FromRole="Users_Employee" ToRole="Users_Kitchen" />
           <NavigationProperty Name="Users_Manager" Relationship="Self.FK_Manager_inherits_Employee" FromRole="Users_Employee" ToRole="Users_Manager" />
           <NavigationProperty Name="Users_Server" Relationship="Self.FK_Server_inherits_Employee" FromRole="Users_Employee" ToRole="Users_Server" />
+          <NavigationProperty Name="Timesheets" Relationship="RestaurantManagement.DBModel.TimesheetUsers_Employee" FromRole="Users_Employee" ToRole="Timesheet" />
         </EntityType>
         <EntityType Name="Users_Kitchen">
           <Key>
@@ -669,7 +696,25 @@
             <End Role="Users_Employee" EntitySet="Users_Employee" />
             <End Role="Users_Server" EntitySet="Users_Server" />
           </AssociationSet>
+          <EntitySet Name="Timesheets" EntityType="RestaurantManagement.DBModel.Timesheet" />
+          <AssociationSet Name="TimesheetUsers_Employee" Association="RestaurantManagement.DBModel.TimesheetUsers_Employee">
+            <End Role="Timesheet" EntitySet="Timesheets" />
+            <End Role="Users_Employee" EntitySet="Users_Employee" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Timesheet">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TimeIn" Type="DateTime" Nullable="false" />
+          <Property Name="TimeOut" Type="DateTime" />
+          <NavigationProperty Name="Users_Employee" Relationship="RestaurantManagement.DBModel.TimesheetUsers_Employee" FromRole="Timesheet" ToRole="Users_Employee" />
+        </EntityType>
+        <Association Name="TimesheetUsers_Employee">
+          <End Type="RestaurantManagement.DBModel.Timesheet" Role="Timesheet" Multiplicity="*" />
+          <End Type="RestaurantManagement.DBModel.Users_Employee" Role="Users_Employee" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -807,6 +852,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Timesheets">
+      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Timesheet)">
+        <MappingFragment StoreEntitySet="Timesheets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
+          <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="FK_Tables" TypeName="RestaurantManagement.DBModel.FK_Tables" StoreEntitySet="Orders">
       <EndProperty Name="Tables">
         <ScalarProperty Name="Id" ColumnName="Table_Id" />
@@ -844,6 +898,14 @@
         <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
       </EndProperty>
       <EndProperty Name="WorkSchedules">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TimesheetUsers_Employee" TypeName="RestaurantManagement.DBModel.TimesheetUsers_Employee" StoreEntitySet="Timesheets">
+      <EndProperty Name="Users_Employee">
+        <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
+      </EndProperty>
+      <EndProperty Name="Timesheet">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -31,6 +31,8 @@
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_Kitchen_inherits_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_Manager_inherits_Employee" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_Server_inherits_Employee" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Timesheet" Width="1.5" PointX="8.875" PointY="4.5" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.TimesheetUsers_Employee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

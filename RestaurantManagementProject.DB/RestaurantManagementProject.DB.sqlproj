@@ -76,4 +76,7 @@
     <Build Include="Tables\Users_Server.sql" />
     <Build Include="Tables\WorkSchedules.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Tables\Timesheet.sql" />
+  </ItemGroup>
 </Project>

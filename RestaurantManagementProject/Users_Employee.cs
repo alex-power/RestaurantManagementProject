@@ -18,6 +18,7 @@ namespace RestaurantManagementProject
         public Users_Employee()
         {
             this.WorkSchedules = new HashSet<WorkSchedule>();
+            this.Timesheets = new HashSet<Timesheet>();
         }
     
         public string Availability { get; set; }
@@ -32,5 +33,7 @@ namespace RestaurantManagementProject
         public virtual Users_Kitchen Users_Kitchen { get; set; }
         public virtual Users_Manager Users_Manager { get; set; }
         public virtual Users_Server Users_Server { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Timesheet> Timesheets { get; set; }
     }
 }
