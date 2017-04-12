@@ -35,6 +35,7 @@ namespace RestaurantManagementProject.Controllers
         {
             Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
             order.State = "Ready";
+            order.TimeCompleted = DateTime.Now;
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();

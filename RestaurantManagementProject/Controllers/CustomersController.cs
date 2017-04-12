@@ -64,5 +64,6 @@ namespace RestaurantManagementProject.Controllers
 
             return View();
         }
+
     }
 }
