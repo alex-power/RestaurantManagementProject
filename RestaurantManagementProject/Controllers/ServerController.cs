@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class ServerController : Controller
+    public class ServerController : BaseController
     {
         Entities db = new Entities();
 
@@ -41,8 +41,6 @@ namespace RestaurantManagementProject.Controllers
             o.TotalPrice = price.ToString();
             o.TimeCreated = DateTime.Now;
 
-
-            o.Id = new Random().Next(0, int.MaxValue);
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();

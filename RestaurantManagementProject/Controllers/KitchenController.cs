@@ -8,7 +8,7 @@ using RestaurantManagementProject.Models.Kitchen;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class KitchenController : Controller
+    public class KitchenController : BaseController
     {
 
         private Entities db = new Entities();

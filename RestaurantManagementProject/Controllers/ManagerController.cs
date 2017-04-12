@@ -7,7 +7,7 @@ using RestaurantManagementProject.Models.Manager;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class ManagerController : Controller
+    public class ManagerController : BaseController
     {
 
         private Entities db = new Entities();
@@ -28,7 +28,7 @@ namespace RestaurantManagementProject.Controllers
                 DateTime end = (DateTime)order.TimeCompleted.Value;
 
                 TimeSpan delta = end.Subtract(start);
-                average = delta.TotalMinutes;
+                average += delta.TotalMinutes;
             }
 
             average /= (double)orders.Count();
@@ -47,10 +47,6 @@ namespace RestaurantManagementProject.Controllers
             }
 
             int numOrdersLast24Hrs = recentOrders.Count();
-
-
-
-
 
             return View(new ManagerViewModel(numOrdersLast24Hrs,average,recentOrders));
         }

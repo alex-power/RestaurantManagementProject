@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class CustomersController : Controller
+    public class CustomersController : BaseController
     {
         private Entities db = new Entities();
         

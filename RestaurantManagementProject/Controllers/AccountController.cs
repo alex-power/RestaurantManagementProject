@@ -1,4 +1,4 @@
-﻿using CollegeEventWebsite.Auth;
+﻿using RestaurantManagementProject.Auth;
 using RestaurantManagementProject.Models.Account;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Web.Security;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private Entities db = new Entities();
 
