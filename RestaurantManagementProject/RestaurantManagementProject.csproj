@@ -231,7 +231,10 @@
     <Compile Include="Auth\ICustomPrincipal.cs" />
     <Compile Include="Auth\UserType.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Controllers\KitchenController.cs" />
     <Compile Include="DataModel.Context.cs">
@@ -256,6 +259,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\RegisterViewModel.cs" />
+    <Compile Include="Models\Employee\EmployeeViewModel.cs" />
+    <Compile Include="Models\Manager\ManagerViewModel.cs" />
     <Compile Include="Models\Server\InputOrderViewModel.cs" />
     <Compile Include="Models\Server\TableStatusViewModel.cs" />
     <Compile Include="Models\Kitchen\KitchenViewModel.cs" />
@@ -335,6 +340,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Base\" />
+    <Folder Include="Views\Employee\" />
+    <Folder Include="Views\Manager\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -1,4 +1,4 @@
-﻿namespace CollegeEventWebsite.Auth
+﻿namespace RestaurantManagementProject.Auth
 {
     public enum UserType
     {

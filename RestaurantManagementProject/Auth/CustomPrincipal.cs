@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Security.Principal;
 
-namespace CollegeEventWebsite.Auth
+namespace RestaurantManagementProject.Auth
 {
     public class CustomPrincipal : ICustomPrincipal
     {
