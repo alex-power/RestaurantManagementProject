@@ -395,6 +395,8 @@
           <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Table" Relationship="Self.FK_Tables" FromRole="Orders" ToRole="Tables" />
           <NavigationProperty Name="FoodItems" Relationship="RestaurantManagement.DBModel.OrderFoodItem" FromRole="Order" ToRole="FoodItem" />
+          <Property Name="TimeCreated" Type="DateTime" Nullable="false" />
+          <Property Name="TimeCompleted" Type="DateTime" Nullable="true" />
         </EntityType>
         <EntityType Name="Reservation">
           <Key>

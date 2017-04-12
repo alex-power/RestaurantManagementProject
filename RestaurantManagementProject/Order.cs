@@ -24,6 +24,8 @@ namespace RestaurantManagementProject
         public string TotalPrice { get; set; }
         public string Tip { get; set; }
         public string State { get; set; }
+        public System.DateTime TimeCreated { get; set; }
+        public Nullable<System.DateTime> TimeCompleted { get; set; }
     
         public virtual Table Table { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
