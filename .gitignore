@@ -203,6 +203,7 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 *.jfm
+*.dbmdl
 
 # Business Intelligence projects
 *.rdl.data
