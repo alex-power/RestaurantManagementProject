@@ -231,6 +231,7 @@
     <Compile Include="Auth\ICustomPrincipal.cs" />
     <Compile Include="Auth\UserType.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\KitchenController.cs" />
     <Compile Include="DataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -256,6 +257,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\RegisterViewModel.cs" />
+    <Compile Include="Models\Kitchen\KitchenViewModel.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -322,6 +324,7 @@
     <Content Include="Views\Customers\CreateReservation.cshtml" />
     <Content Include="Views\Customers\LeaveReview.cshtml" />
     <Content Include="Views\Employees\TableStatus.cshtml" />
+    <Content Include="Views\Kitchen\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
