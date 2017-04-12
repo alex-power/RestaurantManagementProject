@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="RestaurantManagementDBModelStoreContainer" CdmEntityContainer="Entities">
-    <EntitySetMapping Name="FoodItemOrders">
-      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.FoodItemOrder)">
-        <MappingFragment StoreEntitySet="FoodItemOrders">
-          <ScalarProperty Name="FoodItem_Id" ColumnName="FoodItem_Id" />
-          <ScalarProperty Name="Orders_Id" ColumnName="Orders_Id" />
-          <ScalarProperty Name="Note" ColumnName="Note" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="FoodItems">
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.FoodItem)">
         <MappingFragment StoreEntitySet="FoodItems">
@@ -187,6 +178,14 @@
       </EndProperty>
       <EndProperty Name="Timesheet">
         <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderFoodItem" TypeName="RestaurantManagement.DBModel.OrderFoodItem" StoreEntitySet="OrderFoodItem">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Orders_Id" />
+      </EndProperty>
+      <EndProperty Name="FoodItem">
+        <ScalarProperty Name="Id" ColumnName="FoodItems_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

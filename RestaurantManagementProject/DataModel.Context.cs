@@ -25,7 +25,6 @@ namespace RestaurantManagementProject
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<FoodItemOrder> FoodItemOrders { get; set; }
         public virtual DbSet<FoodItem> FoodItems { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Reservation> Reservations { get; set; }

@@ -231,6 +231,8 @@
     <Compile Include="Auth\ICustomPrincipal.cs" />
     <Compile Include="Auth\UserType.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
+    <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="DataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -249,13 +251,12 @@
     <Compile Include="FoodItem.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="FoodItemOrder.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account\RegisterViewModel.cs" />
+    <Compile Include="Models\Server\InputOrderViewModel.cs" />
+    <Compile Include="Models\Server\TableStatusViewModel.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -317,11 +318,11 @@
     <Content Include="Views\Account\EmployeeLogin.cshtml" />
     <Content Include="Views\Customers\About.cshtml" />
     <Content Include="Views\Customers\ContactRestaurant.cshtml" />
-    <Content Include="Views\Food Order\Menu.cshtml" />
-    <Content Include="Views\Food Order\InputOrder.cshtml" />
+    <Content Include="Views\Server\Menu.cshtml" />
+    <Content Include="Views\Server\InputOrder.cshtml" />
     <Content Include="Views\Customers\CreateReservation.cshtml" />
     <Content Include="Views\Customers\LeaveReview.cshtml" />
-    <Content Include="Views\Employees\TableStatus.cshtml" />
+    <Content Include="Views\Server\TableStatus.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

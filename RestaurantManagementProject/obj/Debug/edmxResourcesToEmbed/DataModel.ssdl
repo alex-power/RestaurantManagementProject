@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="RestaurantManagement.DBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="RestaurantManagementDBModelStoreContainer">
-    <EntitySet Name="FoodItemOrders" EntityType="RestaurantManagement.DBModel.Store.FoodItemOrders" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="FoodItems" EntityType="RestaurantManagement.DBModel.Store.FoodItems" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Orders" EntityType="RestaurantManagement.DBModel.Store.Orders" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Reservations" EntityType="RestaurantManagement.DBModel.Store.Reservations" store:Type="Tables" Schema="dbo" />
@@ -16,14 +15,7 @@
     <EntitySet Name="Users_Server" EntityType="RestaurantManagement.DBModel.Store.Users_Server" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="WorkSchedules" EntityType="RestaurantManagement.DBModel.Store.WorkSchedules" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Timesheets" EntityType="RestaurantManagement.DBModel.Store.Timesheets" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="FK_FoodItemOrder_FoodItem" Association="RestaurantManagement.DBModel.Store.FK_FoodItemOrder_FoodItem">
-      <End Role="FoodItems" EntitySet="FoodItems" />
-      <End Role="FoodItemOrder" EntitySet="FoodItemOrders" />
-    </AssociationSet>
-    <AssociationSet Name="FK_FoodItemOrder_Order" Association="RestaurantManagement.DBModel.Store.FK_FoodItemOrder_Order">
-      <End Role="Orders" EntitySet="Orders" />
-      <End Role="FoodItemOrder" EntitySet="FoodItemOrders" />
-    </AssociationSet>
+    <EntitySet Name="OrderFoodItem" EntityType="RestaurantManagement.DBModel.Store.OrderFoodItem" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_Tables" Association="RestaurantManagement.DBModel.Store.FK_Tables">
       <End Role="Tables" EntitySet="Tables" />
       <End Role="Orders" EntitySet="Orders" />
@@ -68,16 +60,15 @@
       <End Role="Timesheet" EntitySet="Timesheets" />
       <End Role="Users_Employee" EntitySet="Users_Employee" />
     </AssociationSet>
+    <AssociationSet Name="FK_OrderFoodItem_Order" Association="RestaurantManagement.DBModel.Store.FK_OrderFoodItem_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderFoodItem" EntitySet="OrderFoodItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderFoodItem_FoodItem" Association="RestaurantManagement.DBModel.Store.FK_OrderFoodItem_FoodItem">
+      <End Role="FoodItem" EntitySet="FoodItems" />
+      <End Role="OrderFoodItem" EntitySet="OrderFoodItem" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="FoodItemOrders">
-    <Key>
-      <PropertyRef Name="FoodItem_Id" />
-      <PropertyRef Name="Orders_Id" />
-    </Key>
-    <Property Name="FoodItem_Id" Type="int" Nullable="false" />
-    <Property Name="Orders_Id" Type="int" Nullable="false" />
-    <Property Name="Note" Type="varchar(max)" Nullable="true" />
-  </EntityType>
   <EntityType Name="FoodItems">
     <Key>
       <PropertyRef Name="Id" />
@@ -201,30 +192,14 @@
     <Property Name="TimeOut" Type="datetime" Nullable="true" />
     <Property Name="Users_Employee_Id" Type="int" Nullable="false" />
   </EntityType>
-  <Association Name="FK_FoodItemOrder_FoodItem">
-    <End Role="FoodItems" Type="RestaurantManagement.DBModel.Store.FoodItems" Multiplicity="1" />
-    <End Role="FoodItemOrder" Type="RestaurantManagement.DBModel.Store.FoodItemOrders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FoodItems">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FoodItemOrder">
-        <PropertyRef Name="FoodItem_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_FoodItemOrder_Order">
-    <End Role="Orders" Type="RestaurantManagement.DBModel.Store.Orders" Multiplicity="1" />
-    <End Role="FoodItemOrder" Type="RestaurantManagement.DBModel.Store.FoodItemOrders" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Orders">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FoodItemOrder">
-        <PropertyRef Name="Orders_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
+  <EntityType Name="OrderFoodItem">
+    <Key>
+      <PropertyRef Name="Orders_Id" />
+      <PropertyRef Name="FoodItems_Id" />
+    </Key>
+    <Property Name="Orders_Id" Type="int" Nullable="false" />
+    <Property Name="FoodItems_Id" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK_Tables">
     <End Role="Tables" Type="RestaurantManagement.DBModel.Store.Tables" Multiplicity="1" />
     <End Role="Orders" Type="RestaurantManagement.DBModel.Store.Orders" Multiplicity="*" />
@@ -364,6 +339,30 @@
       </Principal>
       <Dependent Role="Timesheet">
         <PropertyRef Name="Users_Employee_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderFoodItem_Order">
+    <End Role="Order" Type="RestaurantManagement.DBModel.Store.Orders" Multiplicity="1" />
+    <End Role="OrderFoodItem" Type="RestaurantManagement.DBModel.Store.OrderFoodItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderFoodItem">
+        <PropertyRef Name="Orders_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderFoodItem_FoodItem">
+    <End Role="OrderFoodItem" Type="RestaurantManagement.DBModel.Store.OrderFoodItem" Multiplicity="*" />
+    <End Role="FoodItem" Type="RestaurantManagement.DBModel.Store.FoodItems" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="FoodItem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderFoodItem">
+        <PropertyRef Name="FoodItems_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

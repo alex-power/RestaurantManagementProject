@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="cb36adef4bf648cf9073641434142bac" Name="Diagram1" ZoomLevel="80">
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.FoodItemOrder" Width="1.5" PointX="12" PointY="11.625" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.FoodItem" Width="1.5" PointX="8.875" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Order" Width="1.5" PointX="9.75" PointY="11.5" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Reservation" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
@@ -19,8 +18,6 @@
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Manager" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Server" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.WorkSchedule" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_FoodItemOrder_FoodItem" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_FoodItemOrder_Order" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_Tables" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_ReservationCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_ReviewCustomer" ManuallyRouted="false" />
@@ -33,6 +30,7 @@
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_Server_inherits_Employee" ManuallyRouted="false" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Timesheet" Width="1.5" PointX="8.875" PointY="4.5" />
         <AssociationConnector Association="RestaurantManagement.DBModel.TimesheetUsers_Employee" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.OrderFoodItem" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

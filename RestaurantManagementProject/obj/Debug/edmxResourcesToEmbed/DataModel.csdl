@@ -1,16 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="RestaurantManagement.DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="FoodItemOrder">
-    <Key>
-      <PropertyRef Name="FoodItem_Id" />
-      <PropertyRef Name="Orders_Id" />
-    </Key>
-    <Property Name="FoodItem_Id" Type="Int32" Nullable="false" />
-    <Property Name="Orders_Id" Type="Int32" Nullable="false" />
-    <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="FoodItem" Relationship="Self.FK_FoodItemOrder_FoodItem" FromRole="FoodItemOrder" ToRole="FoodItems" />
-    <NavigationProperty Name="Order" Relationship="Self.FK_FoodItemOrder_Order" FromRole="FoodItemOrder" ToRole="Orders" />
-  </EntityType>
   <EntityType Name="FoodItem">
     <Key>
       <PropertyRef Name="Id" />
@@ -19,7 +8,7 @@
     <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
-    <NavigationProperty Name="FoodItemOrders" Relationship="Self.FK_FoodItemOrder_FoodItem" FromRole="FoodItems" ToRole="FoodItemOrder" />
+    <NavigationProperty Name="Orders" Relationship="RestaurantManagement.DBModel.OrderFoodItem" FromRole="FoodItem" ToRole="Order" />
   </EntityType>
   <EntityType Name="Order">
     <Key>
@@ -29,8 +18,8 @@
     <Property Name="TotalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Tip" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="FoodItemOrders" Relationship="Self.FK_FoodItemOrder_Order" FromRole="Orders" ToRole="FoodItemOrder" />
     <NavigationProperty Name="Table" Relationship="Self.FK_Tables" FromRole="Orders" ToRole="Tables" />
+    <NavigationProperty Name="FoodItems" Relationship="RestaurantManagement.DBModel.OrderFoodItem" FromRole="Order" ToRole="FoodItem" />
   </EntityType>
   <EntityType Name="Reservation">
     <Key>
@@ -143,30 +132,6 @@
     <Property Name="Hours" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Users_Employee" Relationship="Self.FK_EmployeeWorkSchedule" FromRole="WorkSchedules" ToRole="Users_Employee" />
   </EntityType>
-  <Association Name="FK_FoodItemOrder_FoodItem">
-    <End Role="FoodItems" Type="Self.FoodItem" Multiplicity="1" />
-    <End Role="FoodItemOrder" Type="Self.FoodItemOrder" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="FoodItems">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FoodItemOrder">
-        <PropertyRef Name="FoodItem_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_FoodItemOrder_Order">
-    <End Role="Orders" Type="Self.Order" Multiplicity="1" />
-    <End Role="FoodItemOrder" Type="Self.FoodItemOrder" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Orders">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="FoodItemOrder">
-        <PropertyRef Name="Orders_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Tables">
     <End Role="Tables" Type="Self.Table" Multiplicity="1" />
     <End Role="Orders" Type="Self.Order" Multiplicity="*" />
@@ -258,7 +223,6 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="FoodItemOrders" EntityType="Self.FoodItemOrder" />
     <EntitySet Name="FoodItems" EntityType="Self.FoodItem" />
     <EntitySet Name="Orders" EntityType="Self.Order" />
     <EntitySet Name="Reservations" EntityType="Self.Reservation" />
@@ -272,14 +236,6 @@
     <EntitySet Name="Users_Manager" EntityType="Self.Users_Manager" />
     <EntitySet Name="Users_Server" EntityType="Self.Users_Server" />
     <EntitySet Name="WorkSchedules" EntityType="Self.WorkSchedule" />
-    <AssociationSet Name="FK_FoodItemOrder_FoodItem" Association="Self.FK_FoodItemOrder_FoodItem">
-      <End Role="FoodItems" EntitySet="FoodItems" />
-      <End Role="FoodItemOrder" EntitySet="FoodItemOrders" />
-    </AssociationSet>
-    <AssociationSet Name="FK_FoodItemOrder_Order" Association="Self.FK_FoodItemOrder_Order">
-      <End Role="Orders" EntitySet="Orders" />
-      <End Role="FoodItemOrder" EntitySet="FoodItemOrders" />
-    </AssociationSet>
     <AssociationSet Name="FK_Tables" Association="Self.FK_Tables">
       <End Role="Tables" EntitySet="Tables" />
       <End Role="Orders" EntitySet="Orders" />
@@ -325,6 +281,10 @@
       <End Role="Timesheet" EntitySet="Timesheets" />
       <End Role="Users_Employee" EntitySet="Users_Employee" />
     </AssociationSet>
+    <AssociationSet Name="OrderFoodItem" Association="RestaurantManagement.DBModel.OrderFoodItem">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="FoodItem" EntitySet="FoodItems" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Timesheet">
     <Key>
@@ -338,5 +298,9 @@
   <Association Name="TimesheetUsers_Employee">
     <End Type="RestaurantManagement.DBModel.Timesheet" Role="Timesheet" Multiplicity="*" />
     <End Type="RestaurantManagement.DBModel.Users_Employee" Role="Users_Employee" Multiplicity="1" />
+  </Association>
+  <Association Name="OrderFoodItem">
+    <End Type="RestaurantManagement.DBModel.Order" Role="Order" Multiplicity="*" />
+    <End Type="RestaurantManagement.DBModel.FoodItem" Role="FoodItem" Multiplicity="*" />
   </Association>
 </Schema>

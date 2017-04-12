@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/09/2017 13:37:25
+-- Date Created: 04/12/2017 13:37:03
 -- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
@@ -17,12 +17,6 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FK_FoodItemOrder_FoodItem]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FoodItemOrders] DROP CONSTRAINT [FK_FoodItemOrder_FoodItem];
-GO
-IF OBJECT_ID(N'[dbo].[FK_FoodItemOrder_Order]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FoodItemOrders] DROP CONSTRAINT [FK_FoodItemOrder_Order];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
 GO
@@ -53,14 +47,14 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Server_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Server] DROP CONSTRAINT [FK_Server_inherits_Employee];
 GO
+IF OBJECT_ID(N'[dbo].[FK_TimesheetUsers_Employee]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Timesheets] DROP CONSTRAINT [FK_TimesheetUsers_Employee];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[FoodItemOrders]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[FoodItemOrders];
-GO
 IF OBJECT_ID(N'[dbo].[FoodItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[FoodItems];
 GO
@@ -100,18 +94,13 @@ GO
 IF OBJECT_ID(N'[dbo].[WorkSchedules]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkSchedules];
 GO
+IF OBJECT_ID(N'[dbo].[Timesheets]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Timesheets];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
-
--- Creating table 'FoodItemOrders'
-CREATE TABLE [dbo].[FoodItemOrders] (
-    [FoodItem_Id] int  NOT NULL,
-    [Orders_Id] int  NOT NULL,
-    [Note] varchar(max)  NULL
-);
-GO
 
 -- Creating table 'FoodItems'
 CREATE TABLE [dbo].[FoodItems] (
@@ -236,15 +225,16 @@ CREATE TABLE [dbo].[Timesheets] (
 );
 GO
 
+-- Creating table 'OrderFoodItem'
+CREATE TABLE [dbo].[OrderFoodItem] (
+    [Orders_Id] int  NOT NULL,
+    [FoodItems_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
-
--- Creating primary key on [FoodItem_Id], [Orders_Id] in table 'FoodItemOrders'
-ALTER TABLE [dbo].[FoodItemOrders]
-ADD CONSTRAINT [PK_FoodItemOrders]
-    PRIMARY KEY CLUSTERED ([FoodItem_Id], [Orders_Id] ASC);
-GO
 
 -- Creating primary key on [Id] in table 'FoodItems'
 ALTER TABLE [dbo].[FoodItems]
@@ -330,33 +320,15 @@ ADD CONSTRAINT [PK_Timesheets]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Orders_Id], [FoodItems_Id] in table 'OrderFoodItem'
+ALTER TABLE [dbo].[OrderFoodItem]
+ADD CONSTRAINT [PK_OrderFoodItem]
+    PRIMARY KEY CLUSTERED ([Orders_Id], [FoodItems_Id] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
-
--- Creating foreign key on [FoodItem_Id] in table 'FoodItemOrders'
-ALTER TABLE [dbo].[FoodItemOrders]
-ADD CONSTRAINT [FK_FoodItemOrder_FoodItem]
-    FOREIGN KEY ([FoodItem_Id])
-    REFERENCES [dbo].[FoodItems]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating foreign key on [Orders_Id] in table 'FoodItemOrders'
-ALTER TABLE [dbo].[FoodItemOrders]
-ADD CONSTRAINT [FK_FoodItemOrder_Order]
-    FOREIGN KEY ([Orders_Id])
-    REFERENCES [dbo].[Orders]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_FoodItemOrder_Order'
-CREATE INDEX [IX_FK_FoodItemOrder_Order]
-ON [dbo].[FoodItemOrders]
-    ([Orders_Id]);
-GO
 
 -- Creating foreign key on [Table_Id] in table 'Orders'
 ALTER TABLE [dbo].[Orders]
@@ -491,6 +463,30 @@ GO
 CREATE INDEX [IX_FK_TimesheetUsers_Employee]
 ON [dbo].[Timesheets]
     ([Users_Employee_Id]);
+GO
+
+-- Creating foreign key on [Orders_Id] in table 'OrderFoodItem'
+ALTER TABLE [dbo].[OrderFoodItem]
+ADD CONSTRAINT [FK_OrderFoodItem_Order]
+    FOREIGN KEY ([Orders_Id])
+    REFERENCES [dbo].[Orders]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [FoodItems_Id] in table 'OrderFoodItem'
+ALTER TABLE [dbo].[OrderFoodItem]
+ADD CONSTRAINT [FK_OrderFoodItem_FoodItem]
+    FOREIGN KEY ([FoodItems_Id])
+    REFERENCES [dbo].[FoodItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OrderFoodItem_FoodItem'
+CREATE INDEX [IX_FK_OrderFoodItem_FoodItem]
+ON [dbo].[OrderFoodItem]
+    ([FoodItems_Id]);
 GO
 
 -- --------------------------------------------------

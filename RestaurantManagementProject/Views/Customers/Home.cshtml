@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model RestaurantManagementProject.Restaurant
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>restaurant</title>
@@ -99,8 +100,11 @@
     </div>
 
     <div class="container">
-
-        Info
-        Info
-        Info
+        <div>
+            Cuisine Type: @Model.Cuisine
+        </div>
+        <p>
+            @Model.Description
+        </p>
+        
     </div>
