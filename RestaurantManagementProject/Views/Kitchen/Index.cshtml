@@ -7,18 +7,67 @@
 
 }
 
-<h1>Order List</h1>
-
-<h2>@Model.Orders.Count()</h2>
-
-<h2>Index</h2>
+<h1>Kitchen</h1>
 
 <table>
+    <th>Open Orders - To Be Completed</th>
+    <!-- Header-->
     <tr>
-        @foreach (Order o in Model.Orders)
-        {
-            <td>@o.Id</td>
-        }
+        <th>Id</th>
+        <th>Status</th>
+        <th>TimeCreated</th>
+        <th>Table</th>
+        <th></th>
     </tr>
+    @foreach (Order o in Model.OpenOrders)
+    {
+        <tr>
+            <td>@o.Id</td>
+            <td>@o.State</td>
+            <td>@o.TimeCreated</td>
+            <!-- <td>o.Table.Id</td>-->
+            <td>Someone fix this</td>
+        </tr>
+
+    }
+
 </table>
+
+@using (Html.BeginForm("MarkOrderReady", "Kitchen"))
+{
+    <input type="number" id="ss" name="orderId" value="Enter Id" />
+
+    <input type="submit" value="Mark Ready" />
+}
+
+<table>
+    <th>Ready Orders - Waiting for pickup</th>
+    <!-- Header-->
+    <tr>
+        <th>Id</th>
+        <th>Status</th>
+        <th>TimeCreated</th>
+        <th>Table</th>
+        <th></th>
+    </tr>
+    @foreach (Order o in Model.ReadyOrders)
+    {
+        <tr>
+            <td>@o.Id</td>
+            <td>@o.State</td>
+            <td>@o.TimeCreated</td>
+            <!-- <td>o.Table.Id</td>-->
+            <td>Someone fix this</td>
+        </tr>
+
+    }
+</table>
+
+
+@using (Html.BeginForm("RecallOrder", "Kitchen"))
+{
+    <input type="number" id="ss" name="orderId" value="Enter Id" />
+
+    <input type = "submit" value = "Recall Order" />
+}
 

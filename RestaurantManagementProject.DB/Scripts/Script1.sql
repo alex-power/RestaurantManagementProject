@@ -1,10 +1,15 @@
-﻿﻿INSERT INTO [Users]
-(Username, Password, CreationDate, Name, Email)
-VALUES ('manager', 'manager', SYSDATETIME(), 'manager test', 'manager@email.com')
+﻿
+﻿
+INSERT INTO [Users]
+(Username,Password,CreationDate,Name,Email)
+VALUES ('manager', 'manager', SYSDATETIME(),'Manager Test', 'manager@email.com')
+
 
 INSERT INTO [Users_Employee]
 (Id)
 VALUES (SCOPE_IDENTITY())
+
+
 INSERT INTO [Users_Manager]
 (Id)
 VALUES (SCOPE_IDENTITY())
@@ -73,12 +78,6 @@ INSERT INTO [FoodItems]
 (Name, Description, Price)
 VALUES ('Chicken Noodle Soup', 'No shapes, sorry', 4.99)
 
-
 INSERT INTO [Orders]
-(Id,TotalPrice, Tip, State, Table_Id,TimeCreated,TimeCompleted)
-VALUES (SCOPE_IDENTITY(),4.99,0.0,'Ready',SYSDATETIME(), null)
-
-
-INSERT INTO [Orders]
-(Id,TotalPrice, Tip, State, Table_Id,TimeCreated,TimeCompleted)
-VALUES (SCOPE_IDENTITY(),4.99,0.0,'Ready',SYSDATETIME(), null)
+(TotalPrice, Tip, State, TimeCreated,TimeCompleted)
+VALUES (4.99,0.0,'Ready',SYSDATETIME(), null)
