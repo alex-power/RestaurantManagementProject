@@ -36,48 +36,14 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
 
 
 GO
-USE [master];
-
-
-GO
-
-IF (DB_ID(N'$(DatabaseName)') IS NOT NULL) 
-BEGIN
-    ALTER DATABASE [$(DatabaseName)]
-    SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-    DROP DATABASE [$(DatabaseName)];
-END
-
-GO
-PRINT N'Creating $(DatabaseName)...'
-GO
-CREATE DATABASE [$(DatabaseName)]
-    ON 
-    PRIMARY(NAME = [$(DatabaseName)], FILENAME = N'$(DefaultDataPath)$(DefaultFilePrefix)_Primary.mdf')
-    LOG ON (NAME = [$(DatabaseName)_log], FILENAME = N'$(DefaultLogPath)$(DefaultFilePrefix)_Primary.ldf') COLLATE SQL_Latin1_General_CP1_CI_AS
-GO
 IF EXISTS (SELECT 1
            FROM   [master].[dbo].[sysdatabases]
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET ANSI_NULLS ON,
-                ANSI_PADDING ON,
-                ANSI_WARNINGS ON,
-                ARITHABORT ON,
+            SET ARITHABORT ON,
                 CONCAT_NULL_YIELDS_NULL ON,
-                NUMERIC_ROUNDABORT OFF,
-                QUOTED_IDENTIFIER ON,
-                ANSI_NULL_DEFAULT ON,
-                CURSOR_DEFAULT LOCAL,
-                CURSOR_CLOSE_ON_COMMIT OFF,
-                AUTO_CREATE_STATISTICS ON,
-                AUTO_SHRINK OFF,
-                AUTO_UPDATE_STATISTICS ON,
-                RECURSIVE_TRIGGERS OFF 
-            WITH ROLLBACK IMMEDIATE;
-        ALTER DATABASE [$(DatabaseName)]
-            SET AUTO_CLOSE OFF 
+                CURSOR_DEFAULT LOCAL 
             WITH ROLLBACK IMMEDIATE;
     END
 
@@ -88,71 +54,9 @@ IF EXISTS (SELECT 1
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET ALLOW_SNAPSHOT_ISOLATION OFF;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET READ_COMMITTED_SNAPSHOT OFF 
+            SET PAGE_VERIFY NONE,
+                DISABLE_BROKER 
             WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET AUTO_UPDATE_STATISTICS_ASYNC OFF,
-                PAGE_VERIFY NONE,
-                DATE_CORRELATION_OPTIMIZATION OFF,
-                DISABLE_BROKER,
-                PARAMETERIZATION SIMPLE,
-                SUPPLEMENTAL_LOGGING OFF 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF IS_SRVROLEMEMBER(N'sysadmin') = 1
-    BEGIN
-        IF EXISTS (SELECT 1
-                   FROM   [master].[dbo].[sysdatabases]
-                   WHERE  [name] = N'$(DatabaseName)')
-            BEGIN
-                EXECUTE sp_executesql N'ALTER DATABASE [$(DatabaseName)]
-    SET TRUSTWORTHY OFF,
-        DB_CHAINING OFF 
-    WITH ROLLBACK IMMEDIATE';
-            END
-    END
-ELSE
-    BEGIN
-        PRINT N'The database settings cannot be modified. You must be a SysAdmin to apply these settings.';
-    END
-
-
-GO
-IF IS_SRVROLEMEMBER(N'sysadmin') = 1
-    BEGIN
-        IF EXISTS (SELECT 1
-                   FROM   [master].[dbo].[sysdatabases]
-                   WHERE  [name] = N'$(DatabaseName)')
-            BEGIN
-                EXECUTE sp_executesql N'ALTER DATABASE [$(DatabaseName)]
-    SET HONOR_BROKER_PRIORITY OFF 
-    WITH ROLLBACK IMMEDIATE';
-            END
-    END
-ELSE
-    BEGIN
-        PRINT N'The database settings cannot be modified. You must be a SysAdmin to apply these settings.';
     END
 
 
@@ -168,70 +72,13 @@ IF EXISTS (SELECT 1
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET FILESTREAM(NON_TRANSACTED_ACCESS = OFF),
-                CONTAINMENT = NONE 
+            SET QUERY_STORE (CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367)) 
             WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET AUTO_CREATE_STATISTICS ON(INCREMENTAL = OFF),
-                MEMORY_OPTIMIZED_ELEVATE_TO_SNAPSHOT = OFF,
-                DELAYED_DURABILITY = DISABLED 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET QUERY_STORE (QUERY_CAPTURE_MODE = ALL, FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_PLANS_PER_QUERY = 200, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367), MAX_STORAGE_SIZE_MB = 100) 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET QUERY_STORE = OFF 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
-        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
-        ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
-        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
-        ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
-        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
-        ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
-        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
     END
 
 
 GO
 USE [$(DatabaseName)];
-
-
-GO
-IF fulltextserviceproperty(N'IsFulltextInstalled') = 1
-    EXECUTE sp_fulltext_database 'enable';
 
 
 GO
@@ -280,7 +127,7 @@ CREATE TABLE [dbo].[Orders] (
     [TotalPrice]    NVARCHAR (MAX) NULL,
     [Tip]           NVARCHAR (MAX) NULL,
     [State]         NVARCHAR (MAX) NOT NULL,
-    [TableId]       INT            NOT NULL,
+    [Table_Id]      INT            NOT NULL,
     [TimeCreated]   DATETIME       NOT NULL,
     [TimeCompleted] DATETIME       NULL,
     CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED ([Id] ASC)
@@ -293,7 +140,7 @@ PRINT N'Creating [dbo].[Orders].[IX_FK_OrdersTable]...';
 
 GO
 CREATE NONCLUSTERED INDEX [IX_FK_OrdersTable]
-    ON [dbo].[Orders]([TableId] ASC);
+    ON [dbo].[Orders]([Table_Id] ASC);
 
 
 GO
@@ -487,7 +334,7 @@ PRINT N'Creating [dbo].[FK_FoodItemOrder_FoodItem]...';
 
 
 GO
-ALTER TABLE [dbo].[FoodItemOrder]
+ALTER TABLE [dbo].[FoodItemOrder] WITH NOCHECK
     ADD CONSTRAINT [FK_FoodItemOrder_FoodItem] FOREIGN KEY ([FoodItem_Id]) REFERENCES [dbo].[FoodItems] ([Id]);
 
 
@@ -496,7 +343,7 @@ PRINT N'Creating [dbo].[FK_FoodItemOrder_Order]...';
 
 
 GO
-ALTER TABLE [dbo].[FoodItemOrder]
+ALTER TABLE [dbo].[FoodItemOrder] WITH NOCHECK
     ADD CONSTRAINT [FK_FoodItemOrder_Order] FOREIGN KEY ([Orders_Id]) REFERENCES [dbo].[Orders] ([Id]);
 
 
@@ -505,8 +352,8 @@ PRINT N'Creating [dbo].[FK_Tables]...';
 
 
 GO
-ALTER TABLE [dbo].[Orders]
-    ADD CONSTRAINT [FK_Tables] FOREIGN KEY ([TableId]) REFERENCES [dbo].[Tables] ([Id]);
+ALTER TABLE [dbo].[Orders] WITH NOCHECK
+    ADD CONSTRAINT [FK_Tables] FOREIGN KEY ([Table_Id]) REFERENCES [dbo].[Tables] ([Id]);
 
 
 GO
@@ -514,7 +361,7 @@ PRINT N'Creating [dbo].[FK_ReservationCustomer]...';
 
 
 GO
-ALTER TABLE [dbo].[Reservations]
+ALTER TABLE [dbo].[Reservations] WITH NOCHECK
     ADD CONSTRAINT [FK_ReservationCustomer] FOREIGN KEY ([Customers_Id]) REFERENCES [dbo].[Users_Customer] ([Id]);
 
 
@@ -523,7 +370,7 @@ PRINT N'Creating [dbo].[FK_ReviewCustomer]...';
 
 
 GO
-ALTER TABLE [dbo].[Reviews]
+ALTER TABLE [dbo].[Reviews] WITH NOCHECK
     ADD CONSTRAINT [FK_ReviewCustomer] FOREIGN KEY ([Customers_Id]) REFERENCES [dbo].[Users_Customer] ([Id]);
 
 
@@ -532,7 +379,7 @@ PRINT N'Creating [dbo].[FK_ServerTable]...';
 
 
 GO
-ALTER TABLE [dbo].[Tables]
+ALTER TABLE [dbo].[Tables] WITH NOCHECK
     ADD CONSTRAINT [FK_ServerTable] FOREIGN KEY ([Server_Id]) REFERENCES [dbo].[Users_Server] ([Id]);
 
 
@@ -541,7 +388,7 @@ PRINT N'Creating [dbo].[FK_Customer_inherits_User]...';
 
 
 GO
-ALTER TABLE [dbo].[Users_Customer]
+ALTER TABLE [dbo].[Users_Customer] WITH NOCHECK
     ADD CONSTRAINT [FK_Customer_inherits_User] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id]) ON DELETE CASCADE;
 
 
@@ -550,7 +397,7 @@ PRINT N'Creating [dbo].[FK_Employee_inherits_User]...';
 
 
 GO
-ALTER TABLE [dbo].[Users_Employee]
+ALTER TABLE [dbo].[Users_Employee] WITH NOCHECK
     ADD CONSTRAINT [FK_Employee_inherits_User] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id]) ON DELETE CASCADE;
 
 
@@ -559,7 +406,7 @@ PRINT N'Creating [dbo].[FK_Kitchen_inherits_Employee]...';
 
 
 GO
-ALTER TABLE [dbo].[Users_Kitchen]
+ALTER TABLE [dbo].[Users_Kitchen] WITH NOCHECK
     ADD CONSTRAINT [FK_Kitchen_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
 
 
@@ -568,7 +415,7 @@ PRINT N'Creating [dbo].[FK_Manager_inherits_Employee]...';
 
 
 GO
-ALTER TABLE [dbo].[Users_Manager]
+ALTER TABLE [dbo].[Users_Manager] WITH NOCHECK
     ADD CONSTRAINT [FK_Manager_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
 
 
@@ -577,7 +424,7 @@ PRINT N'Creating [dbo].[FK_Server_inherits_Employee]...';
 
 
 GO
-ALTER TABLE [dbo].[Users_Server]
+ALTER TABLE [dbo].[Users_Server] WITH NOCHECK
     ADD CONSTRAINT [FK_Server_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
 
 
@@ -586,26 +433,42 @@ PRINT N'Creating [dbo].[FK_EmployeeWorkSchedule]...';
 
 
 GO
-ALTER TABLE [dbo].[WorkSchedules]
+ALTER TABLE [dbo].[WorkSchedules] WITH NOCHECK
     ADD CONSTRAINT [FK_EmployeeWorkSchedule] FOREIGN KEY ([Employee_Id]) REFERENCES [dbo].[Users_Employee] ([Id]);
 
 
 GO
-DECLARE @VarDecimalSupported AS BIT;
+PRINT N'Checking existing data against newly created constraints';
 
-SELECT @VarDecimalSupported = 0;
 
-IF ((ServerProperty(N'EngineEdition') = 3)
-    AND (((@@microsoftversion / power(2, 24) = 9)
-          AND (@@microsoftversion & 0xffff >= 3024))
-         OR ((@@microsoftversion / power(2, 24) = 10)
-             AND (@@microsoftversion & 0xffff >= 1600))))
-    SELECT @VarDecimalSupported = 1;
+GO
+USE [$(DatabaseName)];
 
-IF (@VarDecimalSupported > 0)
-    BEGIN
-        EXECUTE sp_db_vardecimal_storage_format N'$(DatabaseName)', 'ON';
-    END
+
+GO
+ALTER TABLE [dbo].[FoodItemOrder] WITH CHECK CHECK CONSTRAINT [FK_FoodItemOrder_FoodItem];
+
+ALTER TABLE [dbo].[FoodItemOrder] WITH CHECK CHECK CONSTRAINT [FK_FoodItemOrder_Order];
+
+ALTER TABLE [dbo].[Orders] WITH CHECK CHECK CONSTRAINT [FK_Tables];
+
+ALTER TABLE [dbo].[Reservations] WITH CHECK CHECK CONSTRAINT [FK_ReservationCustomer];
+
+ALTER TABLE [dbo].[Reviews] WITH CHECK CHECK CONSTRAINT [FK_ReviewCustomer];
+
+ALTER TABLE [dbo].[Tables] WITH CHECK CHECK CONSTRAINT [FK_ServerTable];
+
+ALTER TABLE [dbo].[Users_Customer] WITH CHECK CHECK CONSTRAINT [FK_Customer_inherits_User];
+
+ALTER TABLE [dbo].[Users_Employee] WITH CHECK CHECK CONSTRAINT [FK_Employee_inherits_User];
+
+ALTER TABLE [dbo].[Users_Kitchen] WITH CHECK CHECK CONSTRAINT [FK_Kitchen_inherits_Employee];
+
+ALTER TABLE [dbo].[Users_Manager] WITH CHECK CHECK CONSTRAINT [FK_Manager_inherits_Employee];
+
+ALTER TABLE [dbo].[Users_Server] WITH CHECK CHECK CONSTRAINT [FK_Server_inherits_Employee];
+
+ALTER TABLE [dbo].[WorkSchedules] WITH CHECK CHECK CONSTRAINT [FK_EmployeeWorkSchedule];
 
 
 GO

@@ -12,4 +12,4 @@
 
 GO
 CREATE NONCLUSTERED INDEX [IX_FK_OrdersTable]
-    ON [dbo].[Orders]([TableId] ASC);
+    ON [dbo].[Orders]([Table_Id] ASC);
