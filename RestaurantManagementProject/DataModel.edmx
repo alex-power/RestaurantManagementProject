@@ -91,6 +91,8 @@
     <Property Name="TotalPrice" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Tip" Type="nvarchar(max)" Nullable="true" />
     <Property Name="State" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TimeCreated" Type="datetime" Nullable="false" />
+    <Property Name="TimeCompleted" Type="datetime" Nullable="true" />
     <Property Name="Table_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Reservations">
@@ -393,10 +395,10 @@
           <Property Name="TotalPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Tip" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Table" Relationship="Self.FK_Tables" FromRole="Orders" ToRole="Tables" />
           <NavigationProperty Name="FoodItems" Relationship="RestaurantManagement.DBModel.OrderFoodItem" FromRole="Order" ToRole="FoodItem" />
           <Property Name="TimeCreated" Type="DateTime" Nullable="false" />
           <Property Name="TimeCompleted" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="Table" Relationship="RestaurantManagement.DBModel.TableOrder" FromRole="Order" ToRole="Table" />
         </EntityType>
         <EntityType Name="Reservation">
           <Key>
@@ -434,8 +436,8 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Seats" Type="Int32" Nullable="false" />
           <Property Name="TableStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Tables" FromRole="Tables" ToRole="Orders" />
           <NavigationProperty Name="Users_Server" Relationship="Self.FK_ServerTable" FromRole="Tables" ToRole="Users_Server" />
+          <NavigationProperty Name="Orders" Relationship="RestaurantManagement.DBModel.TableOrder" FromRole="Table" ToRole="Order" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -509,10 +511,6 @@
           <Property Name="Hours" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Users_Employee" Relationship="Self.FK_EmployeeWorkSchedule" FromRole="WorkSchedules" ToRole="Users_Employee" />
         </EntityType>
-        <Association Name="FK_Tables">
-          <End Role="Tables" Type="Self.Table" Multiplicity="1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-        </Association>
         <Association Name="FK_ReservationCustomer">
           <End Role="Users_Customer" Type="Self.Users_Customer" Multiplicity="1" />
           <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
@@ -613,10 +611,6 @@
           <EntitySet Name="Users_Manager" EntityType="Self.Users_Manager" />
           <EntitySet Name="Users_Server" EntityType="Self.Users_Server" />
           <EntitySet Name="WorkSchedules" EntityType="Self.WorkSchedule" />
-          <AssociationSet Name="FK_Tables" Association="Self.FK_Tables">
-            <End Role="Tables" EntitySet="Tables" />
-            <End Role="Orders" EntitySet="Orders" />
-          </AssociationSet>
           <AssociationSet Name="FK_ReservationCustomer" Association="Self.FK_ReservationCustomer">
             <End Role="Users_Customer" EntitySet="Users_Customer" />
             <End Role="Reservations" EntitySet="Reservations" />
@@ -662,6 +656,10 @@
             <End Role="Order" EntitySet="Orders" />
             <End Role="FoodItem" EntitySet="FoodItems" />
           </AssociationSet>
+          <AssociationSet Name="TableOrder" Association="RestaurantManagement.DBModel.TableOrder">
+            <End Role="Table" EntitySet="Tables" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Timesheet">
           <Key>
@@ -679,6 +677,10 @@
         <Association Name="OrderFoodItem">
           <End Type="RestaurantManagement.DBModel.Order" Role="Order" Multiplicity="*" />
           <End Type="RestaurantManagement.DBModel.FoodItem" Role="FoodItem" Multiplicity="*" />
+        </Association>
+        <Association Name="TableOrder">
+          <End Type="RestaurantManagement.DBModel.Table" Role="Table" Multiplicity="1" />
+          <End Type="RestaurantManagement.DBModel.Order" Role="Order" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -703,6 +705,8 @@
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Tip" ColumnName="Tip" />
           <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+          <ScalarProperty Name="TimeCompleted" ColumnName="TimeCompleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -817,14 +821,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="FK_Tables" TypeName="RestaurantManagement.DBModel.FK_Tables" StoreEntitySet="Orders">
-      <EndProperty Name="Tables">
-        <ScalarProperty Name="Id" ColumnName="Table_Id" />
-      </EndProperty>
-      <EndProperty Name="Orders">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="FK_ReservationCustomer" TypeName="RestaurantManagement.DBModel.FK_ReservationCustomer" StoreEntitySet="Reservations">
       <EndProperty Name="Users_Customer">
         <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />

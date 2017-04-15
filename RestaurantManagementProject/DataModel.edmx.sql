@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/12/2017 13:37:03
--- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
+-- Date Created: 04/15/2017 12:27:03
+-- Generated from EDMX file: C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -49,6 +49,12 @@ IF OBJECT_ID(N'[dbo].[FK_Server_inherits_Employee]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_TimesheetUsers_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Timesheets] DROP CONSTRAINT [FK_TimesheetUsers_Employee];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_Order]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_Order];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_FoodItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_FoodItem];
 GO
 
 -- --------------------------------------------------
@@ -97,6 +103,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Timesheets]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Timesheets];
 GO
+IF OBJECT_ID(N'[dbo].[OrderFoodItem]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OrderFoodItem];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -117,6 +126,8 @@ CREATE TABLE [dbo].[Orders] (
     [TotalPrice] nvarchar(max)  NULL,
     [Tip] nvarchar(max)  NULL,
     [State] nvarchar(max)  NOT NULL,
+    [TimeCreated] datetime  NOT NULL,
+    [TimeCompleted] datetime  NULL,
     [Table_Id] int  NOT NULL
 );
 GO
