@@ -78,5 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Tables\Timesheet.sql" />
+    <None Include="Scripts\Script1.sql" />
+    <None Include="Scripts\Script2.sql" />
   </ItemGroup>
 </Project>

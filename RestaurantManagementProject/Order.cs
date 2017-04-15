@@ -32,4 +32,3 @@ namespace RestaurantManagementProject
         public virtual Table Table { get; set; }
     }
 }
-    

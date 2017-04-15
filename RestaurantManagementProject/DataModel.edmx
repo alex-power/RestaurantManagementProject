@@ -869,6 +869,14 @@
         <ScalarProperty Name="Id" ColumnName="FoodItems_Id" />
       </EndProperty>
     </AssociationSetMapping>
+          <AssociationSetMapping Name="TableOrder" TypeName="RestaurantManagement.DBModel.TableOrder" StoreEntitySet="Orders">
+            <EndProperty Name="Order">
+              <ScalarProperty Name="Id" ColumnName="Id" />
+            </EndProperty>
+            <EndProperty Name="Table">
+              <ScalarProperty Name="Id" ColumnName="Table_Id" />
+            </EndProperty>
+          </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
