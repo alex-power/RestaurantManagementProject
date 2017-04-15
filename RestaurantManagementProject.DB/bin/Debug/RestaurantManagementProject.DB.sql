@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "RestaurantManagementProject.DB"
 :setvar DefaultFilePrefix "RestaurantManagementProject.DB"
-:setvar DefaultDataPath "C:\Users\Kelton\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
-:setvar DefaultLogPath "C:\Users\Kelton\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultDataPath "C:\Users\Lucas\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultLogPath "C:\Users\Lucas\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
 
 GO
 :on error exit
@@ -36,14 +36,48 @@ IF N'$(__IsSqlCmdEnabled)' NOT LIKE N'True'
 
 
 GO
+USE [master];
+
+
+GO
+
+IF (DB_ID(N'$(DatabaseName)') IS NOT NULL) 
+BEGIN
+    ALTER DATABASE [$(DatabaseName)]
+    SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE [$(DatabaseName)];
+END
+
+GO
+PRINT N'Creating $(DatabaseName)...'
+GO
+CREATE DATABASE [$(DatabaseName)]
+    ON 
+    PRIMARY(NAME = [$(DatabaseName)], FILENAME = N'$(DefaultDataPath)$(DefaultFilePrefix)_Primary.mdf')
+    LOG ON (NAME = [$(DatabaseName)_log], FILENAME = N'$(DefaultLogPath)$(DefaultFilePrefix)_Primary.ldf') COLLATE SQL_Latin1_General_CP1_CI_AS
+GO
 IF EXISTS (SELECT 1
            FROM   [master].[dbo].[sysdatabases]
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET ARITHABORT ON,
+            SET ANSI_NULLS ON,
+                ANSI_PADDING ON,
+                ANSI_WARNINGS ON,
+                ARITHABORT ON,
                 CONCAT_NULL_YIELDS_NULL ON,
-                CURSOR_DEFAULT LOCAL 
+                NUMERIC_ROUNDABORT OFF,
+                QUOTED_IDENTIFIER ON,
+                ANSI_NULL_DEFAULT ON,
+                CURSOR_DEFAULT LOCAL,
+                CURSOR_CLOSE_ON_COMMIT OFF,
+                AUTO_CREATE_STATISTICS ON,
+                AUTO_SHRINK OFF,
+                AUTO_UPDATE_STATISTICS ON,
+                RECURSIVE_TRIGGERS OFF 
+            WITH ROLLBACK IMMEDIATE;
+        ALTER DATABASE [$(DatabaseName)]
+            SET AUTO_CLOSE OFF 
             WITH ROLLBACK IMMEDIATE;
     END
 
@@ -54,9 +88,71 @@ IF EXISTS (SELECT 1
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET PAGE_VERIFY NONE,
-                DISABLE_BROKER 
+            SET ALLOW_SNAPSHOT_ISOLATION OFF;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET READ_COMMITTED_SNAPSHOT OFF 
             WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET AUTO_UPDATE_STATISTICS_ASYNC OFF,
+                PAGE_VERIFY NONE,
+                DATE_CORRELATION_OPTIMIZATION OFF,
+                DISABLE_BROKER,
+                PARAMETERIZATION SIMPLE,
+                SUPPLEMENTAL_LOGGING OFF 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF IS_SRVROLEMEMBER(N'sysadmin') = 1
+    BEGIN
+        IF EXISTS (SELECT 1
+                   FROM   [master].[dbo].[sysdatabases]
+                   WHERE  [name] = N'$(DatabaseName)')
+            BEGIN
+                EXECUTE sp_executesql N'ALTER DATABASE [$(DatabaseName)]
+    SET TRUSTWORTHY OFF,
+        DB_CHAINING OFF 
+    WITH ROLLBACK IMMEDIATE';
+            END
+    END
+ELSE
+    BEGIN
+        PRINT N'The database settings cannot be modified. You must be a SysAdmin to apply these settings.';
+    END
+
+
+GO
+IF IS_SRVROLEMEMBER(N'sysadmin') = 1
+    BEGIN
+        IF EXISTS (SELECT 1
+                   FROM   [master].[dbo].[sysdatabases]
+                   WHERE  [name] = N'$(DatabaseName)')
+            BEGIN
+                EXECUTE sp_executesql N'ALTER DATABASE [$(DatabaseName)]
+    SET HONOR_BROKER_PRIORITY OFF 
+    WITH ROLLBACK IMMEDIATE';
+            END
+    END
+ELSE
+    BEGIN
+        PRINT N'The database settings cannot be modified. You must be a SysAdmin to apply these settings.';
     END
 
 
@@ -72,13 +168,444 @@ IF EXISTS (SELECT 1
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET QUERY_STORE (CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367)) 
+            SET FILESTREAM(NON_TRANSACTED_ACCESS = OFF),
+                CONTAINMENT = NONE 
             WITH ROLLBACK IMMEDIATE;
     END
 
 
 GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET AUTO_CREATE_STATISTICS ON(INCREMENTAL = OFF),
+                MEMORY_OPTIMIZED_ELEVATE_TO_SNAPSHOT = OFF,
+                DELAYED_DURABILITY = DISABLED 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET QUERY_STORE (QUERY_CAPTURE_MODE = ALL, FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_PLANS_PER_QUERY = 200, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367), MAX_STORAGE_SIZE_MB = 100) 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE [$(DatabaseName)]
+            SET QUERY_STORE = OFF 
+            WITH ROLLBACK IMMEDIATE;
+    END
+
+
+GO
+IF EXISTS (SELECT 1
+           FROM   [master].[dbo].[sysdatabases]
+           WHERE  [name] = N'$(DatabaseName)')
+    BEGIN
+        ALTER DATABASE SCOPED CONFIGURATION SET MAXDOP = 0;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET MAXDOP = PRIMARY;
+        ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET LEGACY_CARDINALITY_ESTIMATION = PRIMARY;
+        ALTER DATABASE SCOPED CONFIGURATION SET PARAMETER_SNIFFING = ON;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET PARAMETER_SNIFFING = PRIMARY;
+        ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
+        ALTER DATABASE SCOPED CONFIGURATION FOR SECONDARY SET QUERY_OPTIMIZER_HOTFIXES = PRIMARY;
+    END
+
+
+GO
 USE [$(DatabaseName)];
+
+
+GO
+IF fulltextserviceproperty(N'IsFulltextInstalled') = 1
+    EXECUTE sp_fulltext_database 'enable';
+
+
+GO
+PRINT N'Creating [dbo].[FoodItemOrder]...';
+
+
+GO
+CREATE TABLE [dbo].[FoodItemOrder] (
+    [FoodItem_Id] INT           NOT NULL,
+    [Orders_Id]   INT           NOT NULL,
+    [Note]        VARCHAR (MAX) NULL,
+    CONSTRAINT [PK_FoodItemOrder] PRIMARY KEY CLUSTERED ([FoodItem_Id] ASC, [Orders_Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[FoodItemOrder].[IX_FK_FoodItemOrder_Order]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_FoodItemOrder_Order]
+    ON [dbo].[FoodItemOrder]([Orders_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[FoodItems]...';
+
+
+GO
+CREATE TABLE [dbo].[FoodItems] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Name]        NVARCHAR (MAX) NOT NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [Price]       DECIMAL (18)   NOT NULL,
+    CONSTRAINT [PK_FoodItems] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Orders]...';
+
+
+GO
+CREATE TABLE [dbo].[Orders] (
+    [Id]            INT            IDENTITY (1, 1) NOT NULL,
+    [TotalPrice]    NVARCHAR (MAX) NULL,
+    [Tip]           NVARCHAR (MAX) NULL,
+    [State]         NVARCHAR (MAX) NOT NULL,
+    [TableId]       INT            NOT NULL,
+    [TimeCreated]   DATETIME       NOT NULL,
+    [TimeCompleted] DATETIME       NULL,
+    CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Orders].[IX_FK_OrdersTable]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_OrdersTable]
+    ON [dbo].[Orders]([TableId] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Reservations]...';
+
+
+GO
+CREATE TABLE [dbo].[Reservations] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [DateTime]     DATETIME       NOT NULL,
+    [Note]         NVARCHAR (MAX) NOT NULL,
+    [Customers_Id] INT            NOT NULL,
+    CONSTRAINT [PK_Reservations] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Reservations].[IX_FK_ReservationCustomer]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_ReservationCustomer]
+    ON [dbo].[Reservations]([Customers_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Restaurants]...';
+
+
+GO
+CREATE TABLE [dbo].[Restaurants] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Name]        NVARCHAR (MAX) NOT NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [Cuisine]     NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_Restaurants] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Reviews]...';
+
+
+GO
+CREATE TABLE [dbo].[Reviews] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [Text]         NVARCHAR (MAX) NOT NULL,
+    [DateOfVisit]  DATETIME       NOT NULL,
+    [DateOfPost]   DATETIME       NOT NULL,
+    [Rating]       INT            NOT NULL,
+    [Customers_Id] INT            NOT NULL,
+    CONSTRAINT [PK_Reviews] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Reviews].[IX_FK_ReviewCustomer]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_ReviewCustomer]
+    ON [dbo].[Reviews]([Customers_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Tables]...';
+
+
+GO
+CREATE TABLE [dbo].[Tables] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Seats]       INT            NOT NULL,
+    [TableStatus] NVARCHAR (MAX) NOT NULL,
+    [Server_Id]   INT            NULL,
+    CONSTRAINT [PK_Tables] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Tables].[IX_FK_ServerTable]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_ServerTable]
+    ON [dbo].[Tables]([Server_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Users]...';
+
+
+GO
+CREATE TABLE [dbo].[Users] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [Username]     NVARCHAR (MAX) NOT NULL,
+    [Password]     NVARCHAR (MAX) NOT NULL,
+    [Email]        NVARCHAR (MAX) NOT NULL,
+    [Name]         NVARCHAR (MAX) NOT NULL,
+    [CreationDate] DATETIME       NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Customer]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Customer] (
+    [Id] INT NOT NULL,
+    CONSTRAINT [PK_Users_Customer] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Employee]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Employee] (
+    [Availability] NVARCHAR (MAX) NOT NULL,
+    [HoursPerWeek] INT            NOT NULL,
+    [PayRate]      DECIMAL (18)   NULL,
+    [Salary]       DECIMAL (18)   NULL,
+    [Id]           INT            NOT NULL,
+    CONSTRAINT [PK_Users_Employee] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Kitchen]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Kitchen] (
+    [Role] NVARCHAR (MAX) NOT NULL,
+    [Id]   INT            NOT NULL,
+    CONSTRAINT [PK_Users_Kitchen] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Manager]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Manager] (
+    [Id] INT NOT NULL,
+    CONSTRAINT [PK_Users_Manager] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Server]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Server] (
+    [NumTables] INT NOT NULL,
+    [Id]        INT NOT NULL,
+    CONSTRAINT [PK_Users_Server] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[WorkSchedules]...';
+
+
+GO
+CREATE TABLE [dbo].[WorkSchedules] (
+    [Id]          INT      IDENTITY (1, 1) NOT NULL,
+    [Start]       DATETIME NOT NULL,
+    [End]         DATETIME NOT NULL,
+    [Hours]       INT      NOT NULL,
+    [Employee_Id] INT      NOT NULL,
+    CONSTRAINT [PK_WorkSchedules] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[WorkSchedules].[IX_FK_EmployeeWorkSchedule]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_EmployeeWorkSchedule]
+    ON [dbo].[WorkSchedules]([Employee_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[FK_FoodItemOrder_FoodItem]...';
+
+
+GO
+ALTER TABLE [dbo].[FoodItemOrder]
+    ADD CONSTRAINT [FK_FoodItemOrder_FoodItem] FOREIGN KEY ([FoodItem_Id]) REFERENCES [dbo].[FoodItems] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_FoodItemOrder_Order]...';
+
+
+GO
+ALTER TABLE [dbo].[FoodItemOrder]
+    ADD CONSTRAINT [FK_FoodItemOrder_Order] FOREIGN KEY ([Orders_Id]) REFERENCES [dbo].[Orders] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_Tables]...';
+
+
+GO
+ALTER TABLE [dbo].[Orders]
+    ADD CONSTRAINT [FK_Tables] FOREIGN KEY ([TableId]) REFERENCES [dbo].[Tables] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_ReservationCustomer]...';
+
+
+GO
+ALTER TABLE [dbo].[Reservations]
+    ADD CONSTRAINT [FK_ReservationCustomer] FOREIGN KEY ([Customers_Id]) REFERENCES [dbo].[Users_Customer] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_ReviewCustomer]...';
+
+
+GO
+ALTER TABLE [dbo].[Reviews]
+    ADD CONSTRAINT [FK_ReviewCustomer] FOREIGN KEY ([Customers_Id]) REFERENCES [dbo].[Users_Customer] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_ServerTable]...';
+
+
+GO
+ALTER TABLE [dbo].[Tables]
+    ADD CONSTRAINT [FK_ServerTable] FOREIGN KEY ([Server_Id]) REFERENCES [dbo].[Users_Server] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_Customer_inherits_User]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Customer]
+    ADD CONSTRAINT [FK_Customer_inherits_User] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Employee_inherits_User]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Employee]
+    ADD CONSTRAINT [FK_Employee_inherits_User] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Kitchen_inherits_Employee]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Kitchen]
+    ADD CONSTRAINT [FK_Kitchen_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Manager_inherits_Employee]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Manager]
+    ADD CONSTRAINT [FK_Manager_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Server_inherits_Employee]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Server]
+    ADD CONSTRAINT [FK_Server_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_EmployeeWorkSchedule]...';
+
+
+GO
+ALTER TABLE [dbo].[WorkSchedules]
+    ADD CONSTRAINT [FK_EmployeeWorkSchedule] FOREIGN KEY ([Employee_Id]) REFERENCES [dbo].[Users_Employee] ([Id]);
+
+
+GO
+DECLARE @VarDecimalSupported AS BIT;
+
+SELECT @VarDecimalSupported = 0;
+
+IF ((ServerProperty(N'EngineEdition') = 3)
+    AND (((@@microsoftversion / power(2, 24) = 9)
+          AND (@@microsoftversion & 0xffff >= 3024))
+         OR ((@@microsoftversion / power(2, 24) = 10)
+             AND (@@microsoftversion & 0xffff >= 1600))))
+    SELECT @VarDecimalSupported = 1;
+
+IF (@VarDecimalSupported > 0)
+    BEGIN
+        EXECUTE sp_db_vardecimal_storage_format N'$(DatabaseName)', 'ON';
+    END
 
 
 GO

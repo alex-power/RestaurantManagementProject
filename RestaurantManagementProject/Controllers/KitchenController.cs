@@ -20,11 +20,11 @@ namespace RestaurantManagementProject.Controllers
             // Open = posted by server
             // Ready = ready to be picked up by server
             // Complete = delivered
-            KitchenViewModel model = new KitchenViewModel(db.Orders.Where(x => !x.State.Equals("Complete")).ToList());
-
-
+            var orders = db.Orders.Where(x => !x.State.Equals("Complete"));
+            List<Order> orderList = new List<Order>(orders);
+       
                 
-            return View(model);
+            return View(new KitchenViewModel(orderList));
         }
 
         /*

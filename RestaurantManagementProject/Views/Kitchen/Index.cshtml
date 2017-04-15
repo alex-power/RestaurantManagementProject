@@ -7,10 +7,16 @@
 
 }
 
+<h1>Order List</h1>
+
 <h2>Index</h2>
 
-@foreach(Order o in Model.Orders)
-{
-   
-}
+<table>
+    <tr>
+        @foreach (Order o in Model.Orders)
+        {
+            <td>@o.Id</td>
+        }
+    </tr>
+</table>
 

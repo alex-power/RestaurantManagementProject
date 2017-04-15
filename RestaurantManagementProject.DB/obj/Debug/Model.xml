@@ -12,7 +12,7 @@
 		</CustomData>
 		<CustomData Category="Reference" Type="Assembly">
 			<Metadata Name="LogicalName" Value="RestaurantManagementProject.DB.dll" />
-			<Metadata Name="FileName" Value="D:\DOCUMENTS\VISUAL STUDIO 2015\PROJECTS\RESTAURANTMANAGEMENTPROJECT\RESTAURANTMANAGEMENTPROJECT.DB\OBJ\DEBUG\RESTAURANTMANAGEMENTPROJECT.DB.DLL" />
+			<Metadata Name="FileName" Value="C:\SOFTWARE\RESTAURANTMANAGEMENTPROJECT\RESTAURANTMANAGEMENTPROJECT.DB\OBJ\DEBUG\RESTAURANTMANAGEMENTPROJECT.DB.DLL" />
 			<Metadata Name="AssemblyName" Value="RestaurantManagementProject.DB" />
 			<Metadata Name="PermissionSet" Value="SAFE" />
 			<Metadata Name="Owner" Value="" />
@@ -20,7 +20,7 @@
 			<Metadata Name="IsVisible" Value="True" />
 			<Metadata Name="IsModelAware" Value="True" />
 			<Metadata Name="SkipCreationIfEmpty" Value="True" />
-			<Metadata Name="AssemblySymbolsName" Value="d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb" />
+			<Metadata Name="AssemblySymbolsName" Value="C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb" />
 		</CustomData>
 		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
 	</Header>
@@ -561,6 +561,37 @@
 									<Relationship Name="Type">
 										<Entry>
 											<References ExternalSource="BuiltIns" Name="[int]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Orders].[TimeCreated]">
+						<Property Name="IsNullable" Value="False" />
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[datetime]" />
+										</Entry>
+									</Relationship>
+								</Element>
+							</Entry>
+						</Relationship>
+					</Element>
+				</Entry>
+				<Entry>
+					<Element Type="SqlSimpleColumn" Name="[dbo].[Orders].[TimeCompleted]">
+						<Relationship Name="TypeSpecifier">
+							<Entry>
+								<Element Type="SqlTypeSpecifier">
+									<Relationship Name="Type">
+										<Entry>
+											<References ExternalSource="BuiltIns" Name="[datetime]" />
 										</Entry>
 									</Relationship>
 								</Element>
