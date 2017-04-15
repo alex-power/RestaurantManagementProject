@@ -3,11 +3,11 @@
     [TotalPrice] NVARCHAR (MAX) NULL,
     [Tip]        NVARCHAR (MAX) NULL,
     [State]      NVARCHAR (MAX) NOT NULL,
-	[TableId]	 INT NOT NULL,
+	[Table_Id]	 INT NOT NULL,
 	[TimeCreated] DATETIME NOT NULL,
 	[TimeCompleted] DATETIME NULL,
     CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED ([Id] ASC),
-	CONSTRAINT [FK_Tables] FOREIGN KEY ([TableId]) REFERENCES [dbo].[Tables] (Id)
+	CONSTRAINT [FK_Tables] FOREIGN KEY ([Table_Id]) REFERENCES [dbo].[Tables] (Id)
 );
 
 GO
