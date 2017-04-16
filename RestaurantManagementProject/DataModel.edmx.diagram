@@ -18,7 +18,6 @@
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Manager" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Server" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.WorkSchedule" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Tables" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_ReservationCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_ReviewCustomer" ManuallyRouted="false" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_ServerTable" ManuallyRouted="false" />
@@ -31,6 +30,7 @@
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Timesheet" Width="1.5" PointX="8.875" PointY="4.5" />
         <AssociationConnector Association="RestaurantManagement.DBModel.TimesheetUsers_Employee" />
         <AssociationConnector Association="RestaurantManagement.DBModel.OrderFoodItem" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.TableOrder" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

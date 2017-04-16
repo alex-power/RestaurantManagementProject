@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "RestaurantManagementProject.DB"
 :setvar DefaultFilePrefix "RestaurantManagementProject.DB"
-:setvar DefaultDataPath "C:\Users\Kelton\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
-:setvar DefaultLogPath "C:\Users\Kelton\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultDataPath "C:\Users\Lucas\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultLogPath "C:\Users\Lucas\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
 
 GO
 :on error exit
@@ -79,6 +79,396 @@ IF EXISTS (SELECT 1
 
 GO
 USE [$(DatabaseName)];
+
+
+GO
+PRINT N'Creating [dbo].[FoodItemOrder]...';
+
+
+GO
+CREATE TABLE [dbo].[FoodItemOrder] (
+    [FoodItem_Id] INT           NOT NULL,
+    [Orders_Id]   INT           NOT NULL,
+    [Note]        VARCHAR (MAX) NULL,
+    CONSTRAINT [PK_FoodItemOrder] PRIMARY KEY CLUSTERED ([FoodItem_Id] ASC, [Orders_Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[FoodItemOrder].[IX_FK_FoodItemOrder_Order]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_FoodItemOrder_Order]
+    ON [dbo].[FoodItemOrder]([Orders_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[FoodItems]...';
+
+
+GO
+CREATE TABLE [dbo].[FoodItems] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Name]        NVARCHAR (MAX) NOT NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [Price]       DECIMAL (18)   NOT NULL,
+    CONSTRAINT [PK_FoodItems] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Orders]...';
+
+
+GO
+CREATE TABLE [dbo].[Orders] (
+    [Id]            INT            IDENTITY (1, 1) NOT NULL,
+    [TotalPrice]    NVARCHAR (MAX) NULL,
+    [Tip]           NVARCHAR (MAX) NULL,
+    [State]         NVARCHAR (MAX) NOT NULL,
+    [Table_Id]      INT            NOT NULL,
+    [TimeCreated]   DATETIME       NOT NULL,
+    [TimeCompleted] DATETIME       NULL,
+    CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Orders].[IX_FK_OrdersTable]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_OrdersTable]
+    ON [dbo].[Orders]([Table_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Reservations]...';
+
+
+GO
+CREATE TABLE [dbo].[Reservations] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [DateTime]     DATETIME       NOT NULL,
+    [Note]         NVARCHAR (MAX) NOT NULL,
+    [Customers_Id] INT            NOT NULL,
+    CONSTRAINT [PK_Reservations] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Reservations].[IX_FK_ReservationCustomer]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_ReservationCustomer]
+    ON [dbo].[Reservations]([Customers_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Restaurants]...';
+
+
+GO
+CREATE TABLE [dbo].[Restaurants] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Name]        NVARCHAR (MAX) NOT NULL,
+    [Description] NVARCHAR (MAX) NULL,
+    [Cuisine]     NVARCHAR (MAX) NULL,
+    CONSTRAINT [PK_Restaurants] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Reviews]...';
+
+
+GO
+CREATE TABLE [dbo].[Reviews] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [Text]         NVARCHAR (MAX) NOT NULL,
+    [DateOfVisit]  DATETIME       NOT NULL,
+    [DateOfPost]   DATETIME       NOT NULL,
+    [Rating]       INT            NOT NULL,
+    [Customers_Id] INT            NOT NULL,
+    CONSTRAINT [PK_Reviews] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Reviews].[IX_FK_ReviewCustomer]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_ReviewCustomer]
+    ON [dbo].[Reviews]([Customers_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Tables]...';
+
+
+GO
+CREATE TABLE [dbo].[Tables] (
+    [Id]          INT            IDENTITY (1, 1) NOT NULL,
+    [Seats]       INT            NOT NULL,
+    [TableStatus] NVARCHAR (MAX) NOT NULL,
+    [Server_Id]   INT            NULL,
+    CONSTRAINT [PK_Tables] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Tables].[IX_FK_ServerTable]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_ServerTable]
+    ON [dbo].[Tables]([Server_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[Users]...';
+
+
+GO
+CREATE TABLE [dbo].[Users] (
+    [Id]           INT            IDENTITY (1, 1) NOT NULL,
+    [Username]     NVARCHAR (MAX) NOT NULL,
+    [Password]     NVARCHAR (MAX) NOT NULL,
+    [Email]        NVARCHAR (MAX) NOT NULL,
+    [Name]         NVARCHAR (MAX) NOT NULL,
+    [CreationDate] DATETIME       NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Customer]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Customer] (
+    [Id] INT NOT NULL,
+    CONSTRAINT [PK_Users_Customer] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Employee]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Employee] (
+    [Availability] NVARCHAR (MAX) NOT NULL,
+    [HoursPerWeek] INT            NOT NULL,
+    [PayRate]      DECIMAL (18)   NULL,
+    [Salary]       DECIMAL (18)   NULL,
+    [Id]           INT            NOT NULL,
+    CONSTRAINT [PK_Users_Employee] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Kitchen]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Kitchen] (
+    [Role] NVARCHAR (MAX) NOT NULL,
+    [Id]   INT            NOT NULL,
+    CONSTRAINT [PK_Users_Kitchen] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Manager]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Manager] (
+    [Id] INT NOT NULL,
+    CONSTRAINT [PK_Users_Manager] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[Users_Server]...';
+
+
+GO
+CREATE TABLE [dbo].[Users_Server] (
+    [NumTables] INT NOT NULL,
+    [Id]        INT NOT NULL,
+    CONSTRAINT [PK_Users_Server] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[WorkSchedules]...';
+
+
+GO
+CREATE TABLE [dbo].[WorkSchedules] (
+    [Id]          INT      IDENTITY (1, 1) NOT NULL,
+    [Start]       DATETIME NOT NULL,
+    [End]         DATETIME NOT NULL,
+    [Hours]       INT      NOT NULL,
+    [Employee_Id] INT      NOT NULL,
+    CONSTRAINT [PK_WorkSchedules] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[WorkSchedules].[IX_FK_EmployeeWorkSchedule]...';
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_EmployeeWorkSchedule]
+    ON [dbo].[WorkSchedules]([Employee_Id] ASC);
+
+
+GO
+PRINT N'Creating [dbo].[FK_FoodItemOrder_FoodItem]...';
+
+
+GO
+ALTER TABLE [dbo].[FoodItemOrder] WITH NOCHECK
+    ADD CONSTRAINT [FK_FoodItemOrder_FoodItem] FOREIGN KEY ([FoodItem_Id]) REFERENCES [dbo].[FoodItems] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_FoodItemOrder_Order]...';
+
+
+GO
+ALTER TABLE [dbo].[FoodItemOrder] WITH NOCHECK
+    ADD CONSTRAINT [FK_FoodItemOrder_Order] FOREIGN KEY ([Orders_Id]) REFERENCES [dbo].[Orders] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_Tables]...';
+
+
+GO
+ALTER TABLE [dbo].[Orders] WITH NOCHECK
+    ADD CONSTRAINT [FK_Tables] FOREIGN KEY ([Table_Id]) REFERENCES [dbo].[Tables] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_ReservationCustomer]...';
+
+
+GO
+ALTER TABLE [dbo].[Reservations] WITH NOCHECK
+    ADD CONSTRAINT [FK_ReservationCustomer] FOREIGN KEY ([Customers_Id]) REFERENCES [dbo].[Users_Customer] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_ReviewCustomer]...';
+
+
+GO
+ALTER TABLE [dbo].[Reviews] WITH NOCHECK
+    ADD CONSTRAINT [FK_ReviewCustomer] FOREIGN KEY ([Customers_Id]) REFERENCES [dbo].[Users_Customer] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_ServerTable]...';
+
+
+GO
+ALTER TABLE [dbo].[Tables] WITH NOCHECK
+    ADD CONSTRAINT [FK_ServerTable] FOREIGN KEY ([Server_Id]) REFERENCES [dbo].[Users_Server] ([Id]);
+
+
+GO
+PRINT N'Creating [dbo].[FK_Customer_inherits_User]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Customer] WITH NOCHECK
+    ADD CONSTRAINT [FK_Customer_inherits_User] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Employee_inherits_User]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Employee] WITH NOCHECK
+    ADD CONSTRAINT [FK_Employee_inherits_User] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Kitchen_inherits_Employee]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Kitchen] WITH NOCHECK
+    ADD CONSTRAINT [FK_Kitchen_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Manager_inherits_Employee]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Manager] WITH NOCHECK
+    ADD CONSTRAINT [FK_Manager_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_Server_inherits_Employee]...';
+
+
+GO
+ALTER TABLE [dbo].[Users_Server] WITH NOCHECK
+    ADD CONSTRAINT [FK_Server_inherits_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id]) ON DELETE CASCADE;
+
+
+GO
+PRINT N'Creating [dbo].[FK_EmployeeWorkSchedule]...';
+
+
+GO
+ALTER TABLE [dbo].[WorkSchedules] WITH NOCHECK
+    ADD CONSTRAINT [FK_EmployeeWorkSchedule] FOREIGN KEY ([Employee_Id]) REFERENCES [dbo].[Users_Employee] ([Id]);
+
+
+GO
+PRINT N'Checking existing data against newly created constraints';
+
+
+GO
+USE [$(DatabaseName)];
+
+
+GO
+ALTER TABLE [dbo].[FoodItemOrder] WITH CHECK CHECK CONSTRAINT [FK_FoodItemOrder_FoodItem];
+
+ALTER TABLE [dbo].[FoodItemOrder] WITH CHECK CHECK CONSTRAINT [FK_FoodItemOrder_Order];
+
+ALTER TABLE [dbo].[Orders] WITH CHECK CHECK CONSTRAINT [FK_Tables];
+
+ALTER TABLE [dbo].[Reservations] WITH CHECK CHECK CONSTRAINT [FK_ReservationCustomer];
+
+ALTER TABLE [dbo].[Reviews] WITH CHECK CHECK CONSTRAINT [FK_ReviewCustomer];
+
+ALTER TABLE [dbo].[Tables] WITH CHECK CHECK CONSTRAINT [FK_ServerTable];
+
+ALTER TABLE [dbo].[Users_Customer] WITH CHECK CHECK CONSTRAINT [FK_Customer_inherits_User];
+
+ALTER TABLE [dbo].[Users_Employee] WITH CHECK CHECK CONSTRAINT [FK_Employee_inherits_User];
+
+ALTER TABLE [dbo].[Users_Kitchen] WITH CHECK CHECK CONSTRAINT [FK_Kitchen_inherits_Employee];
+
+ALTER TABLE [dbo].[Users_Manager] WITH CHECK CHECK CONSTRAINT [FK_Manager_inherits_Employee];
+
+ALTER TABLE [dbo].[Users_Server] WITH CHECK CHECK CONSTRAINT [FK_Server_inherits_Employee];
+
+ALTER TABLE [dbo].[WorkSchedules] WITH CHECK CHECK CONSTRAINT [FK_EmployeeWorkSchedule];
 
 
 GO

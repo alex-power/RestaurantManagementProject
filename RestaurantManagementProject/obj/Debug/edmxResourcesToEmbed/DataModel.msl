@@ -18,6 +18,8 @@
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Tip" ColumnName="Tip" />
           <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+          <ScalarProperty Name="TimeCompleted" ColumnName="TimeCompleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -132,14 +134,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="FK_Tables" TypeName="RestaurantManagement.DBModel.FK_Tables" StoreEntitySet="Orders">
-      <EndProperty Name="Tables">
-        <ScalarProperty Name="Id" ColumnName="Table_Id" />
-      </EndProperty>
-      <EndProperty Name="Orders">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
     <AssociationSetMapping Name="FK_ReservationCustomer" TypeName="RestaurantManagement.DBModel.FK_ReservationCustomer" StoreEntitySet="Reservations">
       <EndProperty Name="Users_Customer">
         <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
@@ -186,6 +180,14 @@
       </EndProperty>
       <EndProperty Name="FoodItem">
         <ScalarProperty Name="Id" ColumnName="FoodItems_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TableOrder" TypeName="RestaurantManagement.DBModel.TableOrder" StoreEntitySet="Orders">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <EndProperty Name="Table">
+        <ScalarProperty Name="Id" ColumnName="Table_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
