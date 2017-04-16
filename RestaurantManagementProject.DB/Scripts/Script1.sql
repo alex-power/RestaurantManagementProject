@@ -1,45 +1,53 @@
 ﻿
-﻿
 INSERT INTO [Users]
 (Username,Password,CreationDate,Name,Email)
-VALUES ('manager', 'manager', SYSDATETIME(),'Manager Test', 'manager@email.com')
-
+VALUES ('manager', 'manager', SYSDATETIME(),'Manager Test', 'manager@email.com');
+DECLARE @uid INTEGER 
+SELECT @uid = SCOPE_IDENTITY();
 
 INSERT INTO [Users_Employee]
-(Id)
-VALUES (SCOPE_IDENTITY())
+(Id, HoursPerWeek, Salary)
+VALUES (@uid, 40, 40000)
 
 
 INSERT INTO [Users_Manager]
 (Id)
-VALUES (SCOPE_IDENTITY())
+VALUES (@uid)
 
 INSERT INTO [Users]
 (Username, Password, CreationDate, Name, Email)
 VALUES ('server', 'server', SYSDATETIME(), 'server test', 'server@email.com')
+SELECT @uid = SCOPE_IDENTITY()
+
 INSERT INTO [Users_Employee]
-(Id)
-VALUES (SCOPE_IDENTITY())
-INSERT INTO [Users_Kitchen]
-(Id)
-VALUES (SCOPE_IDENTITY())
+(Id, HoursPerWeek, PayRate)
+VALUES (@uid, 40, 10)
+
+INSERT INTO [Users_Server]
+(Id, NumTables)
+VALUES (@uid, 0)
+DECLARE @sid INTEGER
+SELECT @sid = @uid
 
 INSERT INTO [Users]
 (Username, Password, CreationDate, Name, Email)
 VALUES ('kitchen', 'kitchen', SYSDATETIME(), 'kitchen test', 'kitchen@email.com')
+SELECT @uid = SCOPE_IDENTITY()
+
 INSERT INTO [Users_Employee]
-(Id)
-VALUES (SCOPE_IDENTITY())
+(Id, HoursPerWeek, PayRate)
+VALUES (@uid, 40, 12)
 INSERT INTO [Users_Kitchen]
-(Id)
-VALUES (SCOPE_IDENTITY())
+(Id, Role)
+VALUES (@uid, 'Chef')
 
 INSERT INTO [Users]
 (Username, Password, CreationDate, Name, Email)
 VALUES ('customer', 'customer', SYSDATETIME(), 'customer test', 'kitchen@email.com')
+SELECT @uid = SCOPE_IDENTITY()
 INSERT INTO [Users_Customer]
 (Id)
-VALUES (SCOPE_IDENTITY())
+VALUES (@uid)
 
 
 INSERT INTO [Restaurants]
@@ -78,6 +86,11 @@ INSERT INTO [FoodItems]
 (Name, Description, Price)
 VALUES ('Chicken Noodle Soup', 'No shapes, sorry', 4.99)
 
+DECLARE @tid AS INTEGER
+INSERT INTO [Tables] ( Seats, Server_Id, TableStatus)
+VALUES (4, @sid, 'Open')
+SELECT @tid = SCOPE_IDENTITY()
+
 INSERT INTO [Orders]
-(TotalPrice, Tip, State, TimeCreated,TimeCompleted)
-VALUES (4.99,0.0,'Ready',SYSDATETIME(), null)
+(TotalPrice, Tip, State, TimeCreated,TimeCompleted, Table_Id)
+VALUES (0,0.0,'Ready',SYSDATETIME(), null, @tid)

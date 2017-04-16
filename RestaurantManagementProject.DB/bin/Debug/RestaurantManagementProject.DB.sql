@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "RestaurantManagementProject.DB"
 :setvar DefaultFilePrefix "RestaurantManagementProject.DB"
-:setvar DefaultDataPath "C:\Users\Lucas\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
-:setvar DefaultLogPath "C:\Users\Lucas\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultDataPath "C:\Users\power\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultLogPath "C:\Users\power\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
 
 GO
 :on error exit
@@ -56,23 +56,6 @@ IF EXISTS (SELECT 1
         ALTER DATABASE [$(DatabaseName)]
             SET PAGE_VERIFY NONE,
                 DISABLE_BROKER 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-ALTER DATABASE [$(DatabaseName)]
-    SET TARGET_RECOVERY_TIME = 0 SECONDS 
-    WITH ROLLBACK IMMEDIATE;
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET QUERY_STORE (CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367)) 
             WITH ROLLBACK IMMEDIATE;
     END
 
@@ -261,11 +244,10 @@ PRINT N'Creating [dbo].[Users_Employee]...';
 
 GO
 CREATE TABLE [dbo].[Users_Employee] (
-    [Availability] NVARCHAR (MAX) NOT NULL,
-    [HoursPerWeek] INT            NOT NULL,
-    [PayRate]      DECIMAL (18)   NULL,
-    [Salary]       DECIMAL (18)   NULL,
-    [Id]           INT            NOT NULL,
+    [HoursPerWeek] INT          NULL,
+    [PayRate]      DECIMAL (18) NULL,
+    [Salary]       DECIMAL (18) NULL,
+    [Id]           INT          NOT NULL,
     CONSTRAINT [PK_Users_Employee] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 

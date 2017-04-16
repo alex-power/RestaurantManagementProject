@@ -21,3 +21,12 @@ C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug
 C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.pdb
 C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.dll
 C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.dacpac
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.dll
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.pdb
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.dll
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\Model.xml
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\refactor.xml
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\postdeploy.sql
+C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\predeploy.sql
