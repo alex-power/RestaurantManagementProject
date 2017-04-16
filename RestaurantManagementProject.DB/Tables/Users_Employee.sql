@@ -1,6 +1,5 @@
 ﻿CREATE TABLE [dbo].[Users_Employee] (
-    [Availability] NVARCHAR (MAX) NOT NULL,
-    [HoursPerWeek] INT NOT NULL,
+    [HoursPerWeek] INT NULL,
     [PayRate]      DECIMAL            NULL,
     [Salary]       DECIMAL            NULL,
     [Id]           INT            NOT NULL,

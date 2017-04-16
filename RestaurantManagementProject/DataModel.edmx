@@ -465,10 +465,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Availability" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="HoursPerWeek" Type="Int32" Nullable="false" />
-          <Property Name="PayRate" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Salary" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="HoursPerWeek" Type="Int32" Nullable="true" />
+          <Property Name="PayRate" Type="Decimal" Precision="18" Scale="0" Nullable="true" />
+          <Property Name="Salary" Type="Decimal" Precision="18" Scale="0" Nullable="true" />
           <Property Name="Id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Employee_inherits_User" FromRole="Users_Employee" ToRole="Users" />
           <NavigationProperty Name="WorkSchedules" Relationship="Self.FK_EmployeeWorkSchedule" FromRole="Users_Employee" ToRole="WorkSchedules" />
@@ -772,7 +771,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Users_Employee)">
         <MappingFragment StoreEntitySet="Users_Employee">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Availability" ColumnName="Availability" />
           <ScalarProperty Name="HoursPerWeek" ColumnName="HoursPerWeek" />
           <ScalarProperty Name="PayRate" ColumnName="PayRate" />
           <ScalarProperty Name="Salary" ColumnName="Salary" />
