@@ -31,6 +31,8 @@
         <AssociationConnector Association="RestaurantManagement.DBModel.OrderFoodItem" />
         <EntityTypeShape EntityType="RestaurantManagement.DBModel.Image" Width="1.5" PointX="11.875" PointY="11.625" />
         <AssociationConnector Association="RestaurantManagement.DBModel.FK_FoodItems" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Timesheet" Width="1.5" PointX="9.625" PointY="8.5" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.TimesheetUsers_Employee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

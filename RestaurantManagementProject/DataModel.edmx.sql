@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2017 13:52:38
+-- Date Created: 04/17/2017 14:15:40
 -- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
@@ -17,6 +17,18 @@ GO
 -- Dropping existing FOREIGN KEY constraints
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReservationCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ReservationCustomer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ReviewCustomer]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_ReviewCustomer];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ServerTable]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Tables] DROP CONSTRAINT [FK_ServerTable];
+GO
 IF OBJECT_ID(N'[dbo].[FK_Customer_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Customer] DROP CONSTRAINT [FK_Customer_inherits_User];
 GO
@@ -26,35 +38,26 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EmployeeWorkSchedule]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[WorkSchedules] DROP CONSTRAINT [FK_EmployeeWorkSchedule];
 GO
-IF OBJECT_ID(N'[dbo].[FK_Images_FoodItems]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Images] DROP CONSTRAINT [FK_Images_FoodItems];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Kitchen_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Kitchen] DROP CONSTRAINT [FK_Kitchen_inherits_Employee];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Manager_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Manager] DROP CONSTRAINT [FK_Manager_inherits_Employee];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ReservationCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ReservationCustomer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ReviewCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_ReviewCustomer];
-GO
 IF OBJECT_ID(N'[dbo].[FK_Server_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Server] DROP CONSTRAINT [FK_Server_inherits_Employee];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ServerTable]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Tables] DROP CONSTRAINT [FK_ServerTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
 GO
 IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_Order]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_Order];
 GO
 IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_FoodItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_FoodItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FoodItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Images] DROP CONSTRAINT [FK_FoodItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TimesheetUsers_Employee]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Timesheet] DROP CONSTRAINT [FK_TimesheetUsers_Employee];
 GO
 
 -- --------------------------------------------------
@@ -63,9 +66,6 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FoodItems]', 'U') IS NOT NULL
     DROP TABLE [dbo].[FoodItems];
-GO
-IF OBJECT_ID(N'[dbo].[Images]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Images];
 GO
 IF OBJECT_ID(N'[dbo].[Orders]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Orders];
@@ -102,6 +102,15 @@ IF OBJECT_ID(N'[dbo].[Users_Server]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[WorkSchedules]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkSchedules];
+GO
+IF OBJECT_ID(N'[dbo].[Images]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Images];
+GO
+IF OBJECT_ID(N'[dbo].[Timesheet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Timesheet];
+GO
+IF OBJECT_ID(N'[dbo].[OrderFoodItem]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[OrderFoodItem];
 GO
 
 -- --------------------------------------------------
@@ -186,7 +195,6 @@ GO
 
 -- Creating table 'Users_Employee'
 CREATE TABLE [dbo].[Users_Employee] (
-    [Availability] nvarchar(max)  NOT NULL,
     [HoursPerWeek] int  NOT NULL,
     [PayRate] decimal(18,0)  NULL,
     [Salary] decimal(18,0)  NULL,
@@ -220,6 +228,22 @@ CREATE TABLE [dbo].[WorkSchedules] (
     [Start] datetime  NOT NULL,
     [End] datetime  NOT NULL,
     [Hours] int  NOT NULL,
+    [Users_Employee_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'Images'
+CREATE TABLE [dbo].[Images] (
+    [Id] int  NOT NULL,
+    [Image1] varbinary(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Timesheet'
+CREATE TABLE [dbo].[Timesheet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [TimeIn] datetime  NOT NULL,
+    [TimeOut] datetime  NOT NULL,
     [Users_Employee_Id] int  NOT NULL
 );
 GO
@@ -310,6 +334,18 @@ GO
 -- Creating primary key on [Id] in table 'WorkSchedules'
 ALTER TABLE [dbo].[WorkSchedules]
 ADD CONSTRAINT [PK_WorkSchedules]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Images'
+ALTER TABLE [dbo].[Images]
+ADD CONSTRAINT [PK_Images]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Timesheet'
+ALTER TABLE [dbo].[Timesheet]
+ADD CONSTRAINT [PK_Timesheet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -465,6 +501,30 @@ GO
 CREATE INDEX [IX_FK_OrderFoodItem_FoodItem]
 ON [dbo].[OrderFoodItem]
     ([FoodItems_Id]);
+GO
+
+-- Creating foreign key on [Id] in table 'Images'
+ALTER TABLE [dbo].[Images]
+ADD CONSTRAINT [FK_FoodItems]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[FoodItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Users_Employee_Id] in table 'Timesheet'
+ALTER TABLE [dbo].[Timesheet]
+ADD CONSTRAINT [FK_TimesheetUsers_Employee]
+    FOREIGN KEY ([Users_Employee_Id])
+    REFERENCES [dbo].[Users_Employee]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TimesheetUsers_Employee'
+CREATE INDEX [IX_FK_TimesheetUsers_Employee]
+ON [dbo].[Timesheet]
+    ([Users_Employee_Id]);
 GO
 
 -- --------------------------------------------------

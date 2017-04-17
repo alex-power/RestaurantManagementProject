@@ -26,14 +26,14 @@ namespace RestaurantManagementProject.Controllers
 
             // get most recent timesheet
             List<DateTime> employeeTimeInTimes = new List<DateTime>();
-            List<Timesheet> timesheets = db.Timesheets.ToList();
+            List<Timesheet> timesheets = db.Timesheet.ToList();
             foreach (Timesheet timesheet in timesheets)
                 if (timesheet.Users_Employee.Id == employeeId)
                     employeeTimeInTimes.Add(timesheet.TimeIn);
 
             DateTime latestDate = employeeTimeInTimes.Max();
 
-            model.timesheet = db.Timesheets.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
+            model.timesheet = db.Timesheet.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
 
             return View(model);
         }
@@ -46,7 +46,7 @@ namespace RestaurantManagementProject.Controllers
             timesheet.TimeIn = DateTime.Now;
             timesheet.Users_Employee = db.Users_Employee.FirstOrDefault(x => x.Id == employeeId);
 
-            db.Timesheets.Add(timesheet);
+            db.Timesheet.Add(timesheet);
 
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
@@ -68,13 +68,13 @@ namespace RestaurantManagementProject.Controllers
 
             // get most recent timesheet
             List<DateTime> employeeTimeInTimes = new List<DateTime>();
-            List<Timesheet> timesheets = db.Timesheets.ToList();
+            List<Timesheet> timesheets = db.Timesheet.ToList();
             foreach (Timesheet ts in timesheets)
                 if (ts.Users_Employee.Id == employeeId)
                     employeeTimeInTimes.Add(ts.TimeIn);
 
             DateTime latestDate = employeeTimeInTimes.Max();
-            Timesheet timesheet = db.Timesheets.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
+            Timesheet timesheet = db.Timesheet.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
 
             
             timesheet.TimeOut = DateTime.Now;

@@ -140,5 +140,9 @@
     <Build Include="dbo\Tables\WorkSchedules.sql" />
     <Build Include="dbo\Tables\OrderFoodItem.sql" />
     <Build Include="dbo\Tables\Images.sql" />
+    <Build Include="dbo\Tables\Timesheet.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\TestData.sql" />
   </ItemGroup>
 </Project>

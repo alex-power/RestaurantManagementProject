@@ -14,19 +14,19 @@
     <EntitySetMapping Name="Orders">
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Order)">
         <MappingFragment StoreEntitySet="Orders">
-          <ScalarProperty Name="TimeCompleted" ColumnName="TableId" />
-          <ScalarProperty Name="TimeCompleted" ColumnName="TimeCompleted" />
-          <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Tip" ColumnName="Tip" />
           <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+          <ScalarProperty Name="TimeCompleted" ColumnName="TimeCompleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Reservations">
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Reservation)">
         <MappingFragment StoreEntitySet="Reservations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="Note" ColumnName="Note" />
         </MappingFragment>
@@ -85,7 +85,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Users_Employee)">
         <MappingFragment StoreEntitySet="Users_Employee">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Availability" ColumnName="Availability" />
           <ScalarProperty Name="HoursPerWeek" ColumnName="HoursPerWeek" />
           <ScalarProperty Name="PayRate" ColumnName="PayRate" />
           <ScalarProperty Name="Salary" ColumnName="Salary" />
@@ -125,27 +124,79 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Image)">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Image1" ColumnName="Image1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Timesheet">
+      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Timesheets)">
+        <MappingFragment StoreEntitySet="Timesheet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
+          <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="FK_Tables" TypeName="RestaurantManagement.DBModel.FK_Tables" StoreEntitySet="Orders">
-      <EndProperty Name="Tables">
-        <ScalarProperty Name="Id" ColumnName="Id" />
+      <EndProperty Name="Table">
+        <ScalarProperty Name="Id" ColumnName="Table_Id" />
       </EndProperty>
-      <EndProperty Name="Orders">
-        <ScalarProperty Name="Id" ColumnName="TableId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_EmployeeWorkSchedule" TypeName="RestaurantManagement.DBModel.FK_EmployeeWorkSchedule" StoreEntitySet="WorkSchedules">
-      <EndProperty Name="WorkSchedules">
+      <EndProperty Name="Order">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_ServerTable1" TypeName="RestaurantManagement.DBModel.FK_ServerTable1" StoreEntitySet="Tables">
+    <AssociationSetMapping Name="FK_ReservationCustomer" TypeName="RestaurantManagement.DBModel.FK_ReservationCustomer" StoreEntitySet="Reservations">
+      <EndProperty Name="Users_Customer">
+        <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
+      </EndProperty>
+      <EndProperty Name="Reservation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ReviewCustomer" TypeName="RestaurantManagement.DBModel.FK_ReviewCustomer" StoreEntitySet="Reviews">
+      <EndProperty Name="Users_Customer">
+        <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
+      </EndProperty>
+      <EndProperty Name="Review">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_ServerTable" TypeName="RestaurantManagement.DBModel.FK_ServerTable" StoreEntitySet="Tables">
+      <EndProperty Name="Users_Server">
+        <ScalarProperty Name="Id" ColumnName="Users_Server_Id" />
+      </EndProperty>
       <EndProperty Name="Table">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <EndProperty Name="Users_Server">
-        <ScalarProperty Name="Id" ColumnName="Server_Id" />
+      <Condition ColumnName="Users_Server_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_EmployeeWorkSchedule" TypeName="RestaurantManagement.DBModel.FK_EmployeeWorkSchedule" StoreEntitySet="WorkSchedules">
+      <EndProperty Name="Users_Employee">
+        <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
       </EndProperty>
-      <Condition ColumnName="Server_Id" IsNull="false" />
+      <EndProperty Name="WorkSchedule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderFoodItem" TypeName="RestaurantManagement.DBModel.OrderFoodItem" StoreEntitySet="OrderFoodItem">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Orders_Id" />
+      </EndProperty>
+      <EndProperty Name="FoodItem">
+        <ScalarProperty Name="Id" ColumnName="FoodItems_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TimesheetUsers_Employee" TypeName="RestaurantManagement.DBModel.TimesheetUsers_Employee" StoreEntitySet="Timesheet">
+      <EndProperty Name="Users_Employee">
+        <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
+      </EndProperty>
+      <EndProperty Name="Timesheet">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>
