@@ -1,0 +1,6 @@
+﻿CREATE TABLE [dbo].[Images]
+(
+	[Id] INT NOT NULL PRIMARY KEY,
+	[Image] VARBINARY(MAX) NOT NULL,
+	CONSTRAINT [FK_FoodItems] FOREIGN KEY ([Id]) REFERENCES [dbo].[FoodItems] ([Id])
+)

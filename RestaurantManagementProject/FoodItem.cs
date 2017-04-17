@@ -27,5 +27,6 @@ namespace RestaurantManagementProject
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual Image Image { get; set; }
     }
 }

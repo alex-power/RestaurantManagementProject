@@ -24,8 +24,8 @@ namespace RestaurantManagementProject
         public int Seats { get; set; }
         public string TableStatus { get; set; }
     
-        public virtual Users_Server Users_Server { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+        public virtual Users_Server Users_Server { get; set; }
     }
 }

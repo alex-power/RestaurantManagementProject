@@ -42,7 +42,7 @@ namespace RestaurantManagementProject.Controllers
                 string encTicket = FormsAuthentication.Encrypt(authTicket);
                 HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                 Response.Cookies.Add(faCookie);
-
+                
                 return RedirectToAction("Index");
             }
         }
