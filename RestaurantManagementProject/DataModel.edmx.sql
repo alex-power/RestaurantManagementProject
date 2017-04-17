@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2017 14:15:40
--- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
+-- Date Created: 04/17/2017 15:08:08
+-- Generated from EDMX file: C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -20,17 +20,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ReservationCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ReservationCustomer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ReviewCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_ReviewCustomer];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ServerTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tables] DROP CONSTRAINT [FK_ServerTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Customer_inherits_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Users_Customer] DROP CONSTRAINT [FK_Customer_inherits_User];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Employee_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Employee] DROP CONSTRAINT [FK_Employee_inherits_User];
@@ -84,9 +75,6 @@ IF OBJECT_ID(N'[dbo].[Tables]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users];
-GO
-IF OBJECT_ID(N'[dbo].[Users_Customer]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users_Customer];
 GO
 IF OBJECT_ID(N'[dbo].[Users_Employee]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users_Employee];
@@ -143,7 +131,7 @@ CREATE TABLE [dbo].[Reservations] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] datetime  NOT NULL,
     [Note] nvarchar(max)  NOT NULL,
-    [Users_Customer_Id] int  NOT NULL
+    [CustomerName] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -163,7 +151,7 @@ CREATE TABLE [dbo].[Reviews] (
     [DateOfVisit] datetime  NOT NULL,
     [DateOfPost] datetime  NOT NULL,
     [Rating] int  NOT NULL,
-    [Users_Customer_Id] int  NOT NULL
+    [CustomerName] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -184,12 +172,6 @@ CREATE TABLE [dbo].[Users] (
     [Email] nvarchar(max)  NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [CreationDate] datetime  NOT NULL
-);
-GO
-
--- Creating table 'Users_Customer'
-CREATE TABLE [dbo].[Users_Customer] (
-    [Id] int  NOT NULL
 );
 GO
 
@@ -301,12 +283,6 @@ ADD CONSTRAINT [PK_Users]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Users_Customer'
-ALTER TABLE [dbo].[Users_Customer]
-ADD CONSTRAINT [PK_Users_Customer]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'Users_Employee'
 ALTER TABLE [dbo].[Users_Employee]
 ADD CONSTRAINT [PK_Users_Employee]
@@ -374,36 +350,6 @@ ON [dbo].[Orders]
     ([Table_Id]);
 GO
 
--- Creating foreign key on [Users_Customer_Id] in table 'Reservations'
-ALTER TABLE [dbo].[Reservations]
-ADD CONSTRAINT [FK_ReservationCustomer]
-    FOREIGN KEY ([Users_Customer_Id])
-    REFERENCES [dbo].[Users_Customer]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReservationCustomer'
-CREATE INDEX [IX_FK_ReservationCustomer]
-ON [dbo].[Reservations]
-    ([Users_Customer_Id]);
-GO
-
--- Creating foreign key on [Users_Customer_Id] in table 'Reviews'
-ALTER TABLE [dbo].[Reviews]
-ADD CONSTRAINT [FK_ReviewCustomer]
-    FOREIGN KEY ([Users_Customer_Id])
-    REFERENCES [dbo].[Users_Customer]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReviewCustomer'
-CREATE INDEX [IX_FK_ReviewCustomer]
-ON [dbo].[Reviews]
-    ([Users_Customer_Id]);
-GO
-
 -- Creating foreign key on [Users_Server_Id] in table 'Tables'
 ALTER TABLE [dbo].[Tables]
 ADD CONSTRAINT [FK_ServerTable]
@@ -417,15 +363,6 @@ GO
 CREATE INDEX [IX_FK_ServerTable]
 ON [dbo].[Tables]
     ([Users_Server_Id]);
-GO
-
--- Creating foreign key on [Id] in table 'Users_Customer'
-ALTER TABLE [dbo].[Users_Customer]
-ADD CONSTRAINT [FK_Customer_inherits_User]
-    FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Users]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Employee'
