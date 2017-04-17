@@ -123,3 +123,4 @@ C:\Software\RestaurantManagementProject\RestaurantManagementProject\bin\System.W
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.csprojResolveAssemblyReference.cache
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.dll
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.pdb
+d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.csprojResolveAssemblyReference.cache

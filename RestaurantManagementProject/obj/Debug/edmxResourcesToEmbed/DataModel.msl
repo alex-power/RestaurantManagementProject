@@ -18,6 +18,8 @@
           <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
           <ScalarProperty Name="Tip" ColumnName="Tip" />
           <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="TimeCreated" ColumnName="TimeCreated" />
+          <ScalarProperty Name="TimeCompleted" ColumnName="TimeCompleted" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -83,7 +85,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Users_Employee)">
         <MappingFragment StoreEntitySet="Users_Employee">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Availability" ColumnName="Availability" />
           <ScalarProperty Name="HoursPerWeek" ColumnName="HoursPerWeek" />
           <ScalarProperty Name="PayRate" ColumnName="PayRate" />
           <ScalarProperty Name="Salary" ColumnName="Salary" />
@@ -123,9 +124,17 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Timesheets">
-      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Timesheet)">
-        <MappingFragment StoreEntitySet="Timesheets">
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Image)">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Image1" ColumnName="Image1" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Timesheet">
+      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Timesheets)">
+        <MappingFragment StoreEntitySet="Timesheet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
           <ScalarProperty Name="TimeOut" ColumnName="TimeOut" />
@@ -133,10 +142,10 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <AssociationSetMapping Name="FK_Tables" TypeName="RestaurantManagement.DBModel.FK_Tables" StoreEntitySet="Orders">
-      <EndProperty Name="Tables">
+      <EndProperty Name="Table">
         <ScalarProperty Name="Id" ColumnName="Table_Id" />
       </EndProperty>
-      <EndProperty Name="Orders">
+      <EndProperty Name="Order">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -144,7 +153,7 @@
       <EndProperty Name="Users_Customer">
         <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
       </EndProperty>
-      <EndProperty Name="Reservations">
+      <EndProperty Name="Reservation">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -152,7 +161,7 @@
       <EndProperty Name="Users_Customer">
         <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
       </EndProperty>
-      <EndProperty Name="Reviews">
+      <EndProperty Name="Review">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -160,23 +169,16 @@
       <EndProperty Name="Users_Server">
         <ScalarProperty Name="Id" ColumnName="Users_Server_Id" />
       </EndProperty>
-      <EndProperty Name="Tables">
+      <EndProperty Name="Table">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
+      <Condition ColumnName="Users_Server_Id" IsNull="false" />
     </AssociationSetMapping>
     <AssociationSetMapping Name="FK_EmployeeWorkSchedule" TypeName="RestaurantManagement.DBModel.FK_EmployeeWorkSchedule" StoreEntitySet="WorkSchedules">
       <EndProperty Name="Users_Employee">
         <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
       </EndProperty>
-      <EndProperty Name="WorkSchedules">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="TimesheetUsers_Employee" TypeName="RestaurantManagement.DBModel.TimesheetUsers_Employee" StoreEntitySet="Timesheets">
-      <EndProperty Name="Users_Employee">
-        <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
-      </EndProperty>
-      <EndProperty Name="Timesheet">
+      <EndProperty Name="WorkSchedule">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -186,6 +188,14 @@
       </EndProperty>
       <EndProperty Name="FoodItem">
         <ScalarProperty Name="Id" ColumnName="FoodItems_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TimesheetUsers_Employee" TypeName="RestaurantManagement.DBModel.TimesheetUsers_Employee" StoreEntitySet="Timesheet">
+      <EndProperty Name="Users_Employee">
+        <ScalarProperty Name="Id" ColumnName="Users_Employee_Id" />
+      </EndProperty>
+      <EndProperty Name="Timesheet">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

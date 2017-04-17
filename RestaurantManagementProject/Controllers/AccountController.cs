@@ -15,13 +15,13 @@ namespace RestaurantManagementProject.Controllers
         private Entities db = new Entities();
 
         // GET: Account
-        public ActionResult Login()
+        public ActionResult EmployeeLogin()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(string username, string password)
+        public ActionResult EmployeeLogin(string username, string password)
         {
             User user = db.Users.FirstOrDefault(x => x.Username == username);
             
@@ -42,7 +42,7 @@ namespace RestaurantManagementProject.Controllers
                 string encTicket = FormsAuthentication.Encrypt(authTicket);
                 HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                 Response.Cookies.Add(faCookie);
-
+                
                 return RedirectToAction("Index");
             }
         }

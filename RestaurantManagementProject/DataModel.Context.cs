@@ -38,6 +38,7 @@ namespace RestaurantManagementProject
         public virtual DbSet<Users_Manager> Users_Manager { get; set; }
         public virtual DbSet<Users_Server> Users_Server { get; set; }
         public virtual DbSet<WorkSchedule> WorkSchedules { get; set; }
-        public virtual DbSet<Timesheet> Timesheets { get; set; }
+        public virtual DbSet<Image> Images { get; set; }
+        public virtual DbSet<Timesheet> Timesheet { get; set; }
     }
 }

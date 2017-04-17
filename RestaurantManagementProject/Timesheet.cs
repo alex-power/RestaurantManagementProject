@@ -16,7 +16,7 @@ namespace RestaurantManagementProject
     {
         public int Id { get; set; }
         public System.DateTime TimeIn { get; set; }
-        public Nullable<System.DateTime> TimeOut { get; set; }
+        public System.DateTime TimeOut { get; set; }
     
         public virtual Users_Employee Users_Employee { get; set; }
     }
