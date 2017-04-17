@@ -18,6 +18,10 @@ namespace RestaurantManagementProject.Controllers
             return View(new TableStatusViewModel(db.Tables.ToList()));
         }
 
+        public ActionResult Menu()
+        {
+            return View();
+        }
 
         [HttpGet]
         public ActionResult InputOrder(int tableID)

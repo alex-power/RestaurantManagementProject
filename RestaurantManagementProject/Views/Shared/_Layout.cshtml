@@ -22,8 +22,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Restaurant Manager", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            <ul class="nav navbar-nav navbar-right">
+                @Html.ActionLink("Menu", "Menu", "Server", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Make Reservation", "CreateReservation", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Leave Review", "LeaveReview", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("About", "About", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Contact", "ContactRestaurant", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Employee Page", "EmployeeLogin", "Account", new { area = "" }, new { @class = "navbar-brand" })
+            </ul>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                 </ul>
