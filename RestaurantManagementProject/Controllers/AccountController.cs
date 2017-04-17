@@ -1,5 +1,6 @@
 ﻿using RestaurantManagementProject.Auth;
 using RestaurantManagementProject.Models.Account;
+using RestaurantManagementProject.Models.Employee;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Web.Security;
+
 
 namespace RestaurantManagementProject.Controllers
 {
@@ -66,10 +68,10 @@ namespace RestaurantManagementProject.Controllers
 
             db.Users.Add(user);
 
-            Users_Customer cust = new Users_Customer();
+            Users_Employee cust = new Users_Employee();
             cust.Id = user.Id;
             
-            db.Users_Customer.Add(cust);
+            db.Users_Employee.Add(cust);
 
             db.Database.Connection.Open();
             db.SaveChanges();
