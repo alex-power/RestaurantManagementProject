@@ -20,15 +20,18 @@
     <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Table" Relationship="Self.FK_Tables" FromRole="Orders" ToRole="Tables" />
     <NavigationProperty Name="FoodItems" Relationship="RestaurantManagement.DBModel.OrderFoodItem" FromRole="Order" ToRole="FoodItem" />
+    <Property Name="TimeCreated" Type="DateTime" Nullable="false" />
+    <Property Name="TimeCompleted" Type="DateTime" Nullable="true" />
   </EntityType>
   <EntityType Name="Reservation">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-    <NavigationProperty Name="Users_Customer" Relationship="Self.FK_ReservationCustomer" FromRole="Reservations" ToRole="Users_Customer" />
+    <Property Name="CustomerName" Type="String" Nullable="false" />
+    <Property Name="PartySize" Type="Int32" Nullable="false" />
+    <Property Name="Id" Type="String" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
   </EntityType>
   <EntityType Name="Restaurant">
     <Key>
@@ -48,7 +51,7 @@
     <Property Name="DateOfVisit" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="DateOfPost" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Rating" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Users_Customer" Relationship="Self.FK_ReviewCustomer" FromRole="Reviews" ToRole="Users_Customer" />
+    <Property Name="CustomerName" Type="String" Nullable="false" />
   </EntityType>
   <EntityType Name="Table">
     <Key>
@@ -58,7 +61,7 @@
     <Property Name="Seats" Type="Int32" Nullable="false" />
     <Property Name="TableStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="Orders" Relationship="Self.FK_Tables" FromRole="Tables" ToRole="Orders" />
-    <NavigationProperty Name="Users_Server" Relationship="Self.FK_ServerTable" FromRole="Tables" ToRole="Users_Server" />
+    <NavigationProperty Name="Users_Server1" Relationship="RestaurantManagement.DBModel.FK_ServerTable1" FromRole="Table" ToRole="Users_Server" />
   </EntityType>
   <EntityType Name="User">
     <Key>
@@ -78,8 +81,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Reservations" Relationship="Self.FK_ReservationCustomer" FromRole="Users_Customer" ToRole="Reservations" />
-    <NavigationProperty Name="Reviews" Relationship="Self.FK_ReviewCustomer" FromRole="Users_Customer" ToRole="Reviews" />
     <NavigationProperty Name="User" Relationship="Self.FK_Customer_inherits_User" FromRole="Users_Customer" ToRole="Users" />
   </EntityType>
   <EntityType Name="Users_Employee">
@@ -119,8 +120,8 @@
     </Key>
     <Property Name="NumTables" Type="Int32" Nullable="false" />
     <Property Name="Id" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Tables" Relationship="Self.FK_ServerTable" FromRole="Users_Server" ToRole="Tables" />
     <NavigationProperty Name="Users_Employee" Relationship="Self.FK_Server_inherits_Employee" FromRole="Users_Server" ToRole="Users_Employee" />
+    <NavigationProperty Name="Tables1" Relationship="RestaurantManagement.DBModel.FK_ServerTable1" FromRole="Users_Server" ToRole="Table" />
   </EntityType>
   <EntityType Name="WorkSchedule">
     <Key>
@@ -135,18 +136,6 @@
   <Association Name="FK_Tables">
     <End Role="Tables" Type="Self.Table" Multiplicity="1" />
     <End Role="Orders" Type="Self.Order" Multiplicity="*" />
-  </Association>
-  <Association Name="FK_ReservationCustomer">
-    <End Role="Users_Customer" Type="Self.Users_Customer" Multiplicity="1" />
-    <End Role="Reservations" Type="Self.Reservation" Multiplicity="*" />
-  </Association>
-  <Association Name="FK_ReviewCustomer">
-    <End Role="Users_Customer" Type="Self.Users_Customer" Multiplicity="1" />
-    <End Role="Reviews" Type="Self.Review" Multiplicity="*" />
-  </Association>
-  <Association Name="FK_ServerTable">
-    <End Role="Users_Server" Type="Self.Users_Server" Multiplicity="1" />
-    <End Role="Tables" Type="Self.Table" Multiplicity="*" />
   </Association>
   <Association Name="FK_Customer_inherits_User">
     <End Role="Users" Type="Self.User" Multiplicity="1">
@@ -240,18 +229,6 @@
       <End Role="Tables" EntitySet="Tables" />
       <End Role="Orders" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK_ReservationCustomer" Association="Self.FK_ReservationCustomer">
-      <End Role="Users_Customer" EntitySet="Users_Customer" />
-      <End Role="Reservations" EntitySet="Reservations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ReviewCustomer" Association="Self.FK_ReviewCustomer">
-      <End Role="Users_Customer" EntitySet="Users_Customer" />
-      <End Role="Reviews" EntitySet="Reviews" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ServerTable" Association="Self.FK_ServerTable">
-      <End Role="Users_Server" EntitySet="Users_Server" />
-      <End Role="Tables" EntitySet="Tables" />
-    </AssociationSet>
     <AssociationSet Name="FK_Customer_inherits_User" Association="Self.FK_Customer_inherits_User">
       <End Role="Users" EntitySet="Users" />
       <End Role="Users_Customer" EntitySet="Users_Customer" />
@@ -285,6 +262,10 @@
       <End Role="Order" EntitySet="Orders" />
       <End Role="FoodItem" EntitySet="FoodItems" />
     </AssociationSet>
+    <AssociationSet Name="FK_ServerTable1" Association="RestaurantManagement.DBModel.FK_ServerTable1">
+      <End Role="Users_Server" EntitySet="Users_Server" />
+      <End Role="Table" EntitySet="Tables" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Timesheet">
     <Key>
@@ -302,5 +283,9 @@
   <Association Name="OrderFoodItem">
     <End Type="RestaurantManagement.DBModel.Order" Role="Order" Multiplicity="*" />
     <End Type="RestaurantManagement.DBModel.FoodItem" Role="FoodItem" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_ServerTable1">
+    <End Type="RestaurantManagement.DBModel.Users_Server" Role="Users_Server" Multiplicity="0..1" />
+    <End Type="RestaurantManagement.DBModel.Table" Role="Table" Multiplicity="*" />
   </Association>
 </Schema>

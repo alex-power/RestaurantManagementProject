@@ -12,12 +12,11 @@ namespace RestaurantManagementProject
     using System;
     using System.Collections.Generic;
     
-    public partial class Timesheet
+    public partial class Image
     {
         public int Id { get; set; }
-        public System.DateTime TimeIn { get; set; }
-        public Nullable<System.DateTime> TimeOut { get; set; }
+        public byte[] Image1 { get; set; }
     
-        public virtual Users_Employee Users_Employee { get; set; }
+        public virtual FoodItem FoodItem { get; set; }
     }
 }

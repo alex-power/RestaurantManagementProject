@@ -24,6 +24,7 @@ namespace RestaurantManagementProject.Controllers
             return View(new InputOrderViewModel(tableID));
         }
 
+
         [HttpPost]
         public ActionResult InputOrder(List<FoodItem> foodItems, int tableID)
         {
@@ -31,7 +32,7 @@ namespace RestaurantManagementProject.Controllers
             o.State = "Open";
             o.Table = db.Tables.FirstOrDefault(x=> x.Id == tableID);
             o.FoodItems = foodItems;
-
+            
             return RedirectToAction("TableStatus", "Server");
         }
 

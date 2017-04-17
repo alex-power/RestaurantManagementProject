@@ -15,8 +15,8 @@ SET NUMERIC_ROUNDABORT OFF;
 GO
 :setvar DatabaseName "RestaurantManagementProject.DB"
 :setvar DefaultFilePrefix "RestaurantManagementProject.DB"
-:setvar DefaultDataPath "C:\Users\Kelton\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
-:setvar DefaultLogPath "C:\Users\Kelton\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultDataPath "C:\Users\Alexstrasza\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
+:setvar DefaultLogPath "C:\Users\Alexstrasza\AppData\Local\Microsoft\VisualStudio\SSDT\RestaurantManagementProject"
 
 GO
 :on error exit
@@ -41,37 +41,6 @@ IF EXISTS (SELECT 1
            WHERE  [name] = N'$(DatabaseName)')
     BEGIN
         ALTER DATABASE [$(DatabaseName)]
-            SET ARITHABORT ON,
-                CONCAT_NULL_YIELDS_NULL ON,
-                CURSOR_DEFAULT LOCAL 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
-            SET PAGE_VERIFY NONE,
-                DISABLE_BROKER 
-            WITH ROLLBACK IMMEDIATE;
-    END
-
-
-GO
-ALTER DATABASE [$(DatabaseName)]
-    SET TARGET_RECOVERY_TIME = 0 SECONDS 
-    WITH ROLLBACK IMMEDIATE;
-
-
-GO
-IF EXISTS (SELECT 1
-           FROM   [master].[dbo].[sysdatabases]
-           WHERE  [name] = N'$(DatabaseName)')
-    BEGIN
-        ALTER DATABASE [$(DatabaseName)]
             SET QUERY_STORE (CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 367)) 
             WITH ROLLBACK IMMEDIATE;
     END
@@ -79,6 +48,39 @@ IF EXISTS (SELECT 1
 
 GO
 USE [$(DatabaseName)];
+
+
+GO
+PRINT N'Creating [dbo].[Images]...';
+
+
+GO
+CREATE TABLE [dbo].[Images] (
+    [Id]    INT             NOT NULL,
+    [Image] VARBINARY (MAX) NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+PRINT N'Creating [dbo].[FK_FoodItems]...';
+
+
+GO
+ALTER TABLE [dbo].[Images] WITH NOCHECK
+    ADD CONSTRAINT [FK_FoodItems] FOREIGN KEY ([Id]) REFERENCES [dbo].[FoodItems] ([Id]);
+
+
+GO
+PRINT N'Checking existing data against newly created constraints';
+
+
+GO
+USE [$(DatabaseName)];
+
+
+GO
+ALTER TABLE [dbo].[Images] WITH CHECK CHECK CONSTRAINT [FK_FoodItems];
 
 
 GO
