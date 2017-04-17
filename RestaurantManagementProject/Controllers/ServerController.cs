@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class ServerController : Controller
+    public class ServerController : BaseController
     {
         Entities db = new Entities();
 
@@ -18,6 +18,11 @@ namespace RestaurantManagementProject.Controllers
             return View(new TableStatusViewModel(db.Tables.ToList()));
         }
 
+        public ActionResult Menu()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult InputOrder(int tableID)
         {
@@ -26,14 +31,65 @@ namespace RestaurantManagementProject.Controllers
 
 
         [HttpPost]
-        public ActionResult InputOrder(List<FoodItem> foodItems, int tableID)
+        public ActionResult InputOrder(List<FoodItem> foodItems,
+            int tableID)
         {
             Order o = new Order();
             o.State = "Open";
             o.Table = db.Tables.FirstOrDefault(x=> x.Id == tableID);
             o.FoodItems = foodItems;
-            
+
+            decimal price = 0;
+            foreach(FoodItem item in o.FoodItems)
+                price += item.Price;
+            o.TotalPrice = price.ToString();
+            o.TimeCreated = DateTime.Now;
+
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+
             return RedirectToAction("TableStatus", "Server");
+        }
+
+
+        [HttpPost]
+        public ActionResult CashoutCustomer(List<int> orderIds)
+        {
+            foreach (int id in orderIds)
+            {
+                Order o = db.Orders.FirstOrDefault(x => x.Id == id);
+                o.TimeCompleted = DateTime.Now;
+            }
+
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+
+            return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult UpdateTable(int tableId, string status)
+        {
+            Table table = db.Tables.FirstOrDefault(x => x.Id == tableId);
+            table.TableStatus = status;
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+
+
+            return View();
         }
 
     }

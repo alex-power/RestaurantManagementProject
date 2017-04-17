@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace CollegeEventWebsite.Auth
+namespace RestaurantManagementProject.Auth
 {
     public abstract class BaseViewPage : WebViewPage
     {

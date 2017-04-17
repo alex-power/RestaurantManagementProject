@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class CustomersController : Controller
+    public class CustomersController : BaseController
     {
         private Entities db = new Entities();
         
@@ -40,7 +40,7 @@ namespace RestaurantManagementProject.Controllers
 
         public ActionResult Home()
         {
-            return View(db.Restaurants.FirstOrDefault());
+            return View();
         }
 
         public ActionResult LeaveReview()
@@ -64,5 +64,6 @@ namespace RestaurantManagementProject.Controllers
 
             return View();
         }
+
     }
 }

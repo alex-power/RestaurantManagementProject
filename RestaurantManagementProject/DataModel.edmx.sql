@@ -50,6 +50,12 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
 GO
+IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_Order]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_Order];
+GO
+IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_FoodItem]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_FoodItem];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables

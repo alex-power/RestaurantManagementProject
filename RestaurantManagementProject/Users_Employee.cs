@@ -20,8 +20,7 @@ namespace RestaurantManagementProject
             this.WorkSchedules = new HashSet<WorkSchedule>();
         }
     
-        public string Availability { get; set; }
-        public int HoursPerWeek { get; set; }
+        public Nullable<int> HoursPerWeek { get; set; }
         public Nullable<decimal> PayRate { get; set; }
         public Nullable<decimal> Salary { get; set; }
         public int Id { get; set; }

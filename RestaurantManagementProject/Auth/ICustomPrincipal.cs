@@ -5,7 +5,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollegeEventWebsite.Auth
+namespace RestaurantManagementProject.Auth
 {
     public interface ICustomPrincipal : IPrincipal
     {

@@ -7,11 +7,14 @@ namespace RestaurantManagementProject.Models.Kitchen
 {
     public class KitchenViewModel
     {
-        public List<Order> Orders;
+        public List<Order> OpenOrders;
 
-        public KitchenViewModel(List<Order> orders)
+        public List<Order> ReadyOrders;
+
+        public KitchenViewModel(List<Order> openOrders, List<Order> readyOrders)
         {
-            Orders = orders;
+            OpenOrders = openOrders;
+            ReadyOrders = readyOrders;
         }
 
     }

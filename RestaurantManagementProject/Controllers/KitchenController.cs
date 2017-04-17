@@ -8,7 +8,7 @@ using RestaurantManagementProject.Models.Kitchen;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class KitchenController : Controller
+    public class KitchenController : BaseController
     {
 
         private Entities db = new Entities();
@@ -20,21 +20,30 @@ namespace RestaurantManagementProject.Controllers
             // Open = posted by server
             // Ready = ready to be picked up by server
             // Complete = delivered
-            KitchenViewModel model = new KitchenViewModel(db.Orders.Where(x => !x.State.Equals("Complete")).ToList());
+            var orders = db.Orders.Where(x => x.State.Equals("Open"));
+            List<Order> orderList = new List<Order>(orders);
+
+            var readyOrders = db.Orders.Where(x => x.State.Equals("Ready"));
+            List<Order> readyOrdersList = new List<Order>(readyOrders);
 
 
-                
-            return View(model);
+            return View(new KitchenViewModel(orderList, readyOrdersList));
         }
 
         /*
          *          MarkOrderReady
          *          Sets the order with that Id as ready.
          */
+        [HttpPost]
         public ActionResult MarkOrderReady(int orderId)
         {
             Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
+            if (order == null)
+                return RedirectToAction("Index");
+
+            
             order.State = "Ready";
+            order.TimeCompleted = DateTime.Now;
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();
@@ -43,23 +52,26 @@ namespace RestaurantManagementProject.Controllers
             db.Database.Connection.Close();
 
             // update the view models
-            return Index();
+            return RedirectToAction("Index");
         }
 
         /*
          *          RecallOrder
          *          Sets the order with that Id from ready to open
          */
+        [HttpPost]
         public ActionResult RecallOrder(int orderId)
         {
             Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
+            if (order == null)
+                return RedirectToAction("Index");
 
             // potentially here we could spout an error message if the order is completed
             if (order.State.Equals("Ready"))
                 order.State = "Open";
             else
-                return Index();
-            
+                return RedirectToAction("Index");
+
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();
@@ -67,7 +79,7 @@ namespace RestaurantManagementProject.Controllers
             db.SaveChanges();
             db.Database.Connection.Close();
 
-            return Index();
+            return RedirectToAction("Index");
         }
 
 

@@ -777,7 +777,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Users_Employee)">
         <MappingFragment StoreEntitySet="Users_Employee">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Availability" ColumnName="Availability" />
           <ScalarProperty Name="HoursPerWeek" ColumnName="HoursPerWeek" />
           <ScalarProperty Name="PayRate" ColumnName="PayRate" />
           <ScalarProperty Name="Salary" ColumnName="Salary" />

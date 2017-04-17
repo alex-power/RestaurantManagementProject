@@ -1,4 +1,4 @@
-﻿using CollegeEventWebsite.Auth;
+﻿using RestaurantManagementProject.Auth;
 using RestaurantManagementProject.Models.Account;
 using System;
 using System.Collections.Generic;
@@ -10,18 +10,18 @@ using System.Web.Security;
 
 namespace RestaurantManagementProject.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private Entities db = new Entities();
 
         // GET: Account
-        public ActionResult Login()
+        public ActionResult EmployeeLogin()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(string username, string password)
+        public ActionResult EmployeeLogin(string username, string password)
         {
             User user = db.Users.FirstOrDefault(x => x.Username == username);
             
