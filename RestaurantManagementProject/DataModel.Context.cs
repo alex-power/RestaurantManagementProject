@@ -32,7 +32,6 @@ namespace RestaurantManagementProject
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<Table> Tables { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Users_Customer> Users_Customer { get; set; }
         public virtual DbSet<Users_Employee> Users_Employee { get; set; }
         public virtual DbSet<Users_Kitchen> Users_Kitchen { get; set; }
         public virtual DbSet<Users_Manager> Users_Manager { get; set; }

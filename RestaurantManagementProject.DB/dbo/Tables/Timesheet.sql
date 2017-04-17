@@ -1,7 +1,14 @@
-﻿CREATE TABLE [dbo].[Timesheets] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [TimeIn] datetime  NOT NULL,
-    [TimeOut] datetime  NULL,
-    [Users_Employee_Id] int  NOT NULL
-	 CONSTRAINT [FK_Timesheet_Employee] FOREIGN KEY ([Id]) REFERENCES [dbo].[Users_Employee] ([Id])
+﻿CREATE TABLE [dbo].[Timesheet] (
+    [Id]                INT      IDENTITY (1, 1) NOT NULL,
+    [TimeIn]            DATETIME NOT NULL,
+    [TimeOut]           DATETIME NOT NULL,
+    [Users_Employee_Id] INT      NOT NULL,
+    CONSTRAINT [PK_Timesheet] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_TimesheetUsers_Employee] FOREIGN KEY ([Users_Employee_Id]) REFERENCES [dbo].[Users_Employee] ([Id])
 );
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_FK_TimesheetUsers_Employee]
+    ON [dbo].[Timesheet]([Users_Employee_Id] ASC);
+

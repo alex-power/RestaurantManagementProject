@@ -125,6 +125,9 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\TestData.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <Build Include="dbo\Tables\FoodItems.sql" />
     <Build Include="dbo\Tables\Orders.sql" />
     <Build Include="dbo\Tables\Reservations.sql" />
@@ -132,17 +135,13 @@
     <Build Include="dbo\Tables\Reviews.sql" />
     <Build Include="dbo\Tables\Tables.sql" />
     <Build Include="dbo\Tables\Users.sql" />
-    <Build Include="dbo\Tables\Users_Customer.sql" />
     <Build Include="dbo\Tables\Users_Employee.sql" />
     <Build Include="dbo\Tables\Users_Kitchen.sql" />
     <Build Include="dbo\Tables\Users_Manager.sql" />
     <Build Include="dbo\Tables\Users_Server.sql" />
     <Build Include="dbo\Tables\WorkSchedules.sql" />
-    <Build Include="dbo\Tables\OrderFoodItem.sql" />
     <Build Include="dbo\Tables\Images.sql" />
     <Build Include="dbo\Tables\Timesheet.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Scripts\TestData.sql" />
+    <Build Include="dbo\Tables\OrderFoodItem.sql" />
   </ItemGroup>
 </Project>

@@ -375,9 +375,6 @@
     <Compile Include="User.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Users_Customer.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Users_Employee.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
