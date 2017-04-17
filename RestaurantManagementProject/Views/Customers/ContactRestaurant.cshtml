@@ -68,27 +68,25 @@
         </div>
     </nav>
 -->
-    <div class="container">
-        Address: 12154 brown ave<br>
-        Phone number: (222) 222 - 2222
+    <div class="row">
+        <div class="col-xs-8">
+            <br />
+            <img src="../../Content/image/map.jpg" height="350" class="img-rounded" alt="">
+        </div>
+        <div class="col-xs-4">
+            <br />
+            <br />
+            Address: 1400 North 11th Avenue<br>
+            Phone number: (222) 222 - 2222<br /><br />
+            Manager: Steve Jones<br />
+            Email: SteveJones@Restaurant.com<br /><br />
+            Owner: Michael Labozzi<br />
+            Email:MLabozzi@Restaurant.com
+
+        </div>
     </div>
-    <div id="googleMap" style="height:400px;width:100%;"></div>
 
 </body>
-
-<script>
-
-	function myMap() {
-	var mapProp= {
-		center:new google.maps.LatLng(51.508742,-0.120850),
-		zoom:5,
-	};
-	var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-	}
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNiH-Jr9fLBqmVRgXyLp_LKCkoHsELK2c&callback=myMap"></script>
-
 
 
 </html>

@@ -1,6 +1,11 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <link href="ha-datetimepicker.min.css" rel="stylesheet" />
+    
+    <link href="ha-datetimepicker/ha-datetimepicker.min.css" rel="stylesheet" />
+
     <!-- Comments -->
     <title>restaurant</title>
     <!-- ADD LOGO-->
@@ -50,6 +55,8 @@
 </style>
 
 <body>
+
+
 <!--
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -71,6 +78,7 @@
     <div class="container">
         <h2>Leave Review</h2>
         <form>
+            <input type="text" id="datetime" placeholder="Select a date and time" data-ha-datetimepicker="#datetime" />
             <div class="row">
                 <div class="col-xs-3">
                     <label for="user">Name</label>
@@ -89,6 +97,6 @@
 
 </body>
 
-
+<script type="text/javascript" src="ha-datetimepicker.min.js" />
 
 </html>
