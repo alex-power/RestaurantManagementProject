@@ -40,7 +40,7 @@ namespace RestaurantManagementProject.Controllers
 
         public ActionResult Home()
         {
-            return View(db.Restaurants.FirstOrDefault());
+            return View();
         }
 
         public ActionResult LeaveReview()
