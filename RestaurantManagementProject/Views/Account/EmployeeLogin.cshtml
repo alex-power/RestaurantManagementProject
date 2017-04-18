@@ -79,10 +79,11 @@
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Enter password">
             </div>
-            <div class="checkbox">
-                <label><input type="checkbox"> Remember me</label>
-            </div>
-            <a href="server.html" class="btn btn-info" role="button">Submit</a>
+            @Html.ActionLink("Submit", "TableStatus", "Server", new { area = "" }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Register", "Register", "Account", new { area = "" }, new { @class = "btn btn-info" })
+            <!--<a href="server.html" class="btn btn-info" role="button">Submit</a>
+            <a href="Register.html" class="btn btn-info" role="button">Register</a>
+            -->
         </form>
     </div>
 

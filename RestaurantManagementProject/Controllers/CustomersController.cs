@@ -25,6 +25,11 @@ namespace RestaurantManagementProject.Controllers
             return View();
         }
 
+        public ActionResult ViewMenu()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult CreateReservation(DateTime time, string note)
         {

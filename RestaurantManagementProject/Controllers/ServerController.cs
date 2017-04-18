@@ -23,10 +23,16 @@ namespace RestaurantManagementProject.Controllers
             return View();
         }
 
+        public ActionResult TableStatus()
+        {
+            return View();
+        }
+
         [HttpGet]
         public ActionResult InputOrder(int tableID)
         {
-            return View(new InputOrderViewModel(tableID));
+            return View();
+            //return View(new InputOrderViewModel(tableID));
         }
 
 

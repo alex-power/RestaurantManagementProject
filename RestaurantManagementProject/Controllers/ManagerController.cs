@@ -12,6 +12,11 @@ namespace RestaurantManagementProject.Controllers
 
         private Entities db = new Entities();
 
+        public ActionResult ManagerView()
+        {
+            return View();
+        }
+
         // GET: Manager
         public ActionResult Index()
         {
