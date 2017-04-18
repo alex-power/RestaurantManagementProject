@@ -1,0 +1,49 @@
+Menu - customer
+- Upload a pdf of a menu from different restuarant
+
+Tables View
+- List of tables, hostess can change the status of the tables and which server is assigned
+- ServerController
+- Should only show dropdown of SERVERS, not kitchen
+
+Select Food - server
+- List of all food items, server will select which table, then select 'add' by each food item 
+to put in the order.  
+- Back-end logic has to add all the prices of the food into the order, among other things.
+FoodItems -> OrderFoodItem -> Orders
+- ServerController
+- Make it so they can order from mobile potentially (So the list collapses into two columns of just blocks of the food name).
+
+
+Clockin/Clockout view
+- TimeSheet table
+- EmployeeController
+
+
+Manager View to see hours worked for employees (priority 2)
+- Simple list of employees and the hours they worked that week.
+- Can click on employee and slidedown menu shows times clocked-in/out
+
+Manager View to see list of employees
+- Can promote them to manager
+- Can change role between server & kitchen
+
+
+View Orders
+- a view for the kitchen to seea list of orders placed, can change order state to 'completed'
+- can order view by order state, so servers can see completed and kitchen can see 'submitted'
+- can change state to 'delivered' and will remove from db
+
+Employee Login
+- Delete remember me button
+
+Create an employee register page
+- One exists, but still make sure it works
+- Set as either kitchen or server
+
+
+
+
+
+
+

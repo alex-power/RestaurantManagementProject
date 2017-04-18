@@ -21,7 +21,7 @@ namespace RestaurantManagementProject
             this.Timesheets = new HashSet<Timesheet>();
         }
     
-        public Nullable<int> HoursPerWeek { get; set; }
+        public int HoursPerWeek { get; set; }
         public Nullable<decimal> PayRate { get; set; }
         public Nullable<decimal> Salary { get; set; }
         public int Id { get; set; }

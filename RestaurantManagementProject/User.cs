@@ -21,7 +21,6 @@ namespace RestaurantManagementProject
         public string Name { get; set; }
         public System.DateTime CreationDate { get; set; }
     
-        public virtual Users_Customer Users_Customer { get; set; }
         public virtual Users_Employee Users_Employee { get; set; }
     }
 }

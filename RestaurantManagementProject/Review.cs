@@ -19,7 +19,6 @@ namespace RestaurantManagementProject
         public System.DateTime DateOfVisit { get; set; }
         public System.DateTime DateOfPost { get; set; }
         public int Rating { get; set; }
-    
-        public virtual Users_Customer Users_Customer { get; set; }
+        public string CustomerName { get; set; }
     }
 }

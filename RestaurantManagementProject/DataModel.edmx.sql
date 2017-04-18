@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/15/2017 12:27:03
+-- Date Created: 04/17/2017 15:22:22
 -- Generated from EDMX file: C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
@@ -20,17 +20,8 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Tables]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Orders] DROP CONSTRAINT [FK_Tables];
 GO
-IF OBJECT_ID(N'[dbo].[FK_ReservationCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reservations] DROP CONSTRAINT [FK_ReservationCustomer];
-GO
-IF OBJECT_ID(N'[dbo].[FK_ReviewCustomer]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Reviews] DROP CONSTRAINT [FK_ReviewCustomer];
-GO
 IF OBJECT_ID(N'[dbo].[FK_ServerTable]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Tables] DROP CONSTRAINT [FK_ServerTable];
-GO
-IF OBJECT_ID(N'[dbo].[FK_Customer_inherits_User]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Users_Customer] DROP CONSTRAINT [FK_Customer_inherits_User];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Employee_inherits_User]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Employee] DROP CONSTRAINT [FK_Employee_inherits_User];
@@ -47,14 +38,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Server_inherits_Employee]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Users_Server] DROP CONSTRAINT [FK_Server_inherits_Employee];
 GO
-IF OBJECT_ID(N'[dbo].[FK_TimesheetUsers_Employee]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[Timesheets] DROP CONSTRAINT [FK_TimesheetUsers_Employee];
-GO
 IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_Order]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_Order];
 GO
 IF OBJECT_ID(N'[dbo].[FK_OrderFoodItem_FoodItem]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[OrderFoodItem] DROP CONSTRAINT [FK_OrderFoodItem_FoodItem];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FoodItems]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Images] DROP CONSTRAINT [FK_FoodItems];
+GO
+IF OBJECT_ID(N'[dbo].[FK_TimesheetUsers_Employee]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Timesheet] DROP CONSTRAINT [FK_TimesheetUsers_Employee];
 GO
 
 -- --------------------------------------------------
@@ -82,9 +76,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Users]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users];
 GO
-IF OBJECT_ID(N'[dbo].[Users_Customer]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Users_Customer];
-GO
 IF OBJECT_ID(N'[dbo].[Users_Employee]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Users_Employee];
 GO
@@ -100,8 +91,11 @@ GO
 IF OBJECT_ID(N'[dbo].[WorkSchedules]', 'U') IS NOT NULL
     DROP TABLE [dbo].[WorkSchedules];
 GO
-IF OBJECT_ID(N'[dbo].[Timesheets]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Timesheets];
+IF OBJECT_ID(N'[dbo].[Images]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Images];
+GO
+IF OBJECT_ID(N'[dbo].[Timesheet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Timesheet];
 GO
 IF OBJECT_ID(N'[dbo].[OrderFoodItem]', 'U') IS NOT NULL
     DROP TABLE [dbo].[OrderFoodItem];
@@ -137,7 +131,7 @@ CREATE TABLE [dbo].[Reservations] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] datetime  NOT NULL,
     [Note] nvarchar(max)  NOT NULL,
-    [Users_Customer_Id] int  NOT NULL
+    [CustomerName] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -157,7 +151,7 @@ CREATE TABLE [dbo].[Reviews] (
     [DateOfVisit] datetime  NOT NULL,
     [DateOfPost] datetime  NOT NULL,
     [Rating] int  NOT NULL,
-    [Users_Customer_Id] int  NOT NULL
+    [CustomerName] nvarchar(max)  NOT NULL
 );
 GO
 
@@ -166,7 +160,7 @@ CREATE TABLE [dbo].[Tables] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Seats] int  NOT NULL,
     [TableStatus] nvarchar(max)  NOT NULL,
-    [Users_Server_Id] int  NOT NULL
+    [Users_Server_Id] int  NULL
 );
 GO
 
@@ -181,15 +175,8 @@ CREATE TABLE [dbo].[Users] (
 );
 GO
 
--- Creating table 'Users_Customer'
-CREATE TABLE [dbo].[Users_Customer] (
-    [Id] int  NOT NULL
-);
-GO
-
 -- Creating table 'Users_Employee'
 CREATE TABLE [dbo].[Users_Employee] (
-    [Availability] nvarchar(max)  NOT NULL,
     [HoursPerWeek] int  NOT NULL,
     [PayRate] decimal(18,0)  NULL,
     [Salary] decimal(18,0)  NULL,
@@ -227,11 +214,18 @@ CREATE TABLE [dbo].[WorkSchedules] (
 );
 GO
 
--- Creating table 'Timesheets'
-CREATE TABLE [dbo].[Timesheets] (
+-- Creating table 'Images'
+CREATE TABLE [dbo].[Images] (
+    [Id] int  NOT NULL,
+    [Image1] varbinary(max)  NOT NULL
+);
+GO
+
+-- Creating table 'Timesheet'
+CREATE TABLE [dbo].[Timesheet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [TimeIn] datetime  NOT NULL,
-    [TimeOut] datetime  NULL,
+    [TimeOut] datetime  NOT NULL,
     [Users_Employee_Id] int  NOT NULL
 );
 GO
@@ -289,12 +283,6 @@ ADD CONSTRAINT [PK_Users]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Users_Customer'
-ALTER TABLE [dbo].[Users_Customer]
-ADD CONSTRAINT [PK_Users_Customer]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
 -- Creating primary key on [Id] in table 'Users_Employee'
 ALTER TABLE [dbo].[Users_Employee]
 ADD CONSTRAINT [PK_Users_Employee]
@@ -325,9 +313,15 @@ ADD CONSTRAINT [PK_WorkSchedules]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'Timesheets'
-ALTER TABLE [dbo].[Timesheets]
-ADD CONSTRAINT [PK_Timesheets]
+-- Creating primary key on [Id] in table 'Images'
+ALTER TABLE [dbo].[Images]
+ADD CONSTRAINT [PK_Images]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Timesheet'
+ALTER TABLE [dbo].[Timesheet]
+ADD CONSTRAINT [PK_Timesheet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -356,36 +350,6 @@ ON [dbo].[Orders]
     ([Table_Id]);
 GO
 
--- Creating foreign key on [Users_Customer_Id] in table 'Reservations'
-ALTER TABLE [dbo].[Reservations]
-ADD CONSTRAINT [FK_ReservationCustomer]
-    FOREIGN KEY ([Users_Customer_Id])
-    REFERENCES [dbo].[Users_Customer]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReservationCustomer'
-CREATE INDEX [IX_FK_ReservationCustomer]
-ON [dbo].[Reservations]
-    ([Users_Customer_Id]);
-GO
-
--- Creating foreign key on [Users_Customer_Id] in table 'Reviews'
-ALTER TABLE [dbo].[Reviews]
-ADD CONSTRAINT [FK_ReviewCustomer]
-    FOREIGN KEY ([Users_Customer_Id])
-    REFERENCES [dbo].[Users_Customer]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_ReviewCustomer'
-CREATE INDEX [IX_FK_ReviewCustomer]
-ON [dbo].[Reviews]
-    ([Users_Customer_Id]);
-GO
-
 -- Creating foreign key on [Users_Server_Id] in table 'Tables'
 ALTER TABLE [dbo].[Tables]
 ADD CONSTRAINT [FK_ServerTable]
@@ -399,15 +363,6 @@ GO
 CREATE INDEX [IX_FK_ServerTable]
 ON [dbo].[Tables]
     ([Users_Server_Id]);
-GO
-
--- Creating foreign key on [Id] in table 'Users_Customer'
-ALTER TABLE [dbo].[Users_Customer]
-ADD CONSTRAINT [FK_Customer_inherits_User]
-    FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Users]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating foreign key on [Id] in table 'Users_Employee'
@@ -461,21 +416,6 @@ ADD CONSTRAINT [FK_Server_inherits_Employee]
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating foreign key on [Users_Employee_Id] in table 'Timesheets'
-ALTER TABLE [dbo].[Timesheets]
-ADD CONSTRAINT [FK_TimesheetUsers_Employee]
-    FOREIGN KEY ([Users_Employee_Id])
-    REFERENCES [dbo].[Users_Employee]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_TimesheetUsers_Employee'
-CREATE INDEX [IX_FK_TimesheetUsers_Employee]
-ON [dbo].[Timesheets]
-    ([Users_Employee_Id]);
-GO
-
 -- Creating foreign key on [Orders_Id] in table 'OrderFoodItem'
 ALTER TABLE [dbo].[OrderFoodItem]
 ADD CONSTRAINT [FK_OrderFoodItem_Order]
@@ -498,6 +438,30 @@ GO
 CREATE INDEX [IX_FK_OrderFoodItem_FoodItem]
 ON [dbo].[OrderFoodItem]
     ([FoodItems_Id]);
+GO
+
+-- Creating foreign key on [Id] in table 'Images'
+ALTER TABLE [dbo].[Images]
+ADD CONSTRAINT [FK_FoodItems]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[FoodItems]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Users_Employee_Id] in table 'Timesheet'
+ALTER TABLE [dbo].[Timesheet]
+ADD CONSTRAINT [FK_TimesheetUsers_Employee]
+    FOREIGN KEY ([Users_Employee_Id])
+    REFERENCES [dbo].[Users_Employee]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_TimesheetUsers_Employee'
+CREATE INDEX [IX_FK_TimesheetUsers_Employee]
+ON [dbo].[Timesheet]
+    ([Users_Employee_Id]);
 GO
 
 -- --------------------------------------------------

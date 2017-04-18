@@ -388,6 +388,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Image.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\Employee\EmployeeViewModel.cs" />
     <Compile Include="Models\Manager\ManagerViewModel.cs" />
@@ -414,9 +417,6 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="User.cs">
-      <DependentUpon>DataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Users_Customer.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Users_Employee.cs">

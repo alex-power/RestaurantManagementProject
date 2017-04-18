@@ -5,32 +5,30 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="cb36adef4bf648cf9073641434142bac" Name="Diagram1" ZoomLevel="80">
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.FoodItem" Width="1.5" PointX="8.875" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Order" Width="1.5" PointX="9.75" PointY="11.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Reservation" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Restaurant" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Review" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Table" Width="1.5" PointX="7.5" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.User" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Customer" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Employee" Width="1.5" PointX="3" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Kitchen" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Manager" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Server" Width="1.5" PointX="5.25" PointY="11.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.WorkSchedule" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_ReservationCustomer" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_ReviewCustomer" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_ServerTable" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Customer_inherits_User" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Employee_inherits_User" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_EmployeeWorkSchedule" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Kitchen_inherits_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Manager_inherits_Employee" ManuallyRouted="false" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Server_inherits_Employee" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Timesheet" Width="1.5" PointX="8.875" PointY="4.5" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.TimesheetUsers_Employee" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.FoodItem" Width="1.5" PointX="9.625" PointY="11.375" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Order" Width="1.5" PointX="9.75" PointY="14.25" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Reservation" Width="1.5" PointX="5.25" PointY="4.5" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Restaurant" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Review" Width="1.5" PointX="5.25" PointY="1.625" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Table" Width="1.5" PointX="7.5" PointY="14.5" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.User" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Employee" Width="1.5" PointX="3" PointY="10.375" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Kitchen" Width="1.5" PointX="5.25" PointY="9.75" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Manager" Width="1.5" PointX="5.25" PointY="12.125" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Users_Server" Width="1.5" PointX="5.25" PointY="14.5" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.WorkSchedule" Width="1.5" PointX="5.25" PointY="7" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Tables" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_ServerTable" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Employee_inherits_User" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_EmployeeWorkSchedule" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Kitchen_inherits_Employee" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Manager_inherits_Employee" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_Server_inherits_Employee" />
         <AssociationConnector Association="RestaurantManagement.DBModel.OrderFoodItem" />
-        <AssociationConnector Association="RestaurantManagement.DBModel.TableOrder" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Image" Width="1.5" PointX="11.875" PointY="11.625" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.FK_FoodItems" />
+        <EntityTypeShape EntityType="RestaurantManagement.DBModel.Timesheet" Width="1.5" PointX="9.625" PointY="8.5" />
+        <AssociationConnector Association="RestaurantManagement.DBModel.TimesheetUsers_Employee" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

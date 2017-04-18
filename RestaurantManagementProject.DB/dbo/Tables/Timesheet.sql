@@ -3,7 +3,8 @@
     [TimeIn]            DATETIME NOT NULL,
     [TimeOut]           DATETIME NOT NULL,
     [Users_Employee_Id] INT      NOT NULL,
-    CONSTRAINT [PK_Timesheet] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_Timesheet] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_TimesheetUsers_Employee] FOREIGN KEY ([Users_Employee_Id]) REFERENCES [dbo].[Users_Employee] ([Id])
 );
 
 
