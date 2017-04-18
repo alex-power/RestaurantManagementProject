@@ -18,6 +18,13 @@
     <script src="bootstrap/jquery.js"></script>
     <script src="bootstrap/bootstrap.js"></script>
 
+    <!-- jQuery UI CSS Reference -->
+    <link href="@Url.Content("~/Content/themes/base/minified/jquery-ui.min.css")" rel="stylesheet" />
+    <!-- Required jQuery and jQuery UI Javascript references -->
+    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.10.4.min.js")"></script>
+
+
     <!--
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -72,7 +79,11 @@
     <div class="container">
         <h2>Make Reservation</h2>
         <form>
-            <input type="text" id="datetime" placeholder="Select a date and time" data-ha-datetimepicker="#datetime" /><br /><br />
+            <div class="row">
+                <div class="col-xs-3">
+
+                </div>
+            </div>
             <div class="row">
                 <div class="col-xs-3">
                     <label for="user">Name</label>
@@ -101,6 +112,15 @@
 
 </body>
 
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <!-- Code to wire up your DatePicker -->
+    <script type="text/javascript">
+        $(function () {
+            // This will make every element with the class "date-picker" into a DatePicker element
+            $('.date-picker').datepicker();
+        })
+    </script>
+}
 
 </html>
