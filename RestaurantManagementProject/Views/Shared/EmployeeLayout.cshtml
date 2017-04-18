@@ -25,9 +25,11 @@
                 @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <ul class="nav navbar-nav navbar-right">
-                @Html.ActionLink("Server", "TableStatus", "Server", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Kitchen", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ClockIn/Out", "ClockIn", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Tables", "TableStatus", "Server", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Add Order", "InputOrder", "Server", new { area = "" }, new { @class = "navbar-brand" })
             </ul>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav"></ul>
@@ -39,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; Restaurant Management - Copyright 2017</p>
         </footer>
     </div>
 

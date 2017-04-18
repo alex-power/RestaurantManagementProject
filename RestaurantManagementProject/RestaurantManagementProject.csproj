@@ -465,6 +465,7 @@
     <Content Include="Views\Employee\CheckIn.cshtml" />
     <Content Include="Views\Manager\ManagerView.cshtml" />
     <Content Include="Views\Customers\ViewMenu.cshtml" />
+    <Content Include="Views\Manager\ClockIn.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

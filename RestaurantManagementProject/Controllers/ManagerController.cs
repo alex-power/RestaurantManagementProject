@@ -73,9 +73,9 @@ namespace RestaurantManagementProject.Controllers
             return View();
         }
 
-
-        
-
-
+        public ActionResult ClockIn()
+        {
+            return View();
+        }
     }
 }

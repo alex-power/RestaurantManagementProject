@@ -8,7 +8,6 @@
     <EntitySet Name="Reviews" EntityType="RestaurantManagement.DBModel.Store.Reviews" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Tables" EntityType="RestaurantManagement.DBModel.Store.Tables" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users" EntityType="RestaurantManagement.DBModel.Store.Users" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Users_Customer" EntityType="RestaurantManagement.DBModel.Store.Users_Customer" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Employee" EntityType="RestaurantManagement.DBModel.Store.Users_Employee" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Kitchen" EntityType="RestaurantManagement.DBModel.Store.Users_Kitchen" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users_Manager" EntityType="RestaurantManagement.DBModel.Store.Users_Manager" store:Type="Tables" Schema="dbo" />
@@ -21,21 +20,9 @@
       <End Role="Table" EntitySet="Tables" />
       <End Role="Order" EntitySet="Orders" />
     </AssociationSet>
-    <AssociationSet Name="FK_ReservationCustomer" Association="RestaurantManagement.DBModel.Store.FK_ReservationCustomer">
-      <End Role="Users_Customer" EntitySet="Users_Customer" />
-      <End Role="Reservation" EntitySet="Reservations" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ReviewCustomer" Association="RestaurantManagement.DBModel.Store.FK_ReviewCustomer">
-      <End Role="Users_Customer" EntitySet="Users_Customer" />
-      <End Role="Review" EntitySet="Reviews" />
-    </AssociationSet>
     <AssociationSet Name="FK_ServerTable" Association="RestaurantManagement.DBModel.Store.FK_ServerTable">
       <End Role="Users_Server" EntitySet="Users_Server" />
       <End Role="Table" EntitySet="Tables" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Customer_inherits_User" Association="RestaurantManagement.DBModel.Store.FK_Customer_inherits_User">
-      <End Role="User" EntitySet="Users" />
-      <End Role="Users_Customer" EntitySet="Users_Customer" />
     </AssociationSet>
     <AssociationSet Name="FK_Employee_inherits_User" Association="RestaurantManagement.DBModel.Store.FK_Employee_inherits_User">
       <End Role="User" EntitySet="Users" />
@@ -102,7 +89,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="DateTime" Type="datetime" Nullable="false" />
     <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Users_Customer_Id" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Restaurants">
     <Key>
@@ -122,7 +109,7 @@
     <Property Name="DateOfVisit" Type="datetime" Nullable="false" />
     <Property Name="DateOfPost" Type="datetime" Nullable="false" />
     <Property Name="Rating" Type="int" Nullable="false" />
-    <Property Name="Users_Customer_Id" Type="int" Nullable="false" />
+    <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="Tables">
     <Key>
@@ -143,12 +130,6 @@
     <Property Name="Email" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Users_Customer">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Users_Employee">
     <Key>
@@ -201,8 +182,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TimeIn" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TimeOut" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TimeIn" Type="datetime" Nullable="false" />
+    <Property Name="TimeOut" Type="datetime" Nullable="false" />
     <Property Name="Users_Employee_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderFoodItem">
@@ -225,30 +206,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ReservationCustomer">
-    <End Role="Users_Customer" Type="RestaurantManagement.DBModel.Store.Users_Customer" Multiplicity="1" />
-    <End Role="Reservation" Type="RestaurantManagement.DBModel.Store.Reservations" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users_Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Reservation">
-        <PropertyRef Name="Users_Customer_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ReviewCustomer">
-    <End Role="Users_Customer" Type="RestaurantManagement.DBModel.Store.Users_Customer" Multiplicity="1" />
-    <End Role="Review" Type="RestaurantManagement.DBModel.Store.Reviews" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Users_Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Review">
-        <PropertyRef Name="Users_Customer_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ServerTable">
     <End Role="Users_Server" Type="RestaurantManagement.DBModel.Store.Users_Server" Multiplicity="0..1" />
     <End Role="Table" Type="RestaurantManagement.DBModel.Store.Tables" Multiplicity="*" />
@@ -258,20 +215,6 @@
       </Principal>
       <Dependent Role="Table">
         <PropertyRef Name="Users_Server_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Customer_inherits_User">
-    <End Role="User" Type="RestaurantManagement.DBModel.Store.Users" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="Users_Customer" Type="RestaurantManagement.DBModel.Store.Users_Customer" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Users_Customer">
-        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
