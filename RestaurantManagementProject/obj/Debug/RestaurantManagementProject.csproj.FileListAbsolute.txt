@@ -120,7 +120,6 @@ C:\Software\RestaurantManagementProject\RestaurantManagementProject\bin\Newtonso
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\bin\System.Net.Http.Formatting.xml
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\bin\System.Web.Http.xml
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\bin\System.Web.Http.WebHost.xml
-C:\Software\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.csprojResolveAssemblyReference.cache
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.dll
 C:\Software\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.pdb
 d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\obj\Debug\RestaurantManagementProject.csprojResolveAssemblyReference.cache

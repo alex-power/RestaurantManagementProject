@@ -21,3 +21,7 @@ C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug
 C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\bin\Debug\RestaurantManagementProject.DB.pdb
 C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.dll
 C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\RestaurantManagementProject.DB.pdb
+C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\Model.xml
+C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\refactor.xml
+C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\postdeploy.sql
+C:\Software\RestaurantManagementProject\RestaurantManagementProject.DB\obj\Debug\predeploy.sql

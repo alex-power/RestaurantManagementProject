@@ -29,6 +29,7 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="Note" ColumnName="Note" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -50,6 +51,7 @@
           <ScalarProperty Name="DateOfVisit" ColumnName="DateOfVisit" />
           <ScalarProperty Name="DateOfPost" ColumnName="DateOfPost" />
           <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -71,13 +73,6 @@
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Users_Customer">
-      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Users_Customer)">
-        <MappingFragment StoreEntitySet="Users_Customer">
-          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -133,7 +128,7 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Timesheet">
-      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Timesheets)">
+      <EntityTypeMapping TypeName="IsTypeOf(RestaurantManagement.DBModel.Timesheet)">
         <MappingFragment StoreEntitySet="Timesheet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="TimeIn" ColumnName="TimeIn" />
@@ -146,22 +141,6 @@
         <ScalarProperty Name="Id" ColumnName="Table_Id" />
       </EndProperty>
       <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_ReservationCustomer" TypeName="RestaurantManagement.DBModel.FK_ReservationCustomer" StoreEntitySet="Reservations">
-      <EndProperty Name="Users_Customer">
-        <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
-      </EndProperty>
-      <EndProperty Name="Reservation">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="FK_ReviewCustomer" TypeName="RestaurantManagement.DBModel.FK_ReviewCustomer" StoreEntitySet="Reviews">
-      <EndProperty Name="Users_Customer">
-        <ScalarProperty Name="Id" ColumnName="Users_Customer_Id" />
-      </EndProperty>
-      <EndProperty Name="Review">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
