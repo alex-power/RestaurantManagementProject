@@ -35,18 +35,21 @@ namespace RestaurantManagementProject.Controllers
          *          Sets the order with that Id as ready.
          */
         [HttpGet]
-        public ActionResult MarkOrderReady(int orderId)
+        public ActionResult UpdateOrderStatus(int orderId)
         {
             Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
             if (order == null)
                 return RedirectToAction("Index");
 
             if (order.State.Equals("Ready"))
+            {
                 order.State = "Complete";
+                order.TimeCompleted = DateTime.Now;
+            }
             else
                 order.State = "Ready";
 
-            order.TimeCompleted = DateTime.Now;
+            
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();
@@ -62,7 +65,7 @@ namespace RestaurantManagementProject.Controllers
          *          RecallOrder
          *          Sets the order with that Id from ready to open
          */
-        [HttpPost]
+        [HttpGet]
         public ActionResult RecallOrder(int orderId)
         {
             Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);

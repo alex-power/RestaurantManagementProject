@@ -33,7 +33,7 @@
                             <td>@o.Table.Id</td>
                         }
                         <td>
-                            <a class="btn btn-primary" style="" href="@Url.Action("MarkOrderReady", "Kitchen", new { orderId = o.Id })">
+                            <a class="btn btn-primary" style="" href="@Url.Action("UpdateOrderStatus", "Kitchen", new { orderId = o.Id })">
                                 <span class="glyphicon glyphicon-check"></span> Ready
 
                             </a>
@@ -58,6 +58,7 @@
                     <th>Time Created</th>
                     <th>Table ID</th>
                     <th>Mark Complete</th>
+                    <th>Recall</th>
                 </tr>
                 @foreach (Order o in Model.ReadyOrders)
                 {
@@ -69,8 +70,13 @@
                             <td>@o.Table.Id</td>
                         }
                         <td>
-                            <a class="btn btn-primary" style="" href="@Url.Action("MarkOrderReady", "Kitchen", new { orderId = o.Id })">
+                            <a class="btn btn-primary" style="" href="@Url.Action("UpdateOrderStatus", "Kitchen", new { orderId = o.Id })">
                                 <span class="glyphicon glyphicon-check"></span> Complete
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" style="" href="@Url.Action("RecallOrder", "Kitchen", new { orderId = o.Id })">
+                                <span class="glyphicon glyphicon-remove"></span> Recall
                             </a>
                         </td>
                     </tr>
@@ -88,4 +94,4 @@
 
 <p> This should be a table of orders, listing name, price, table, status, etc.</p> </br>
 <p> There will be a button on the right of each order that will allow you to edit the status of the order</p> </br>
-<p>Status can be "Submitted", "Cooked", "Served", "Recall"</p> </br>
+<p>Status can be "Open", "Ready", "Complete"</p> </br>
