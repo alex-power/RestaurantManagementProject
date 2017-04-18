@@ -6,70 +6,81 @@
 
 
 }
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
 
-<h1>Kitchen</h1>
+            <h1>Kitchen</h1>
 
-<table>
-    <th>Open Orders - To Be Completed</th>
-    <!-- Header-->
-    <tr>
-        <th>Id</th>
-        <th>Status</th>
-        <th>TimeCreated</th>
-        <th>Table</th>
-        <th></th>
-    </tr>
-    @foreach (Order o in Model.OpenOrders)
-    {
-        <tr>
-            <td>@o.Id</td>
-            <td>@o.State</td>
-            <td>@o.TimeCreated</td>
-            <!-- <td>o.Table.Id</td>-->
-            <td>Someone fix this</td>
-        </tr>
 
-    }
+            <h3>Open Orders</h3>
+            <table class="table table-striped" title="Open Orders">
 
-</table>
+                <!-- Header-->
+                <tr>
+                    <th>Status</th>
+                    <th>Time Created</th>
+                    <th>Table ID</th>
+                    <th>Mark Ready</th>
+                </tr>
+                @foreach (Order o in Model.OpenOrders)
+                {
+                    <tr>
+                        <td>@o.State</td>
+                        <td>@o.TimeCreated</td>
+                        @if (o.Table != null)
+                        {
+                            <td>@o.Table.Id</td>
+                        }
+                        <td>
+                            <a class="btn btn-primary" style="" href="@Url.Action("MarkOrderReady", "Kitchen", new { orderId = o.Id })">
+                                <span class="glyphicon glyphicon-check"></span> Ready
 
-@using (Html.BeginForm("MarkOrderReady", "Kitchen"))
-{
-    <input type="number" id="ss" name="orderId" value="Enter Id" />
+                            </a>
+                        </td>
+                    </tr>
 
-    <input type="submit" value="Mark Ready" />
-}
+                }
+            </table>
 
-<table>
-    <th>Ready Orders - Waiting for pickup</th>
-    <!-- Header-->
-    <tr>
-        <th>Id</th>
-        <th>Status</th>
-        <th>TimeCreated</th>
-        <th>Table</th>
-        <th></th>
-    </tr>
-    @foreach (Order o in Model.ReadyOrders)
-    {
-        <tr>
-            <td>@o.Id</td>
-            <td>@o.State</td>
-            <td>@o.TimeCreated</td>
-            <!-- <td>o.Table.Id</td>-->
-            <td>Someone fix this</td>
-        </tr>
+            <!--using (Html.BeginForm("MarkOrderReady", "Kitchen"))
+            {
+                <input type="number" id="ss" name="orderId" value="Enter Id" />
 
-    }
-</table>
+                    <input type="submit" value="Mark Ready" />
+            }
+                -->
+            <h3>Ready Orders</h3>
+            <table class="table table-striped" title="Ready Orders">
+                <!-- Header-->
+                <tr>
+                    <th>Status</th>
+                    <th>Time Created</th>
+                    <th>Table ID</th>
+                    <th>Mark Complete</th>
+                </tr>
+                @foreach (Order o in Model.ReadyOrders)
+                {
+                    <tr>
+                        <td>@o.State</td>
+                        <td>@o.TimeCreated</td>
+                        @if (o.Table != null)
+                        {
+                            <td>@o.Table.Id</td>
+                        }
+                        <td>
+                            <a class="btn btn-primary" style="" href="@Url.Action("MarkOrderReady", "Kitchen", new { orderId = o.Id })">
+                                <span class="glyphicon glyphicon-check"></span> Complete
+                            </a>
+                        </td>
+                    </tr>
 
-<!-- CHANGE -->
-@using (Html.BeginForm("RecallOrder", "Kitchen"))
-{
-    <input type="number" id="ss" name="orderId" value="Enter Id" />
+                }
+            </table>
 
-    <input type = "submit" value = "Recall Order" />
-}
+        </div>
+    </div>
+</div>
 
 
 

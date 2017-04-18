@@ -391,6 +391,7 @@
     <Compile Include="Image.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account\LoginViewModel.cs" />
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\Employee\EmployeeViewModel.cs" />
     <Compile Include="Models\Manager\ManagerViewModel.cs" />
@@ -460,9 +461,9 @@
     <Content Include="Views\Customers\CreateReservation.cshtml" />
     <Content Include="Views\Customers\LeaveReview.cshtml" />
     <Content Include="Views\Kitchen\Index.cshtml" />
-    <Content Include="Views\Server\TableStatus.cshtml" />
+    <Content Include="Views\Server\Index.cshtml" />
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
-    <Content Include="Views\Employee\CheckIn.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Manager\ManagerView.cshtml" />
     <Content Include="Views\Customers\ViewMenu.cshtml" />
     <Content Include="Views\Manager\ClockIn.cshtml" />

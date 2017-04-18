@@ -45,7 +45,7 @@ namespace RestaurantManagementProject.Controllers
                 HttpCookie faCookie = new HttpCookie(FormsAuthentication.FormsCookieName, encTicket);
                 Response.Cookies.Add(faCookie);
                 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Kitchen");
             }
         }
 
