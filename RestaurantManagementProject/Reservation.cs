@@ -17,7 +17,6 @@ namespace RestaurantManagementProject
         public int Id { get; set; }
         public System.DateTime DateTime { get; set; }
         public string Note { get; set; }
-    
-        public virtual Users_Customer Users_Customer { get; set; }
+        public string CustomerName { get; set; }
     }
 }
