@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model RestaurantManagementProject.Models.Server.TableStatusViewModel
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Comments -->
@@ -79,14 +82,111 @@
         <h2>Server Page</h2>
         <div class="row">
             <div class="col-xs-4">
-                <p>Occupied Tables:</p>
+                <h3>Occupied Tables:</h3>
+
+                @using (Html.BeginForm("UpdateTable", "Server"))
+                {
+                    <input type="number" name="tableId" value="Enter Id" />
+
+                    <input type="hidden" name="status" value="Ready" />
+
+                    <input type="submit" name="stuff" value="Mark As Ready" />
+                }
+
+
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Seats</th>
+                        <th>Server</th>
+                    </tr>
+                    @foreach (Table t in Model.Tables)
+                    {
+                        if (t.TableStatus.Equals("Occupied"))
+                        {
+                            <tr>
+                                <td>@t.Id</td>
+                                <td>@t.Seats</td>
+                                @if (t.Users_Server != null)
+                                {
+                                    <td>@t.Users_Server.Id</td>
+                                }
+                            </tr>
+
+                        }
+                    }
+
+                </table>
+
+                
+
+
             </div>
             <div class="col-xs-4">
-                <p>Open Tables:</p>
+                <h3>Open Tables:</h3>
+
+
+                <table>
+                    <tr>
+                        <th>Id</th>
+                        <th>Seats</th>
+                        <th>Server</th>
+                    </tr>
+                    @foreach (Table t in Model.Tables)
+                    {
+                        if (t.TableStatus.Equals("Open"))
+                        {
+                            <tr>
+                                <td>@t.Id</td>
+                                <td>@t.Seats</td>
+                                @if (t.Users_Server != null)
+                                {
+                                    <td>@t.Users_Server.Id</td>
+                                }
+                            </tr>
+
+                        }
+                    }
+
+                </table>
+
+
+                
+
+                
             </div><div class="col-xs-4">
-                <p>Needed to be Cleaned:</p>
+                <h3>Needed to be Cleaned:</h3>
+
+                    
+                      <table>
+                          <tr>
+                              <th>Id</th>
+                              <th>Seats</th>
+                              <th>Server</th>
+                          </tr>
+                          @foreach (Table t in Model.Tables)
+                          {
+                              if (t.TableStatus.Equals("Ready"))
+                              {
+                                  <tr>
+                                      <td>@t.Id</td>
+                                      <td>@t.Seats</td>
+                                      
+                                      @if (t.Users_Server != null)
+                                      {
+                                      <td>@t.Users_Server.Id</td>
+                                      }
+                                  </tr>
+  
+                              }
+                          }
+
+                      </table> 
             </div>
         </div>
+
+
+
         <div class="row">
             <div class="col-xs-4">
                 <h3>Change status of table</h3>
