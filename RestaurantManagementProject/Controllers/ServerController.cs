@@ -95,7 +95,7 @@ namespace RestaurantManagementProject.Controllers
             db.Database.Connection.Close();
 
 
-            return View();
+            return RedirectToAction("Index", "Server");
         }
 
     }
