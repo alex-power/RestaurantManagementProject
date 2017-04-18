@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model RestaurantManagementProject.Models.Shared.SharedViewModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -25,7 +26,10 @@
                 @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <ul class="nav navbar-nav navbar-right">
-                @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                @if(User.IsInRole("Manager"))
+                {
+                    @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                }                
                 @Html.ActionLink("ClockIn/Out", "ClockIn", "Manager", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Tables", "TableStatus", "Server", new { area = "" }, new { @class = "navbar-brand" })
                 @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
