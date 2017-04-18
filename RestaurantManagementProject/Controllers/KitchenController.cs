@@ -34,15 +34,18 @@ namespace RestaurantManagementProject.Controllers
          *          MarkOrderReady
          *          Sets the order with that Id as ready.
          */
-        [HttpPost]
+        [HttpGet]
         public ActionResult MarkOrderReady(int orderId)
         {
             Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
             if (order == null)
                 return RedirectToAction("Index");
 
-            
-            order.State = "Ready";
+            if (order.State.Equals("Ready"))
+                order.State = "Complete";
+            else
+                order.State = "Ready";
+
             order.TimeCompleted = DateTime.Now;
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
