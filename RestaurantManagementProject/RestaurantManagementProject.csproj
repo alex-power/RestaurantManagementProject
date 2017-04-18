@@ -460,9 +460,9 @@
     <Content Include="Views\Customers\CreateReservation.cshtml" />
     <Content Include="Views\Customers\LeaveReview.cshtml" />
     <Content Include="Views\Kitchen\Index.cshtml" />
-    <Content Include="Views\Server\TableStatus.cshtml" />
+    <Content Include="Views\Server\Index.cshtml" />
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
-    <Content Include="Views\Employee\CheckIn.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
     <Content Include="Views\Manager\ManagerView.cshtml" />
     <Content Include="Views\Customers\ViewMenu.cshtml" />
     <None Include="Web.Debug.config">

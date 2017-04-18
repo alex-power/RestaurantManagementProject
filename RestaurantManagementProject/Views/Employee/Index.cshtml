@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model  RestaurantManagementProject.Models.Employee.EmployeeViewModel
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Comments -->
@@ -62,6 +65,23 @@
 
 <body>
 
+@using (Html.BeginForm("ClockIn", "Employee"))
+{
+    <input type="submit" value="Clock In" />
+}
+
+
+@using (Html.BeginForm("ClockOut", "Employee"))
+{
+    <input type="submit" value="Clock Out" />
+}
+
+
+    
+    <h1>Clock In Time:  @Model.timesheet.TimeIn </h1>
+    <h1>Clock Out Time: @Model.timesheet.TimeOut</h1>
+    <h1>Total Hours worked: @Model.hoursWorkedTotal</h1>
+    
 
 </body>
 </html>
