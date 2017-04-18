@@ -63,7 +63,7 @@
       <End Role="FoodItem" EntitySet="FoodItems" />
       <End Role="Image" EntitySet="Images" />
     </AssociationSet>
-    <EntitySet Name="Timesheet" EntityType="RestaurantManagement.DBModel.Timesheets" />
+    <EntitySet Name="Timesheet" EntityType="RestaurantManagement.DBModel.Timesheet" />
     <AssociationSet Name="TimesheetUsers_Employee" Association="RestaurantManagement.DBModel.TimesheetUsers_Employee">
       <End Role="Timesheet" EntitySet="Timesheet" />
       <End Role="Users_Employee" EntitySet="Users_Employee" />
@@ -317,17 +317,17 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="Timesheets">
+  <EntityType Name="Timesheet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="TimeIn" Type="String" Nullable="false" />
-    <Property Name="TimeOut" Type="String" Nullable="false" />
+    <Property Name="TimeIn" Type="DateTime" Nullable="false" />
+    <Property Name="TimeOut" Type="DateTime" Nullable="false" />
     <NavigationProperty Name="Users_Employee" Relationship="RestaurantManagement.DBModel.TimesheetUsers_Employee" FromRole="Timesheet" ToRole="Users_Employee" />
   </EntityType>
   <Association Name="TimesheetUsers_Employee">
-    <End Type="RestaurantManagement.DBModel.Timesheets" Role="Timesheet" Multiplicity="*" />
+    <End Type="RestaurantManagement.DBModel.Timesheet" Role="Timesheet" Multiplicity="*" />
     <End Type="RestaurantManagement.DBModel.Users_Employee" Role="Users_Employee" Multiplicity="1" />
   </Association>
 </Schema>

@@ -201,8 +201,8 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="TimeIn" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TimeOut" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TimeIn" Type="datetime" Nullable="false" />
+    <Property Name="TimeOut" Type="datetime" Nullable="false" />
     <Property Name="Users_Employee_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderFoodItem">
