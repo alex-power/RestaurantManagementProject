@@ -398,7 +398,6 @@
     <Compile Include="Models\Server\InputOrderViewModel.cs" />
     <Compile Include="Models\Server\TableStatusViewModel.cs" />
     <Compile Include="Models\Kitchen\KitchenViewModel.cs" />
-    <Compile Include="Models\Shared\SharedViewModel.cs" />
     <Compile Include="Order.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
