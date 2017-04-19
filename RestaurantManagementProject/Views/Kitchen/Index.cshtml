@@ -8,48 +8,45 @@
 }
 <div class="row">
     <div class="col-xs-12">
-        <div class="table-responsive">
-
+        <div class="row">
             <h1>Kitchen</h1>
 
-
             <h3>Open Orders</h3>
-            <table class="table table-striped" title="Open Orders">
+            <div class="row">
+                <div class="col-xs-12">
+                    @foreach (Order o in Model.OpenOrders)
+                    {
+                        <div class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Order for Table @o.Table.Id</h3>
+                                <a class="btn btn-primary pull-right" style="margin-top:-25px" href="@Url.Action("UpdateOrderStatus", "Kitchen", new { orderId = o.Id })">
+                                    <span class="glyphicon glyphicon-check"></span> Ready
+                                </a>
+                            </div>
+                            <div class="panel-body" style="margin-bottom:0px">
+                                <table class="table table-striped" style="margin-bottom:0px; margin-top:-10px">
+                                    <tbody>
+                                        @foreach (FoodItem item in o.FoodItems)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @item.Name
+                                                </td>
+                                                <td> $@item.Price</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
 
-                <!-- Header-->
-                <tr>
-                    <th>Status</th>
-                    <th>Time Created</th>
-                    <th>Table ID</th>
-                    <th>Mark Ready</th>
-                </tr>
-                @foreach (Order o in Model.OpenOrders)
-                {
-                    <tr>
-                        <td>@o.State</td>
-                        <td>@o.TimeCreated</td>
-                        @if (o.Table != null)
-                        {
-                            <td>@o.Table.Id</td>
-                        }
-                        <td>
-                            <a class="btn btn-primary" style="" href="@Url.Action("UpdateOrderStatus", "Kitchen", new { orderId = o.Id })">
-                                <span class="glyphicon glyphicon-check"></span> Ready
+                            </div>
+                        </div>
 
-                            </a>
-                        </td>
-                    </tr>
+                    }
+                </div>
+            </div>
 
-                }
-            </table>
 
-            <!--using (Html.BeginForm("MarkOrderReady", "Kitchen"))
-            {
-                <input type="number" id="ss" name="orderId" value="Enter Id" />
 
-                    <input type="submit" value="Mark Ready" />
-            }
-                -->
             <h3>Ready Orders</h3>
             <table class="table table-striped" title="Ready Orders">
                 <!-- Header-->
@@ -61,7 +58,7 @@
                     <th>Recall</th>
                 </tr>
                 @foreach (Order o in Model.ReadyOrders)
-                {
+            {
                     <tr>
                         <td>@o.State</td>
                         <td>@o.TimeCreated</td>
@@ -83,15 +80,11 @@
 
                 }
             </table>
-
         </div>
     </div>
 </div>
 
 
-
-
-
-<p> This should be a table of orders, listing name, price, table, status, etc.</p> </br>
-<p> There will be a button on the right of each order that will allow you to edit the status of the order</p> </br>
-<p>Status can be "Open", "Ready", "Complete"</p> </br>
+<p> This should be a table of orders, listing name, price, table, status, etc.</p> 
+<p> There will be a button on the right of each order that will allow you to edit the status of the order</p> 
+<p>Status can be "Open", "Ready", "Complete"</p> 

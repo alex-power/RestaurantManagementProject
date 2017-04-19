@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 ﻿
 <!DOCTYPE html>
+=======
+﻿<!DOCTYPE html>
+>>>>>>> 76cd88cae2a4a93e2a907832e365e8038295ae27
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,7 +18,8 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </head>
-<body><!-- CHANGE -->
+<body>
+    <!-- CHANGE -->
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -25,18 +30,24 @@
                 </button>
                 @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                @if(User.IsInRole("Manager"))
-                {
-                    @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
-                }                
-                @Html.ActionLink("ClockIn/Out", "ClockIn", "Manager", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Tables", "TableStatus", "Server", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Add Order", "InputOrder", "Server", new { area = "" }, new { @class = "navbar-brand" })
-            </ul>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
+            <div class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    @if (Request.IsAuthenticated)
+                    {
+                        if (User.IsInRole("Manager"))
+                        {
+                            @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                        }
+                        @Html.ActionLink("ClockIn/Out", "ClockIn", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Tables", "Index", "Server", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Logout", "Logout", "Account", new { area = "" }, new { @class = "navbar-brand" })
+                        using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                        }
+                    }
+                </ul>
             </div>
         </div>
     </div>

@@ -20,7 +20,12 @@ namespace RestaurantManagementProject.Auth
 
         public bool IsInRole(string role)
         {
-            return role.Equals(Type);
+            if (Type == UserType.Manager)
+                return role.Equals("Manager");
+            else if (Type == UserType.Kitchen)
+                return role.Equals("Kitchen");
+            else
+                return role.Equals("Server");
         }
     }
 }
