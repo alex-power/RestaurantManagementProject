@@ -35,10 +35,17 @@ namespace RestaurantManagementProject.Controllers
                 serializeModel.Id = user.Id;
                 serializeModel.Username = user.Username;
 
+                if (db.Users_Manager.Any(x => x.Id == user.Id))
+                    serializeModel.Type = UserType.Manager;
+                else if (db.Users_Kitchen.Any(x => x.Id == user.Id))
+                    serializeModel.Type = UserType.Kitchen;
+                else if (db.Users_Server.Any(x => x.Id == user.Id))
+                    serializeModel.Type = UserType.Server;
+                    
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
 
                 string userData = serializer.Serialize(serializeModel);
-
+                
                 FormsAuthenticationTicket authTicket = new FormsAuthenticationTicket(1, username, DateTime.Now, DateTime.Now.AddMinutes(30), true, userData);
 
                 string encTicket = FormsAuthentication.Encrypt(authTicket);
