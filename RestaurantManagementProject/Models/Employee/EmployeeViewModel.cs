@@ -9,15 +9,15 @@ namespace RestaurantManagementProject.Models.Employee
     {
         public int employeeId { get; set; }
         public double hoursWorkedTotal { get; set; }
-        public List<WorkSchedule> schedules { get; set; }
         public Timesheet timesheet { get; set; }
+        public List<Timesheet> timesheets { get; set; }
 
         public EmployeeViewModel()
         {
             employeeId = 0;
             hoursWorkedTotal = 0;
-            schedules = new List<WorkSchedule>();
             timesheet = new Timesheet();
+            timesheets = new List<Timesheet>();
         }
 
     }
