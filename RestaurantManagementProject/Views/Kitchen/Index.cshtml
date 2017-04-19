@@ -18,7 +18,7 @@
                     {
                         <div class="panel panel-warning">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Order for Table @o.Table.Id</h3>
+                                <h3 class="panel-title">Order for Table @o.Table.Id - @o.TimeCreated.TimeOfDay</h3>
                                 <a class="btn btn-primary pull-right" style="margin-top:-25px" href="@Url.Action("UpdateOrderStatus", "Kitchen", new { orderId = o.Id })">
                                     <span class="glyphicon glyphicon-check"></span> Ready
                                 </a>
