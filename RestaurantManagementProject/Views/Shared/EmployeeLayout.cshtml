@@ -25,20 +25,24 @@
                 </button>
                 @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                @if (User != null)
-                {
-                    if (User.IsInRole("Manager"))
+            <div class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav">
+                    @if (Request.IsAuthenticated)
                     {
-                        @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                        if (User.IsInRole("Manager"))
+                        {
+                            @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                        }
+                        @Html.ActionLink("ClockIn/Out", "ClockIn", "Manager", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Tables", "Index", "Server", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Logout", "Logout", "Account", new { area = "" }, new { @class = "navbar-brand" })
+                        using (Html.BeginForm("Logout", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                        }
                     }
-                    @Html.ActionLink("ClockIn/Out", "ClockIn", "Manager", new { area = "" }, new { @class = "navbar-brand" })
-                    @Html.ActionLink("Tables", "Index", "Server", new { area = "" }, new { @class = "navbar-brand" })
-                    @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
-                }
-            </ul>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav"></ul>
+                </ul>
             </div>
         </div>
     </div>

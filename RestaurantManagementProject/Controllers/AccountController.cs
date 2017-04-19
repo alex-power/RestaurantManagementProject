@@ -87,5 +87,16 @@ namespace RestaurantManagementProject.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            if (Request.IsAuthenticated)
+            {
+                FormsAuthentication.SignOut();
+            }
+
+            return RedirectToAction("EmployeeLogin", "Account");
+        }
     }
 }
