@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿
+@using RestaurantManagementProject.Models.Server
+@model InputOrderViewModel
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Comments -->
@@ -77,6 +80,34 @@
         </div>
     </nav>
 -->
+    <div class="container">
+        <h2>Table # Page</h2>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add Item<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                @foreach(FoodItemPartialModel item in Model.FoodItems)
+                {
+                    <li><a href="@item.FoodItem.Id">@item.FoodItem.Name</a></li>
+                }
+            </ul>            
+            
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Item</td>
+                    <td>Price</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (FoodItemPartialModel item in Model.FoodItems)
+                {
+                 <!--A list of all the items you have added to the order.-->
+                }
+            </tbody>
+        </table>
+
+    </div>
     <div class="container">
         <h2>Table # Page</h2>
         <div class="dropdown">

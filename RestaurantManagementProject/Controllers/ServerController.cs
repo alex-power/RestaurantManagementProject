@@ -31,8 +31,7 @@ namespace RestaurantManagementProject.Controllers
         [HttpGet]
         public ActionResult InputOrder(int tableID)
         {
-            return View();
-            //return View(new InputOrderViewModel(tableID));
+            return View(new InputOrderViewModel(tableID, db.FoodItems.ToList()));
         }
 
 
