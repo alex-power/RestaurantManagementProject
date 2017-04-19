@@ -77,5 +77,17 @@ namespace RestaurantManagementProject.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult AddTable()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddTable(int seats)
+        {
+            return RedirectToAction("Index", "Server");
+        }
     }
 }

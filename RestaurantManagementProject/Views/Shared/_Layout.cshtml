@@ -24,16 +24,14 @@
                 </button>
                 @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <ul class="nav navbar-nav navbar-right">
-                @Html.ActionLink("Menu", "ViewMenu", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Make Reservation", "CreateReservation", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Leave Review", "LeaveReview", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("About", "About", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Contact", "ContactRestaurant", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                @Html.ActionLink("Employee Page", "EmployeeLogin", "Account", new { area = "" }, new { @class = "navbar-brand" })
-            </ul>
-            <div class="navbar-collapse collapse">
+            <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
+                        @Html.ActionLink("Menu", "ViewMenu", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Make Reservation", "CreateReservation", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Leave Review", "LeaveReview", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("About", "About", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Contact", "ContactRestaurant", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Employee Login", "EmployeeLogin", "Account", new { area = "" }, new { @class = "navbar-brand" })
                 </ul>
             </div>
         </div>

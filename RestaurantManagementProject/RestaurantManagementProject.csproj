@@ -395,6 +395,7 @@
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\Employee\EmployeeViewModel.cs" />
     <Compile Include="Models\Manager\ManagerViewModel.cs" />
+    <Compile Include="Models\Server\FoodItemPartialModel.cs" />
     <Compile Include="Models\Server\InputOrderViewModel.cs" />
     <Compile Include="Models\Server\TableStatusViewModel.cs" />
     <Compile Include="Models\Kitchen\KitchenViewModel.cs" />
