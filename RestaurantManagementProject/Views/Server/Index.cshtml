@@ -88,9 +88,11 @@
                     <thead>
                         <tr>
                             <th>Table Number</th>
-                            <th>Status</th>
                             <th>Seats</th>
+                            <th>Status</th>
                             <th></th>
+                            <th></th>
+                            <th>Server</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,13 +100,31 @@
                         {
                             <tr>
                                 <td>@t.Id</td>
-                                <td>@t.TableStatus</td>
                                 <td>@t.Seats</td>
+                                <td>@t.TableStatus </td>
+                                <td>
+                                    @if (t.TableStatus.Equals("Open"))
+                                    { 
+                                        <a class="btn btn-default" style="" href="@Url.Action("UpdateTable", "Server", new { tableId = t.Id, status = "Occupied" })">
+                                            <span class="glyphicon glyphicon-plus"></span> Seat Customer
+                                        </a>
+                                    }
+                                    else
+                                    {                                        
+                                        <a class="btn btn-default" style="" href="@Url.Action("UpdateTable", "Server", new { tableId = t.Id, status = "Open" })">
+                                            <span class="glyphicon glyphicon-check"></span> Table Open
+                                        </a>
+                                    }
+                                </td>
+                                
                                 <td>
                                     <a class="btn btn-default" style="" href="@Url.Action("InputOrder", "Server", new { tableId = t.Id })">
                                         <span class="glyphicon glyphicon-plus"></span> Add Order
                                     </a>
                                 </td>
+                               <td>
+                                   @t.Users_Server.Users_Employee.User.Name
+                               </td>
                             </tr>
                         }
                     </tbody>
