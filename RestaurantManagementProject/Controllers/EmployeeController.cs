@@ -32,6 +32,27 @@ namespace RestaurantManagementProject.Controllers
                 if (timesheet.Users_Employee.Id == employeeId)
                     employeeTimeInTimes.Add(timesheet.TimeIn);
 
+            
+            var all_timesheets = db.Timesheet.Where(x => x.Users_Employee.Id == employeeId);
+            model.hoursWorkedTotal = 0;
+            if (all_timesheets != null && all_timesheets.Count() > 0)
+            {
+                model.timesheets = all_timesheets.ToList();
+
+                foreach(Timesheet t in model.timesheets)
+                {
+                    if (t.TimeOut.Equals(t.TimeIn) ||
+                        t.TimeIn.Equals(DateTime.MinValue) ||
+                        t.TimeOut.Equals(DateTime.MinValue))
+                        continue;
+
+                    var delta = t.TimeOut.Subtract(t.TimeIn);
+                    model.hoursWorkedTotal += delta.Hours + (delta.Minutes / 60.0) + (delta.Seconds / (60 * 60));
+                }
+            }
+
+
+           
 
             if (employeeTimeInTimes.Count() > 0)
             {
@@ -39,42 +60,8 @@ namespace RestaurantManagementProject.Controllers
                 Timesheet timesheet = timesheets.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
 
                 model.timesheet = timesheet;
-
-
-                if (model.timesheet != null 
-                    && model.timesheet.TimeOut != null 
-                    && model.timesheet.TimeIn.Equals(model.timesheet.TimeOut))
-                {
-                    model.timesheet.TimeOut = new DateTime();
-                }
-                else
-                {
-
-                    var delta = model.timesheet.TimeOut.Subtract(model.timesheet.TimeIn);
-
-                    model.hoursWorkedTotal = delta.Hours + (delta.Minutes / 60.0) + (delta.Seconds / (60 * 60));
-                }
-
             }
 
-            /*
-
-model.schedules = db.WorkSchedules.ToList();
-model.employeeId = employeeId;
-model.hoursWorkedTotal = 0;
-
-// get most recent timesheet
-
-List<DateTime> employeeTimeInTimes = new List<DateTime>();
-List<Timesheet> timesheets = db.Timesheet.ToList();
-foreach (Timesheet timesheet in timesheets)
-    if (timesheet.Users_Employee.Id == employeeId)
-        employeeTimeInTimes.Add(timesheet.TimeIn);
-
-DateTime latestDate = employeeTimeInTimes.Max();
-
-model.timesheet = db.Timesheet.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
-*/
             return View(model);
         }
 
@@ -92,7 +79,7 @@ model.timesheet = db.Timesheet.FirstOrDefault(x => x.Users_Employee.Id == employ
 
             // couldn't figure out how to make this null, so I'm going to set this to the same thing
             // and then check for that in the index.
-            timesheet.TimeOut = now; 
+            timesheet.TimeOut = now;
             timesheet.Users_Employee = db.Users_Employee.FirstOrDefault(x => x.Id == employeeId);
             
 
@@ -147,34 +134,5 @@ model.timesheet = db.Timesheet.FirstOrDefault(x => x.Users_Employee.Id == employ
             return RedirectToAction("Index", "Employee");
         }
 
-
-        [HttpPost]
-        public ActionResult GetTotalHoursWorked(int employeeId)
-        {
-
-            Users_Employee employee = db.Users_Employee.FirstOrDefault(x => x.Id == employeeId);
-            List<Timesheet> timesheets = employee.Timesheets.ToList();
-
-            double hoursWorked = 0;
-            foreach (Timesheet time in timesheets)
-            {
-                DateTime start = time.TimeIn;
-                if (time.TimeOut == null)
-                    continue;
-
-                DateTime end = (DateTime)time.TimeOut;
-
-                hoursWorked += end.Subtract(start).TotalHours;
-            }
-
-            EmployeeViewModel model = new EmployeeViewModel();
-            model.schedules = db.WorkSchedules.ToList();
-            model.employeeId = employeeId;
-            model.timesheet = new Timesheet();
-            model.hoursWorkedTotal = hoursWorked;
-
-
-            return View();
-        }
     }
 }

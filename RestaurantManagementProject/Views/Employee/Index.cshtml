@@ -65,23 +65,84 @@
 
 <body>
 
-@using (Html.BeginForm("ClockIn", "Employee"))
-{
-    <input type="submit" value="Clock In" />
-}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive">
+                <h1> Clock In/Out</h1>
+
+                @using (Html.BeginForm("ClockIn", "Employee"))
+                {
+                    if (Model.timesheet.TimeIn.Equals(DateTime.MinValue))
+                    {
+                        <h3>Clock In Time:</h3>
+                    }
+                    else
+                    {
+                        <h3>Clock In Time: @Model.timesheet.TimeIn</h3>
+                    }
+
+                    <input type="submit" value="Clock In" />
+                }
 
 
-@using (Html.BeginForm("ClockOut", "Employee"))
-{
-    <input type="submit" value="Clock Out" />
-}
+                @using (Html.BeginForm("ClockOut", "Employee"))
+                {
+                    if (Model.timesheet.TimeOut.Equals(Model.timesheet.TimeIn))
+                    {
+                        <h3>Clock Out Time:</h3>
+                    }
+                    else
+                    {
+                        <h3>Clock Out Time: @Model.timesheet.TimeOut</h3>
+                    }
+
+                    <input type="submit" value="Clock Out" />
+                }
 
 
-    
-    <h1>Clock In Time:  @Model.timesheet.TimeIn </h1>
-    <h1>Clock Out Time: @Model.timesheet.TimeOut</h1>
-    <h1>Total Hours worked: @Model.hoursWorkedTotal</h1>
-    
+                <h1> Past Time Sheets</h1>
+
+                <table class="table table-striped" title="PAst Time Sheets">
+                    <tr>
+                        <th>Time In</th>
+                        <th>Time Out</th>
+                        <th>Time Worked</th>
+                    </tr>
+
+                    @foreach (Timesheet t in Model.timesheets)
+                    {
+                        if (!t.Equals(DateTime.MinValue))
+                        {
+                            var timeIn = @t.TimeIn;
+                            timeIn = timeIn.AddSeconds(-timeIn.Second);
+                            timeIn = timeIn.AddMilliseconds(-timeIn.Millisecond);
+
+                            var timeOut = @t.TimeOut;
+                            timeOut = timeOut.AddSeconds(-timeOut.Second);
+                            timeOut = timeOut.AddMilliseconds(-timeOut.Millisecond);
+
+                            <tr>
+
+
+                                <td>@timeIn</td>
+
+
+                                @if (!t.TimeIn.Equals(t.TimeOut))
+                                {
+                                    <td>@timeOut</td>
+                                    <td>@timeOut.Subtract(timeIn)</td>
+                                }
+
+                            </tr>
+                        }
+                    }
+
+                </table>
+
+                <h2>Hours worked total: @Math.Round(Model.hoursWorkedTotal,2)</h2>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
