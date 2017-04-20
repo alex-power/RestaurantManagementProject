@@ -42,6 +42,79 @@
 
 </head>
 
+
+<!---needs to allow you to make multiple different orders, and to view table details and other orders, and edit orders-->
+<body>
+
+    <!-- ALSO needs to allow you to change the table's server assignment, and see other table orders, in addition to add an order -->
+    <div class="container">
+        <h2 style="font-family:Calibri;">Table @Model.TableID Order</h2><br />
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Remove Item</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (FoodItem item in Model.Order.FoodItems)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>$@item.Price</td>
+                        <td>
+                            <a class="btn btn-danger" style="" href="@Url.Action("DeleteItem", "Server", new { itemId = item.Id, orderId = Model.Order.Id, tableId = Model.TableID})">
+                                <span class="">Remove Item</span> 
+                            </a> 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="row">
+            @if (Model.FoodItems != null)
+            {
+                int count = 1;
+                foreach (var x in Model.FoodItems)
+                {
+                    if (count % 3 == 2)
+                    {
+                    <div class="col-sm-4">
+                        <a class="btn btn-default widthOfButton text-center" href="@Url.Action("AddOrder", "Server", new { foodID = x.FoodItem.Id, tableId = Model.TableID, OrderId =  Model.Order.Id})">
+                            <span id="@x.FoodItem.Id">@x.FoodItem.Name</span> 
+                        </a>
+                    </div>
+                    }
+                    if (count % 3 == 1)
+                    {
+                    <div class="col-sm-4">
+                        <a class="btn btn-default widthOfButton text-center" href="@Url.Action("AddOrder", "Server", new { foodID = x.FoodItem.Id, tableId = Model.TableID, OrderId =  Model.Order.Id})">
+                            <span id="@x.FoodItem.Id">@x.FoodItem.Name</span> 
+                        </a>
+                    </div>
+                    }
+                    if (count % 3 == 0)
+                    {
+                    <div class="col-sm-4">
+                        <a class="btn btn-default widthOfButton text-center" href="@Url.Action("AddOrder", "Server", new { foodID = x.FoodItem.Id, tableId = Model.TableID, OrderId =  Model.Order.Id})">
+                            <span id="@x.FoodItem.Id">@x.FoodItem.Name</span> 
+                        </a>
+                    </div>
+                    <br /> <br />
+                        }
+                        count++;
+                    }
+                }
+        </div>
+    </div>
+
+
+</body>
+</html>
+
 <style>
     p.thick {
         font-weight: bold;
@@ -63,137 +136,7 @@
             text-decoration: none;
             cursor: pointer;
         }
+    .widthOfButton {
+        width:200px !important;
+    }
 </style>
-
-
-<!---needs to allow you to make multiple different orders, and to view table details and other orders, and edit orders-->
-<body>
-
-    <!-- ALSO needs to allow you to change the table's server assignment, and see other table orders, in addition to add an order -->
-    <div class="container">
-        <h2 style="font-family:Calibri;">Table @Model.TableID Order</h2><br />
-
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add Item<span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                @foreach(FoodItemPartialModel item in Model.FoodItems)
-                {
-                    <li><a href="@item.FoodItem.Id">@item.FoodItem.Name</a></li>
-                }
-            </ul>            
-            
-        </div>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <td>Item</td>
-                    <td>Price</td>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (FoodItemPartialModel item in Model.FoodItems)
-                {
-                 <!--A list of all the items you have added to the order.-->
-                }
-            </tbody>
-        </table>
-
-    </div>
-    <h3>Orders</h3>
-    <div class="row">
-        <div class="col-xs-12">
-            @foreach (Order o in Model.Orders)
-            {
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Order for Table @o.Table.Id</h3>
-                        <a class="btn btn-danger pull-right" style="margin-top:-25px" href="@Url.Action("RemoveOrder", "Server", new { orderId = o.Id, tableId = Model.TableID })">
-                            <span class="glyphicon glyphicon-remove"></span> Remove
-                        </a>
-                    </div>
-                    <div class="panel-body" style="margin-bottom:0px">
-                        <table class="table table-striped" style="margin-bottom:0px; margin-top:-10px">
-                            <tbody>
-                                @foreach (FoodItem item in o.FoodItems)
-                                {
-                                    <tr>
-                                        <td>
-                                            @item.Name
-                                        </td>
-                                        <td> $@item.Price</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-
-            }
-        </div>
-    </div>
-
-    <div class="row">
-        @if(Model.FoodItems != null)
-        {
-            int count = 1;
-            foreach (var x in Model.FoodItems)
-            {
-                if (count%3 == 2)
-                {
-                    <div class="col-sm-4">
-                        <a class="btn btn-default">
-                            <span></span> @x.FoodItem.Name
-                        </a>
-                    </div>
-                    count++;
-                }
-                if (count%3 == 1)
-                {
-                    <div class="col-sm-4">
-
-                    </div>
-                    count++;
-                }
-                if (count%3 == 0)
-                {
-                    <div class="col-sm-4">
-
-                    </div>
-               }
-
-                count++;
-            }
-        }
-
-
-    </div>
-
-
-
-
-
-
-
-
-    <div class="container">
-        <h2>Table # Page</h2>
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add Item<span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Steak</a></li>
-                <li><a href="#">Fish</a></li>
-                <li><a href="#">Water</a></li>
-            </ul>
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Remove Item<span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a href="#">Steak</a></li>
-                <li><a href="#">Fish</a></li>
-                <li><a href="#">Water</a></li>
-            </ul>
-            <button id="check" class="btn btn-default">Check Out</button>
-        </div>
-    </div>
-
-</body>
-</html>
