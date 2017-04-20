@@ -31,14 +31,12 @@ namespace RestaurantManagementProject.Controllers
         [HttpGet]
         public ActionResult InputOrder(int tableID)
         {
-            return View();
-            //return View(new InputOrderViewModel(tableID));
+            return View(new InputOrderViewModel(tableID, db.FoodItems.ToList(), db.Orders.Where(x => x.Table.Id == tableID && x.State != "Closed").ToList()));
         }
 
 
         [HttpPost]
-        public ActionResult InputOrder(List<FoodItem> foodItems,
-            int tableID)
+        public ActionResult InputOrder(List<FoodItem> foodItems, int tableID)
         {
             Order o = new Order();
             o.State = "Open";
@@ -82,7 +80,7 @@ namespace RestaurantManagementProject.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         public ActionResult UpdateTable(int tableId, string status)
         {
             Table table = db.Tables.FirstOrDefault(x => x.Id == tableId);
@@ -94,8 +92,23 @@ namespace RestaurantManagementProject.Controllers
             db.SaveChanges();
             db.Database.Connection.Close();
 
-
             return RedirectToAction("Index", "Server");
+
+        }
+
+        [HttpGet]
+        public ActionResult RemoveOrder(int orderId, int tableId)
+        {
+            Order o = db.Orders.FirstOrDefault(x => x.Id == orderId);
+            o.State = "Closed";
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+
+            return RedirectToAction("InputOrder", "Server", new { tableId = tableId });
         }
 
     }

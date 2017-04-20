@@ -1,91 +1,128 @@
 ﻿@model  RestaurantManagementProject.Models.Kitchen.KitchenViewModel
 
 
-@{
-    ViewBag.Title = "Index";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Comments -->
+    <title>restaurant</title>
+    <!-- ADD LOGO-->
+    <link rel="shortcut icon" href="" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- BOOTSTRAP CDN -->
+    <!--
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    -->
+    <link rel="stylesheet" href="bootstrap/bootstrap.css">
+    <script src="bootstrap/jquery.js"></script>
+    <script src="bootstrap/bootstrap.js"></script>
 
-}
-<div class="row">
-    <div class="col-xs-12">
-        <div class="table-responsive">
+    <!--
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-            <h1>Kitchen</h1>
+    <!-- CHARTS CDN -->
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
+    -->
+    <script src="charts/bundle.js"></script>
+    <script src="charts/bundle.min.js"></script>
+    <script src="charts/chart.js"></script>
+    <script src="charts/bundle.min.js"></script>
 
-
-            <h3>Open Orders</h3>
-            <table class="table table-striped" title="Open Orders">
-
-                <!-- Header-->
-                <tr>
-                    <th>Status</th>
-                    <th>Time Created</th>
-                    <th>Table ID</th>
-                    <th>Mark Ready</th>
-                </tr>
-                @foreach (Order o in Model.OpenOrders)
-                {
-                    <tr>
-                        <td>@o.State</td>
-                        <td>@o.TimeCreated</td>
-                        @if (o.Table != null)
-                        {
-                            <td>@o.Table.Id</td>
-                        }
-                        <td>
-                            <a class="btn btn-primary" style="" href="@Url.Action("MarkOrderReady", "Kitchen", new { orderId = o.Id })">
-                                <span class="glyphicon glyphicon-check"></span> Ready
-
-                            </a>
-                        </td>
-                    </tr>
-
-                }
-            </table>
-
-            <!--using (Html.BeginForm("MarkOrderReady", "Kitchen"))
+</head>
+<body>
+    <h2 style="font-family:Calibri;">Order Queue</h2>
+    <br />
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <br /><br />
+                @if (Model.OpenOrders.Count > 0)
             {
-                <input type="number" id="ss" name="orderId" value="Enter Id" />
-
-                    <input type="submit" value="Mark Ready" />
-            }
-                -->
-            <h3>Ready Orders</h3>
-            <table class="table table-striped" title="Ready Orders">
-                <!-- Header-->
-                <tr>
-                    <th>Status</th>
-                    <th>Time Created</th>
-                    <th>Table ID</th>
-                    <th>Mark Complete</th>
-                </tr>
-                @foreach (Order o in Model.ReadyOrders)
-                {
-                    <tr>
-                        <td>@o.State</td>
-                        <td>@o.TimeCreated</td>
-                        @if (o.Table != null)
-                        {
-                            <td>@o.Table.Id</td>
-                        }
-                        <td>
-                            <a class="btn btn-primary" style="" href="@Url.Action("MarkOrderReady", "Kitchen", new { orderId = o.Id })">
-                                <span class="glyphicon glyphicon-check"></span> Complete
-                            </a>
-                        </td>
-                    </tr>
-
+                    <h3 style="font-family:Calibri;">Open Orders</h3>
                 }
-            </table>
+                <div class="row">
+                    <div class="col-xs-12">
+                        @foreach (Order o in Model.OpenOrders)
+                        {
+                            <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Order for Table @o.Table.Id - @o.TimeCreated.TimeOfDay</h3>
+                                    <a class="btn btn-primary pull-right" style="margin-top:-25px" href="@Url.Action("UpdateOrderStatus", "Kitchen" , new { orderId=o.Id })">
+                                        <span class="glyphicon glyphicon-check"></span> Ready
+                                    </a>
+                                </div>
+                                <div class="panel-body" style="margin-bottom:0px">
+                                    <table class="table table-striped" style="margin-bottom:0px; margin-top:-10px">
+                                        <tbody>
+                                            @foreach (FoodItem item in o.FoodItems)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @item.Name
+                                                    </td>
+                                                    <td> $@item.Price</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
 
+                                </div>
+                            </div>
+
+                        }
+                    </div>
+                </div>
+
+
+                @if (Model.ReadyOrders.Count > 0)
+            {
+                    <h3 style="font-family:Calibri;">Ready Orders</h3>
+                    <table class="table table-striped" title="Ready Orders">
+                        <!-- Header-->
+                        <tr>
+                            <th>Status</th>
+                            <th>Time Created</th>
+                            <th>Table</th>
+                            <th>Mark Complete</th>
+                            <th>Recall</th>
+                        </tr>
+                        @foreach (Order o in Model.ReadyOrders)
+                {
+                            <tr>
+                                <td>@o.State</td>
+                                <td>@o.TimeCreated</td>
+                                @if (o.Table != null)
+                    {
+                                    <td>@o.Table.Id</td>
+                                }
+                                <td>
+                                    <a class="btn btn-primary" style="" href="@Url.Action("UpdateOrderStatus", "Kitchen", new { orderId = o.Id })">
+                                        <span class="glyphicon glyphicon-check"></span> Complete
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" style="" href="@Url.Action("RecallOrder", "Kitchen", new { orderId = o.Id })">
+                                        <span class="glyphicon glyphicon-remove"></span> Recall
+                                    </a>
+                                </td>
+                            </tr>
+
+                        }
+                    </table>
+                }
+            </div>
         </div>
     </div>
-</div>
 
-
-
-
-
-<p> This should be a table of orders, listing name, price, table, status, etc.</p> </br>
-<p> There will be a button on the right of each order that will allow you to edit the status of the order</p> </br>
-<p>Status can be "Submitted", "Cooked", "Served", "Recall"</p> </br>
+</body>
+</html>

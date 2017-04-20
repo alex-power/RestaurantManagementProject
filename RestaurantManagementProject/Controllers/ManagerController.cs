@@ -12,10 +12,30 @@ namespace RestaurantManagementProject.Controllers
 
         private Entities db = new Entities();
 
+
         public ActionResult ManagerView()
         {
-            return View();
+            var userList = db.Users.OrderByDescending(x => x.Name);
+            List<User> users = new List<User>(userList);
+
+            
+            return View(users);
         }
+
+        [HttpGet]
+        public ActionResult DeleteEmployee(int userId)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == userId);
+            
+            if(user != null)
+            {
+                db.Users.Remove(user);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("ManagerView");
+        }
+
 
         // GET: Manager
         public ActionResult Index()
@@ -76,6 +96,18 @@ namespace RestaurantManagementProject.Controllers
         public ActionResult ClockIn()
         {
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult AddTable()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddTable(int seats)
+        {
+            return RedirectToAction("Index", "Server");
         }
     }
 }

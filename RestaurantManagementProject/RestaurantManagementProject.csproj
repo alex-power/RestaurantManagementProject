@@ -158,7 +158,10 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\image\a1.jpg" />
     <Content Include="Content\image\m1.jpg" />
+    <Content Include="Content\image\m2.jpg" />
+    <Content Include="Content\image\M3.jpg" />
     <Content Include="Content\image\map.JPG" />
     <Content Include="Content\image\steak.png" />
     <Content Include="Content\image\mcdonalds1.jpg" />
@@ -166,6 +169,7 @@
     <Content Include="Content\image\mcdonalds3.jpg" />
     <Content Include="Content\image\mcdonalds4.jpg" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\stars.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -395,6 +399,7 @@
     <Compile Include="Models\Account\RegisterViewModel.cs" />
     <Compile Include="Models\Employee\EmployeeViewModel.cs" />
     <Compile Include="Models\Manager\ManagerViewModel.cs" />
+    <Compile Include="Models\Server\FoodItemPartialModel.cs" />
     <Compile Include="Models\Server\InputOrderViewModel.cs" />
     <Compile Include="Models\Server\TableStatusViewModel.cs" />
     <Compile Include="Models\Kitchen\KitchenViewModel.cs" />

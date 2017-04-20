@@ -3,8 +3,20 @@
 
 <head>
     <link href="ha-datetimepicker.min.css" rel="stylesheet" />
-    
+
     <link href="ha-datetimepicker/ha-datetimepicker.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="../dist/themes/bars-1to10.css">
+    <link rel="stylesheet" href="../dist/themes/bars-movie.css">
+    <link rel="stylesheet" href="../dist/themes/bars-square.css">
+    <link rel="stylesheet" href="../dist/themes/bars-pill.css">
+    <link rel="stylesheet" href="../dist/themes/bars-reversed.css">
+    <link rel="stylesheet" href="../dist/themes/bars-horizontal.css">
+
+    <link rel="stylesheet" href="../dist/themes/fontawesome-stars.css">
+    <link rel="stylesheet" href="../dist/themes/css-stars.css">
+    <link rel="stylesheet" href="../dist/themes/bootstrap-stars.css">
+    <link rel="stylesheet" href="../dist/themes/fontawesome-stars-o.css">
 
     <!-- Comments -->
     <title>restaurant</title>
@@ -40,6 +52,13 @@
     <script src="charts/chart.js"></script>
     <script src="charts/bundle.min.js"></script>
 
+    <script type="text/javascript" src="ha-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <link rel="stylesheet" href="fontawesome-stars.css">
+
+    <link rel="stylesheet" href="~/Content/stars.css"
+
 </head>
 
 <style>
@@ -52,51 +71,110 @@
         padding: 15px;
         font-size: 10px;
     }
+
+    fieldset, label {
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 1.5em;
+        margin: 10px;
+    }
+
+    /****** Style Star Rating Widget *****/
+
+    .rating {
+        border: none;
+        float: left;
+    }
+
+        .rating > input {
+            display: none;
+        }
+
+        .rating > label:before {
+            margin: 5px;
+            font-size: 1.25em;
+            font-family: FontAwesome;
+            display: inline-block;
+            content: "\f005";
+        }
+
+        .rating > .half:before {
+            content: "\f089";
+            position: absolute;
+        }
+
+        .rating > label {
+            color: #ddd;
+            float: right;
+        }
+
+        /***** CSS Magic to Highlight Stars on Hover *****/
+
+        .rating > input:checked ~ label, /* show gold star when clicked */
+        .rating:not(:checked) > label:hover, /* hover current star */
+        .rating:not(:checked) > label:hover ~ label {
+            color: #FFD700;
+        }
+            /* hover previous stars in list */
+
+            .rating > input:checked + label:hover, /* hover current star when changing rating */
+            .rating > input:checked ~ label:hover,
+            .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+            .rating > input:checked ~ label:hover ~ label {
+                color: #FFED85;
+            }
 </style>
 
 <body>
-
-
-<!--
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">restaurant</a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="Home.html">Home</a></li>
-                <li><a href="menu.html">View Menu</a></li>
-                <li><a href="reservation.html">Make Reservation</a></li>
-                <li><a href="review.html" class="active">Leave Review</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="employee.html">Employee Page</a></li>
-            </ul>
-        </div>
-    </nav>
--->
     <div class="container">
-        <h2>Leave Review</h2>
-        <form>
-            <input type="text" id="datetime" placeholder="Select a date and time" data-ha-datetimepicker="#datetime" />
-            <div class="row">
-                <div class="col-xs-3">
-                    <label for="user">Name</label>
-                    <input type="user" class="form-control" id="user" placeholder="Enter Name">
+        <h2 style="font-family:Calibri;">Leave a Review</h2> <br />
+        @using (Html.BeginForm("LeaveReview", "Customers", FormMethod.Post))
+        {
+            <form>
+                <div class="row">
+                    <div class="col-xs-3">
+                        <label>Name</label>
+                        <input name="name" class="form-control" id="user" placeholder="Enter Name" required>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <label for="password">Review</label><br>
-                    <textarea class="form-group" rows="3" type="password" id="password" placeholder="Review"></textarea>
+                <br />
+                <div class="row">
+                    <div class="col-xs-4 left">
+                        <label>Review</label><br>
+                        <textarea class="form-group" rows="3" style="width:480px;" name="review" placeholder="Leave Review" required></textarea>
+                    </div>
                 </div>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+
+                <div class="row">
+                    <div class="col-xs-3 left">
+                        <label for="user">Rating</label>
+                        <div required>
+                            <fieldset class="rating">
+                                <input type="radio" id="star5" name="rating" value=5 /><label class="full" for="star5" title="Awesome - 5 stars"></label>
+                                <input type="radio" id="star4" name="rating" value=4 /><label class="full" for="star4" title="Pretty good - 4 stars"></label>
+                                <input type="radio" id="star3" name="rating" value=3 /><label class="full" for="star3" title="Meh - 3 stars"></label>
+                                <input type="radio" id="star2" name="rating" value=2 /><label class="full" for="star2" title="Kinda bad - 2 stars"></label>
+                                <input type="radio" id="star1" name="rating" value=1 /><label class="full" for="star1" title="Sucks big time - 1 star"></label>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <button type="submit" class="btn btn-default">Leave Review</button>
+            </form>
+        }
     </div>
 
 </body>
 
-<script type="text/javascript" src="ha-datetimepicker.min.js" />
-
 </html>
+
+<script type="text/javascript">
+    function popUp() {
+        alert('Your reservation has been submitted!')
+    }
+</script>
