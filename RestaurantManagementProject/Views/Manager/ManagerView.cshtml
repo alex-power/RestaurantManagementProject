@@ -1,4 +1,5 @@
-﻿@model List<User>
+﻿@using RestaurantManagementProject.Models
+@model List<UserPartialModel>
 
 
 <!DOCTYPE html>
@@ -86,11 +87,10 @@
                                 <td>@u.Email</td>
                                 <td>
                                     <!-- Still working on this, changing user roles-->
-                                    <select class="selectpicker" name="IN PROGRESS">
-                                        <option >Manager</option>
-                                        <option>Server</option>
-                                        <option>Kitchen</option>
-                                    </select>
+                                    @using (Html.BeginForm("Index", "Cars", FormMethod.Post))
+                                    {
+                                        @Html.DropDownListFor(model => , Model.CarManufacturersList, "Select Car Manufacturer", new { id = "carManufacturers", @class = "selectpicker" })
+                                    }
                                 </td>
 
                                 <!-- Still working on this, show how much users have worked -->
