@@ -64,24 +64,9 @@
 </style>
 
 <body>
-    <!--
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Employees</a>
-                </div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="server.html" class="active">Server</a></li>
-                    <li><a href="html.kitchen">Kitchen</a></li>
-                    <li><a href="manager.html">Manager</a></li>
-                </ul>
-            </div>
-        </nav>
-    -->
-    <!-- CHANGE -->
-    <div class="container">
-        <h1>Tables</h1>
 
+    <div class="container"> 
+        <h2 style="font-family:Calibri;">Tables</h2> <br />
         <div class="row">
             <div class="col-xs-12">
                 <table class="table table-striped">
@@ -92,7 +77,6 @@
                             <th>Status</th>
                             <th></th>
                             <th></th>
-                            <th>Server</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -105,14 +89,14 @@
                                 <td>
                                     @if (t.TableStatus.Equals("Open"))
                                     { 
-                                        <a class="btn btn-default" style="" href="@Url.Action("UpdateTable", "Server", new { tableId = t.Id, status = "Occupied" })">
+                                        <a class="btn btn-success" style="" href="@Url.Action("UpdateTable", "Server", new { tableId = t.Id, status = "Occupied" })">
                                             <span class="glyphicon glyphicon-plus"></span> Seat Customer
                                         </a>
                                     }
                                     else
                                     {                                        
-                                        <a class="btn btn-default" style="" href="@Url.Action("UpdateTable", "Server", new { tableId = t.Id, status = "Open" })">
-                                            <span class="glyphicon glyphicon-check"></span> Table Open
+                                        <a class="btn btn-warning" style="" href="@Url.Action("UpdateTable", "Server", new { tableId = t.Id, status = "Open" })">
+                                            <span class="glyphicon glyphicon-minus"></span> Open Table
                                         </a>
                                     }
                                 </td>
@@ -122,9 +106,6 @@
                                         <span class="glyphicon glyphicon-plus"></span> Add Order
                                     </a>
                                 </td>
-                               <td>
-                                   @t.Users_Server.Users_Employee.User.Name
-                               </td>
                             </tr>
                         }
                     </tbody>

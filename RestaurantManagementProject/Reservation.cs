@@ -18,5 +18,6 @@ namespace RestaurantManagementProject
         public System.DateTime DateTime { get; set; }
         public string Note { get; set; }
         public string CustomerName { get; set; }
+        public Nullable<int> PartySize { get; set; }
     }
 }

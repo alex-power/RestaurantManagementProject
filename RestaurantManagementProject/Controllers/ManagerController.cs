@@ -12,10 +12,30 @@ namespace RestaurantManagementProject.Controllers
 
         private Entities db = new Entities();
 
+
         public ActionResult ManagerView()
         {
-            return View();
+            var userList = db.Users.OrderByDescending(x => x.Name);
+            List<User> users = new List<User>(userList);
+
+            
+            return View(users);
         }
+
+        [HttpGet]
+        public ActionResult DeleteEmployee(int userId)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Id == userId);
+            
+            if(user != null)
+            {
+                db.Users.Remove(user);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("ManagerView");
+        }
+
 
         // GET: Manager
         public ActionResult Index()
@@ -87,7 +107,97 @@ namespace RestaurantManagementProject.Controllers
         [HttpPost]
         public ActionResult AddTable(int seats)
         {
-            return RedirectToAction("Index", "Server");
+            Table t = new Table();
+            t.Seats = seats;
+            t.TableStatus = "Open";
+            db.Tables.Add(t);
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+            return RedirectToAction("ManagerView", "Manager");
+        }
+
+        [HttpGet]
+        public ActionResult ChangeEmployeeStatus(int statusID, int userId)
+        {
+            User u = db.Users.FirstOrDefault(x => x.Id == userId);
+            if (u.Users_Employee == null)
+            {
+                Users_Employee employee = new Users_Employee();
+                employee.Id = userId;
+                employee.HoursPerWeek = 40;
+                db.Users_Employee.Add(employee);
+
+                if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                    db.Database.Connection.Open();
+
+                db.SaveChanges();
+                db.Database.Connection.Close();
+            }
+            else
+            {
+                if (u.Users_Employee.Users_Kitchen != null)
+                {
+                    db.Users_Kitchen.Remove(u.Users_Employee.Users_Kitchen);
+                }
+                if (u.Users_Employee.Users_Server != null)
+                {
+                    db.Users_Server.Remove(u.Users_Employee.Users_Server);
+                }
+                if (u.Users_Employee.Users_Manager != null)
+                {
+                    db.Users_Manager.Remove(u.Users_Employee.Users_Manager);
+                }
+            }
+
+            if(statusID == 0)
+            {
+                Users_Server user = new Users_Server();
+                user.Id = userId;
+                
+                db.Users_Server.Add(user);
+
+                if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                    db.Database.Connection.Open();
+
+                db.SaveChanges();
+                db.Database.Connection.Close();
+            }
+            else if (statusID == 1)
+            {
+                Users_Kitchen user = new Users_Kitchen();
+                user.Id = userId;
+                user.Role = "Chef";
+                db.Users_Kitchen.Add(user);
+                if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                    db.Database.Connection.Open();
+
+                db.SaveChanges();
+                db.Database.Connection.Close();
+            }
+            else
+            {
+                Users_Manager user = new Users_Manager();
+                user.Id = userId;
+                
+                db.Users_Manager.Add(user);
+
+                if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                    db.Database.Connection.Open();
+
+                db.SaveChanges();
+                db.Database.Connection.Close();
+            }
+
+            return RedirectToAction("ManagerView", "Manager");
+        }
+
+        public ActionResult Reservations()
+        {
+            return View(db.Reservations.Where(x => x.DateTime.Day.Equals(DateTime.Now.Day)).ToList());
         }
     }
 }

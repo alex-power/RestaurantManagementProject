@@ -36,8 +36,7 @@ namespace RestaurantManagementProject.Controllers
 
 
         [HttpPost]
-        public ActionResult InputOrder(List<FoodItem> foodItems,
-            int tableID)
+        public ActionResult InputOrder(List<FoodItem> foodItems, int tableID)
         {
             Order o = new Order();
             o.State = "Open";

@@ -32,7 +32,6 @@ namespace RestaurantManagementProject.Controllers
                 if (timesheet.Users_Employee.Id == employeeId)
                     employeeTimeInTimes.Add(timesheet.TimeIn);
 
-            
             var all_timesheets = db.Timesheet.Where(x => x.Users_Employee.Id == employeeId);
             model.hoursWorkedTotal = 0;
             if (all_timesheets != null && all_timesheets.Count() > 0)
@@ -57,7 +56,7 @@ namespace RestaurantManagementProject.Controllers
             if (employeeTimeInTimes.Count() > 0)
             {
                 DateTime latestDate = employeeTimeInTimes.Max();
-                Timesheet timesheet = timesheets.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));
+                Timesheet timesheet = timesheets.FirstOrDefault(x => x.Users_Employee.Id == employeeId && x.TimeIn.Equals(latestDate));              
 
                 model.timesheet = timesheet;
             }

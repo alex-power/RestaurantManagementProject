@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/17/2017 15:22:22
--- Generated from EDMX file: C:\Users\power\Source\Repos\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
+-- Date Created: 04/20/2017 15:13:16
+-- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -131,7 +131,8 @@ CREATE TABLE [dbo].[Reservations] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] datetime  NOT NULL,
     [Note] nvarchar(max)  NOT NULL,
-    [CustomerName] nvarchar(max)  NOT NULL
+    [CustomerName] nvarchar(max)  NOT NULL,
+    [PartySize] int  NULL
 );
 GO
 
@@ -356,7 +357,7 @@ ADD CONSTRAINT [FK_ServerTable]
     FOREIGN KEY ([Users_Server_Id])
     REFERENCES [dbo].[Users_Server]
         ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ServerTable'
