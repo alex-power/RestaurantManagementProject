@@ -1,6 +1,8 @@
-﻿
-@using RestaurantManagementProject.Models.Server
+﻿@using RestaurantManagementProject.Models.Server
 @model InputOrderViewModel
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -66,25 +68,10 @@
 
 <!---needs to allow you to make multiple different orders, and to view table details and other orders, and edit orders-->
 <body>
-<!--
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">Employees</a>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="server.html" class="active">Server</a></li>
-                <li><a href="kitchen.html">Kitchen</a></li>
-                <li><a href="manager.html">Manager</a></li>
-            </ul>
-        </div>
-    </nav>
--->
-
 
     <!-- ALSO needs to allow you to change the table's server assignment, and see other table orders, in addition to add an order -->
     <div class="container">
-        <h2>Table @Model.TableID</h2>        
+        <h2 style="font-family:Calibri;">Table @Model.TableID Order</h2><br />
 
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Add Item<span class="caret"></span></button>
@@ -145,6 +132,47 @@
             }
         </div>
     </div>
+
+    <div class="row">
+        @if(Model.FoodItems != null)
+        {
+            int count = 1;
+            foreach (var x in Model.FoodItems)
+            {
+                if (count%3 == 2)
+                {
+                    <div class="col-sm-4">
+                        <a class="btn btn-default">
+                            <span></span> @x.FoodItem.Name
+                        </a>
+                    </div>
+                    count++;
+                }
+                if (count%3 == 1)
+                {
+                    <div class="col-sm-4">
+
+                    </div>
+                    count++;
+                }
+                if (count%3 == 0)
+                {
+                    <div class="col-sm-4">
+
+                    </div>
+               }
+
+                count++;
+            }
+        }
+
+
+    </div>
+
+
+
+
+
 
 
 

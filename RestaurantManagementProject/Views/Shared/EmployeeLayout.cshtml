@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title Restaurant Manager</title>
+    <title>@ViewBag.Title Eddie's Place</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
@@ -13,6 +13,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </head>
+
 <body>
     <!-- CHANGE -->
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,7 +24,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Eddie's Place", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
@@ -33,7 +34,7 @@
                         {
                             @Html.ActionLink("Manager", "ManagerView", "Manager", new { area = "" }, new { @class = "navbar-brand" })
                         }
-                        @Html.ActionLink("ClockIn/Out", "Index", "Employee", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Clock In/Out", "Index", "Employee", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Tables", "Index", "Server", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Orders", "Index", "Kitchen", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Logout", "Logout", "Account", new { area = "" }, new { @class = "navbar-brand" })
@@ -51,7 +52,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; Restaurant Management - Copyright 2017</p>
+            <p>&copy; Eddie's Place - Copyright 2017</p>
         </footer>
     </div>
 
@@ -59,3 +60,11 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
+
+<style>
+    footer {
+        background-color: #f2f2f2;
+        padding: 15px;
+        font-size: 12px;
+    }
+</style>

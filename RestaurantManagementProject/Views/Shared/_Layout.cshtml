@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title Restaurant Manager</title>
+    <title>@ViewBag.Title Eddie's Place</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
@@ -22,16 +22,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Restaurant Manager", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Eddie's Place", "Home", "Customers", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse navbar-right">
                 <ul class="nav navbar-nav">
                         @Html.ActionLink("Menu", "ViewMenu", "Customers", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Make Reservation", "CreateReservation", "Customers", new { area = "" }, new { @class = "navbar-brand" })
                         @Html.ActionLink("Leave Review", "LeaveReview", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                        @Html.ActionLink("About", "About", "Customers", new { area = "" }, new { @class = "navbar-brand" })
+                        <!--@Html.ActionLink("About", "About", "Customers", new { area = "" }, new { @class = "navbar-brand" }) -->
                         @Html.ActionLink("Contact", "ContactRestaurant", "Customers", new { area = "" }, new { @class = "navbar-brand" })
-                        @Html.ActionLink("Employee Login", "EmployeeLogin", "Account", new { area = "" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Login", "EmployeeLogin", "Account", new { area = "" }, new { @class = "navbar-brand" })
                 </ul>
             </div>
         </div>
@@ -41,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; Restaurant Management - Copyright 20</p>
+            <p>&copy; Eddie's Place - Copyright 2017</p>
         </footer>
     </div>
 

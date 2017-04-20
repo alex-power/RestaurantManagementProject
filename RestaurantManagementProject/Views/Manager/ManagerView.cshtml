@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@model List<User>
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <!-- Comments -->
@@ -62,17 +65,53 @@
 
 <body>
     <div class="container">
-        <h3>Employees:</h3>
-            <ul class="inside">Employee1
-                <li><a href="">Promote</a>&nbsp<a href="">Change Position</a>&nbsp<a href="">View</a></li>
-            </ul>
-            <ul class="inside">Employee2
-                <li><a href="">Promote</a>&nbsp<a href="">Change Position</a>&nbsp<a href="">View</a></li>
-            </ul>
-            <ul class="inside">Employee3
-                <li><a href="">Promote</a>&nbsp<a href="">Change Position</a>&nbsp<a href="">View</a></li>
-            </ul>
+        <h2 style="font-family:Calibri;">Employees</h2> <br />
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Position</th>
+                            <th>Hours Worked</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (User u in Model)
+                        {
+                            <tr>
+                                <td>@u.Name</td>
+                                <td>@u.Email</td>
+                                <td>
+                                    <!-- Still working on this, changing user roles-->
+                                    <select class="selectpicker" name="IN PROGRESS">
+                                        <option >Manager</option>
+                                        <option>Server</option>
+                                        <option>Kitchen</option>
+                                    </select>
+                                </td>
 
+                                <!-- Still working on this, show how much users have worked -->
+                                <td>@if(u.Users_Employee != null)
+                                    { @u.Users_Employee.HoursPerWeek; }
+                                else
+                                { <p> - </p>}
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger" style="" href="@Url.Action("DeleteEmployee", "Manager", new { userId = u.Id})">
+                                        <span class=""></span> Remove Employee
+                                    </a>    
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
 </body>
+
 </html>
