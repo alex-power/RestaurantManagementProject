@@ -4,7 +4,7 @@
     [TableStatus]     NVARCHAR (MAX) NOT NULL,
     [Users_Server_Id] INT            NULL,
     CONSTRAINT [PK_Tables] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [FK_ServerTable] FOREIGN KEY ([Users_Server_Id]) REFERENCES [dbo].[Users_Server] ([Id])
+    CONSTRAINT [FK_ServerTable] FOREIGN KEY ([Users_Server_Id]) REFERENCES [dbo].[Users_Server] ([Id]) ON DELETE CASCADE
 );
 
 

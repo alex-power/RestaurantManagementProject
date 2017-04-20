@@ -42,11 +42,8 @@ VALUES (@uid, 'Chef')
 
 INSERT INTO [Users]
 (Username, Password, CreationDate, Name, Email)
-VALUES ('customer', 'customer', SYSDATETIME(), 'customer test', 'kitchen@email.com')
+VALUES ('customer', 'customer', SYSDATETIME(), 'employee register test', 'kitchen@email.com')
 SELECT @uid = SCOPE_IDENTITY()
-INSERT INTO [Users_Customer]
-(Id)
-VALUES (@uid)
 
 
 INSERT INTO [Restaurants]

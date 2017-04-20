@@ -1,6 +1,4 @@
-﻿@using RestaurantManagementProject.Models
-@model List<UserPartialModel>
-
+﻿@model List<User>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +9,6 @@
     <link rel="shortcut icon" href="" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- BOOTSTRAP CDN -->
     <!--
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -21,7 +18,6 @@
     <link rel="stylesheet" href="bootstrap/bootstrap.css">
     <script src="bootstrap/jquery.js"></script>
     <script src="bootstrap/bootstrap.js"></script>
-
     <!--
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -38,9 +34,7 @@
     <script src="charts/bundle.min.js"></script>
     <script src="charts/chart.js"></script>
     <script src="charts/bundle.min.js"></script>
-
 </head>
-
 <style>
     p.thick {
         font-weight: bold;
@@ -63,7 +57,6 @@
             cursor: pointer;
         }
 </style>
-
 <body>
     <div class="container">
         <h2 style="font-family:Calibri;">Employees</h2> <br />
@@ -75,8 +68,8 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Position</th>
-                            <th>Hours Worked</th>
-                            <th>Delete</th>
+                            <th>Hours Per Week</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,32 +79,78 @@
                                 <td>@u.Name</td>
                                 <td>@u.Email</td>
                                 <td>
-                                    <!-- Still working on this, changing user roles-->
-                                    @using (Html.BeginForm("Index", "Cars", FormMethod.Post))
+                                    @if (u.Users_Employee == null)
                                     {
-                                        @Html.DropDownListFor(model => , Model.CarManufacturersList, "Select Car Manufacturer", new { id = "carManufacturers", @class = "selectpicker" })
-                                    }
-                                </td>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 2, userId = u.Id})">
+                                            <span class=""></span> Manager
+                                        </a>
+                                        <a class="btn btn-default" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 0, userId = u.Id})">
+                                            <span class=""></span> Server
+                                        </a>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 1, userId = u.Id})">
+                                            <span class=""></span> Kitchen
+                                        </a>
 
+                                    }
+                                    else if (u.Users_Employee.Users_Kitchen != null)
+                                    {
+                                        <a class="btn btn-success" style="" disabled="disabled">
+                                            <span class=""></span> Kitchen
+                                        </a>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 0, userId = u.Id})">
+                                            <span class=""></span> Server
+                                        </a>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 2, userId = u.Id})">
+                                            <span class=""></span> Manager
+                                        </a>
+
+                                    }
+                                    else if (u.Users_Employee.Users_Manager != null)
+                                    {
+                                        <a class="btn btn-success" style="" disabled="disabled">
+                                            <span class=""></span> Manager
+                                        </a>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 1, userId = u.Id})">
+                                            <span class=""></span> Kitchen
+                                        </a>
+                                        <a class="btn btn-default" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 0, userId = u.Id})">
+                                            <span class=""></span> Server
+                                        </a>
+                                    }
+                                    else if (u.Users_Employee.Users_Server != null)
+                                    {
+                                        <a class="btn btn-success" style="" disabled="disabled">
+                                            <span class=""></span> Server
+                                        </a>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 1, userId = u.Id})">
+                                            <span class=""></span> Kitchen
+                                        </a>
+                                        <a class="btn btn-default" style="" href="@Url.Action("ChangeEmployeeStatus", "Manager", new { statusId = 2, userId = u.Id})">
+                                            <span class=""></span> Manager
+                                        </a>
+                                        
+                                    }
+
+                                </td>
                                 <!-- Still working on this, show how much users have worked -->
-                                <td>@if(u.Users_Employee != null)
-                                    { @u.Users_Employee.HoursPerWeek; }
+                                <td>
+                                    @if (u.Users_Employee != null)
+                                { @u.Users_Employee.HoursPerWeek;
+                                }
                                 else
                                 { <p> - </p>}
-                                </td>
-                                <td>
-                                    <a class="btn btn-danger" style="" href="@Url.Action("DeleteEmployee", "Manager", new { userId = u.Id})">
-                                        <span class=""></span> Remove Employee
-                                    </a>    
-                                </td>
-                            </tr>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" style="" href="@Url.Action("DeleteEmployee", "Manager", new { userId = u.Id})">
+                                    <span class=""></span> Remove Employee
+                                </a>
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
 </body>
-
 </html>

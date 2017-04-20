@@ -212,7 +212,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_ServerTable">
-    <End Role="Users_Server" Type="RestaurantManagement.DBModel.Store.Users_Server" Multiplicity="0..1" />
+    <End Role="Users_Server" Type="RestaurantManagement.DBModel.Store.Users_Server" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Table" Type="RestaurantManagement.DBModel.Store.Tables" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Users_Server">
@@ -528,8 +530,11 @@
           <End Type="RestaurantManagement.DBModel.Order" Role="Order" Multiplicity="*" />
         </Association>
         <Association Name="FK_ServerTable">
-          <End Type="RestaurantManagement.DBModel.Users_Server" Role="Users_Server" Multiplicity="0..1" />
-          <End Type="RestaurantManagement.DBModel.Table" Role="Table" Multiplicity="*" />
+          <End Type="RestaurantManagement.DBModel.Users_Server" Role="Users_Server" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RestaurantManagement.DBModel.Table" Role="Table" Multiplicity="*" >
+          </End>
         </Association>
         <Association Name="FK_Employee_inherits_User">
           <End Type="RestaurantManagement.DBModel.User" Role="User" Multiplicity="1">
