@@ -54,6 +54,18 @@
         padding: 15px;
         font-size: 10px;
     }
+
+    input[type="date"]:before {
+        content: attr(placeholder) !important;
+        color: #aaa;
+        margin-right: 0.5em;
+    }
+
+    input[type="date"]:focus:before,
+    input[type="date"]:valid:before {
+        content: "";
+    }
+
 </style>
 
 <body>
@@ -102,6 +114,16 @@
                 <div class="col-xs-4">
                     <label for="note">Note</label><br>
                     <input type="user" class="form-control" id="note" placeholder="Enter Notes">
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-xs-4">
+                    <label>Date</label><br />
+                    <input type="date"/><br /><br />
+                    <label>Time</label><br />
+                    <input type="time"/>
                 </div>
             </div>
             <br />
