@@ -63,7 +63,7 @@ namespace RestaurantManagementProject.Controllers
         //Leave Review Section
         public ActionResult LeaveReview()
         {
-            return View();
+            return View(db.Reviews.ToList());
         }
 
         [HttpPost]
@@ -83,7 +83,7 @@ namespace RestaurantManagementProject.Controllers
             db.SaveChanges();
             db.Database.Connection.Close();
 
-            return View();
+            return RedirectToAction("LeaveReview", "Customers");
         }
 
         //Deleted the link, so this will never get called.

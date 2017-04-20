@@ -85,7 +85,7 @@ namespace RestaurantManagementProject.Controllers
             db.Database.Connection.Close();
 
 
-            return RedirectToAction("Index");
+            return RedirectToAction("EmployeeLogin", "Account");
         }
 
         [HttpGet]
