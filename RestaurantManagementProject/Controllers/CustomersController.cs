@@ -30,7 +30,7 @@ namespace RestaurantManagementProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateReservation(string name, string note, string date, string time)
+        public ActionResult CreateReservation(string name, string note, string date, string time, int partysize)
         {
 
             DateTime reserveTime = Convert.ToDateTime(date + " " + time);
@@ -41,6 +41,7 @@ namespace RestaurantManagementProject.Controllers
             r.CustomerName = name;
             r.Note = note;
             r.DateTime = reserveTime;
+            r.PartySize = partysize;
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();

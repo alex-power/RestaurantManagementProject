@@ -107,7 +107,17 @@ namespace RestaurantManagementProject.Controllers
         [HttpPost]
         public ActionResult AddTable(int seats)
         {
-            return RedirectToAction("Index", "Server");
+            Table t = new Table();
+            t.Seats = seats;
+            t.TableStatus = "Open";
+            db.Tables.Add(t);
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+            return RedirectToAction("ManagerView", "Manager");
         }
 
         [HttpGet]
@@ -183,6 +193,11 @@ namespace RestaurantManagementProject.Controllers
             }
 
             return RedirectToAction("ManagerView", "Manager");
+        }
+
+        public ActionResult Reservations()
+        {
+            return View(db.Reservations.Where(x => x.DateTime.Day.Equals(DateTime.Now.Day)).ToList());
         }
     }
 }

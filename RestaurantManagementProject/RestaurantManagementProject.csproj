@@ -473,6 +473,8 @@
     <Content Include="Views\Manager\ManagerView.cshtml" />
     <Content Include="Views\Customers\ViewMenu.cshtml" />
     <Content Include="Views\Manager\ClockIn.cshtml" />
+    <Content Include="Views\Manager\Reservations.cshtml" />
+    <Content Include="Views\Manager\AddTable.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

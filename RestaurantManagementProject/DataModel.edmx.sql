@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/20/2017 14:45:56
+-- Date Created: 04/20/2017 15:13:16
 -- Generated from EDMX file: d:\documents\visual studio 2015\Projects\RestaurantManagementProject\RestaurantManagementProject\DataModel.edmx
 -- --------------------------------------------------
 
@@ -131,7 +131,8 @@ CREATE TABLE [dbo].[Reservations] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [DateTime] datetime  NOT NULL,
     [Note] nvarchar(max)  NOT NULL,
-    [CustomerName] nvarchar(max)  NOT NULL
+    [CustomerName] nvarchar(max)  NOT NULL,
+    [PartySize] int  NULL
 );
 GO
 

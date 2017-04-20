@@ -58,14 +58,18 @@
         }
 </style>
 <body>
-    <div class="container">
-        <h2 style="font-family:Calibri;">Employees</h2> <br />
-        <a class="btn btn-default pull-right" style="" href="@Url.Action("AddTable", "Manager")">
-            <span class="glyphicon glyphicon-plus"></span> Add Table
-        </a>
-        <a class="btn btn-default pull-right" style="" href="@Url.Action("AddTable", "Manager")">
-            <span class="glyphicon glyphicon-plus"></span> Add Table
-        </a>
+        <div class="row">
+            <h2 style="font-family:Calibri;">Employees</h2>
+            <a class="btn btn-default pull-right" style="margin-top:-25px" href="@Url.Action("AddTable", "Manager")">
+                <span class="glyphicon glyphicon-plus"></span> Add Table
+            </a>
+            <a class="btn btn-info pull-right" style="margin-top:-25px" href="@Url.Action("Reservations", "Manager")">
+                <span class=""></span> View Reservations
+            </a>
+            
+
+        <br />
+        <br />
         <div class="row">
             <div class="col-xs-12">
                 <table class="table table-striped">

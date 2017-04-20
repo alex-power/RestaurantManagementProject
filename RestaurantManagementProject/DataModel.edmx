@@ -95,6 +95,7 @@
     <Property Name="DateTime" Type="datetime" Nullable="false" />
     <Property Name="Note" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PartySize" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Restaurants">
     <Key>
@@ -433,6 +434,7 @@
           <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Note" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CustomerName" Type="String" Nullable="false" />
+          <Property Name="PartySize" Type="Int32" Nullable="true" />
         </EntityType>
         <EntityType Name="Restaurant">
           <Key>
@@ -668,6 +670,7 @@
           <ScalarProperty Name="DateTime" ColumnName="DateTime" />
           <ScalarProperty Name="Note" ColumnName="Note" />
           <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+          <ScalarProperty Name="PartySize" ColumnName="PartySize" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
