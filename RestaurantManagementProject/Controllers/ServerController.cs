@@ -28,27 +28,48 @@ namespace RestaurantManagementProject.Controllers
             return View();
         }
 
-        [HttpGet]
         public ActionResult InputOrder(int tableID)
         {
-            return View(new InputOrderViewModel(tableID, db.FoodItems.ToList(), db.Orders.Where(x => x.Table.Id == tableID && x.State != "Closed").ToList()));
+            var order = db.Orders.FirstOrDefault(x => x.Table.Id == tableID && x.State != "Complete");
+            if (order != null) {
+                return View(new InputOrderViewModel(tableID, db.FoodItems.ToList(), order));
+            }
+            else
+            {
+                //Different States of Orders is Open, Ready and Complete
+                Order newOrder = new Order();
+                newOrder.TimeCreated = DateTime.Now;
+                newOrder.Table = db.Tables.FirstOrDefault(x => x.Id == tableID);
+                newOrder.State = "Open";
+
+                decimal price = 0;
+                foreach (FoodItem item in newOrder.FoodItems)
+                {
+                    price += item.Price;
+                }
+                newOrder.TotalPrice = price.ToString();
+                
+
+                if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                    db.Database.Connection.Open();
+
+                db.Orders.Add(newOrder);
+                db.SaveChanges();
+                db.Database.Connection.Close();
+
+                return View(new InputOrderViewModel(tableID, db.FoodItems.ToList(), newOrder));
+            }
         }
 
-
-        [HttpPost]
-        public ActionResult InputOrder(List<FoodItem> foodItems, int tableID)
+        [HttpGet]
+        public ActionResult AddOrder(int foodId, int tableId, int orderId)
         {
-            Order o = new Order();
-            o.State = "Open";
-            o.Table = db.Tables.FirstOrDefault(x=> x.Id == tableID);
-            o.FoodItems = foodItems;
-
-            decimal price = 0;
-            foreach(FoodItem item in o.FoodItems)
-                price += item.Price;
-            o.TotalPrice = price.ToString();
-            o.TimeCreated = DateTime.Now;
-
+            Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
+            var item = db.FoodItems.FirstOrDefault(x => x.Id == foodId);
+            order.FoodItems.Add(item);
+            decimal tempPrice = Convert.ToDecimal(order.TotalPrice);
+            tempPrice += item.Price;
+            order.TotalPrice = Convert.ToString(tempPrice);
 
             if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
                 db.Database.Connection.Open();
@@ -56,7 +77,26 @@ namespace RestaurantManagementProject.Controllers
             db.SaveChanges();
             db.Database.Connection.Close();
 
-            return RedirectToAction("TableStatus", "Server");
+            return RedirectToAction("InputOrder", "Server", new { tableId = tableId });
+        }
+
+        [HttpGet]
+        public ActionResult DeleteItem(int itemId, int orderId, int tableId)
+        {
+            Order order = db.Orders.FirstOrDefault(x => x.Id == orderId);
+            var item = db.FoodItems.FirstOrDefault(x => x.Id == itemId);
+            order.FoodItems.Remove(item);
+            decimal tempPrice = Convert.ToDecimal(order.TotalPrice);
+            tempPrice -= item.Price;
+            order.TotalPrice = Convert.ToString(tempPrice);
+
+            if (db.Database.Connection.State == System.Data.ConnectionState.Closed)
+                db.Database.Connection.Open();
+
+            db.SaveChanges();
+            db.Database.Connection.Close();
+
+            return RedirectToAction("InputOrder", "Server", new { tableId = tableId });
         }
 
 
